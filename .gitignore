@@ -23,3 +23,4 @@ lib/*.so
 *.obj
 *.pdb
 *.exe
+releases
