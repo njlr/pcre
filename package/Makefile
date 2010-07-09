@@ -1,5 +1,5 @@
 #
-#	Makefile for the all-in-one pcre distribution
+#	Makefile for the all-in-one combined pcre distribution
 #
 #	Copyright (c) Embedthis Software LLC, 2003-2009. All Rights Reserved.
 #
@@ -20,7 +20,7 @@ include			.makedep
 HEADERS			+= ../src/include/pcre.h
 PCRE_SOURCES	+= $(patsubst %,../src/%, config.h pcre_internal.h ucp.h ucpinternal.h ucptable.h *.c)
 
-packageExtra: 	prep $(TARGETS) $(ARCHIVE)
+combo packageExtra: prep $(TARGETS) $(ARCHIVE)
 
 prep:
 	rm -fr $(STAGING)
