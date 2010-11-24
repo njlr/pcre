@@ -24,3 +24,4 @@ lib/*.so
 *.pdb
 *.exe
 releases
+out

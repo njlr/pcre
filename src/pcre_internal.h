@@ -231,7 +231,12 @@ should make things easier for callers. We define a short type for unsigned char
 to save lots of typing. I tried "uchar", but it causes problems on Digital
 Unix, where it is defined in sys/types, so use "uschar" instead. */
 
+/* EMBEDTHIS - added conditional */
+#if BLD_CHAR
+typedef unsigned BLD_CHAR uschar;
+#else
 typedef unsigned char uschar;
+#endif
 
 /* This is an unsigned int value that no character can ever have. UTF-8
 characters only go up to 0x7fffffff (though Unicode doesn't go beyond
@@ -289,12 +294,19 @@ normal case, for sign-unspecified and unsigned char pointers. The former is
 used for the external interface and appears in pcre.h, which is why its name
 must begin with PCRE_. */
 
+/* EMBEDTHIS - added conditional */
+#ifdef BLD_CHAR
+#define PCRE_SPTR const BLD_CHAR *
+#define USPTR const unsigned BLD_CHAR *
+
+#else
 #ifdef CUSTOM_SUBJECT_PTR
 #define PCRE_SPTR CUSTOM_SUBJECT_PTR
 #define USPTR CUSTOM_SUBJECT_PTR
 #else
 #define PCRE_SPTR const char *
 #define USPTR const unsigned char *
+#endif
 #endif
 
 

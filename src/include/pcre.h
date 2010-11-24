@@ -254,8 +254,12 @@ typedef struct real_pcre pcre;
 replaced with a custom type. For conventional use, the public interface is a
 const char *. */
 
+#ifdef BLD_CHAR
+#define PCRE_SPTR const BLD_CHAR *
+#else
 #ifndef PCRE_SPTR
 #define PCRE_SPTR const char *
+#endif
 #endif
 
 /* The structure for passing additional data to pcre_exec(). This is defined in
