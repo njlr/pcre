@@ -232,7 +232,7 @@ to save lots of typing. I tried "uchar", but it causes problems on Digital
 Unix, where it is defined in sys/types, so use "uschar" instead. */
 
 /* EMBEDTHIS - added conditional */
-#if BLD_CHAR
+#ifdef BLD_CHAR
 typedef unsigned BLD_CHAR uschar;
 #else
 typedef unsigned char uschar;
