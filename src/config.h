@@ -202,7 +202,7 @@ them both to 0; an emulation function will be used. */
 
 /* Define if linking statically (TODO: make nice with Libtool) */
 /* #undef PCRE_STATIC */
-#if BLD_FEATURE_STATIC
+#if BLD_STATIC
 #define PCRE_STATIC
 #endif
 
