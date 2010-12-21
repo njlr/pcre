@@ -9,7 +9,6 @@ PRE_DIRS	= src bin
 
 include 	.makedep
 
-
 #
 #   Local variables:
 #   tab-width: 4
