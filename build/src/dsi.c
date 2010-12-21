@@ -1,502 +1,806 @@
 /*
-    dsi.c -- Development side includes
-  
+    gendoc.es - Generate HTML doc from Doxygen XML files
+
     Copyright (c) All Rights Reserved. See details at the end of the file.
  */
 
-/******************************* Documentation ********************************/
-/*
- *  usage:  dsiPatch [-I incDir] [< fileList] [files ...]
- */
-/********************************* Includes ***********************************/
+module embedthis.doc {
 
-#include    "posix.h"
+    var all: Boolean
+    var bare: Boolean
+    var out: String
+    var symbols = {}
+    var seeAlso = {}
+    var tagFile = null
+    var title: String = "Documentation"
 
-/********************************* Defines ************************************/
-
-#define MAX_LINE    (64 * 1024)
-#define MAX_FNAME   (4096)
-
-/********************************** Locals ************************************/
-
-static int      finished;
-static int      verbose;
-static char     parentDir[MAX_FNAME];
-static char     *incDir;
-
-/**************************** Forward Declarations ****************************/
-
-static void     openSignals();
-static void     catchInterrupt(int signo);
-static int      patchFileList(FILE *fp);
-static int      patch(char *path);
-static char     *getNextTok(char *tokBuf, int tokBufSize, char *start);
-static int      matchLink(FILE *ofp, char *tag, char **start);
-
-/************************************ Code ************************************/
-
-int main(int argc, char *argv[])
-{
-    char        *argp;
-    int         errors, i, nextArg;
-
-    verbose = errors = 0;
-    incDir = ".";
-
-    for (nextArg = 1; nextArg < argc; nextArg++) {
-        argp = argv[nextArg];
-        if (*argp != '-') {
-            break;
-        }
-        if (strcmp(argp, "-I") == 0) {
-            if (nextArg >= argc) {
-                errors++;
-            } else {
-                incDir = argv[++nextArg];
-            }
-
-        } else if (strcmp(argp, "-v") == 0) {
-            verbose++;
-        }
-    }
-    if (errors) {
-        fprintf(stderr, "dsi: usage: [-I incDir] [< fileList] files ...\n");
-        exit(2);
+    function usage(): String {
+        return "usage: getdoc [--tags tagfile] [--title Title] files..."
     }
 
-    openSignals();
+    function parseArgs(): Array {
+        let files = []
+        for (argind = 1 ; argind < App.args.length; argind++) {
+            arg = App.args[argind]
+            switch (arg) {
+            case "--all":
+            case "-a":
+                all = true
+                break
 
-    if (nextArg >= argc) {
-        patchFileList(stdin);
-        
-    } else {
-        for (i = nextArg; !finished && i < argc; i++) {
-            patch(argv[i]);
-        }
-    }
-    return 0;
-}
+            case "--bare":
+                bare = true
+                break
 
-
-/*
-    Read a list of files from stdin and patch each in-turn. Keep going on errors.
- */
-static int patchFileList(FILE *fp)
-{
-    char    buf[MAX_FNAME];
-    char    *cp;
-    ssize   len;
-
-    while (!finished && !feof(fp)) {
-        if (fgets(buf, sizeof(buf), fp) == 0) {
-            break;
-        }
-        cp = buf;
-        for (cp = buf; *cp && isspace((int) *cp); ) {
-            cp++;
-        }
-        len = strlen(cp);
-        if (cp[len - 1] == '\n') {
-            cp[len - 1] = '\0';
-        }
-        patch(cp);
-    }
-    return 0;
-}
-
-
-/*
-    Patch a file
- */
-static int patch(char *path)
-{
-    struct stat sbuf;
-    FILE        *ifp, *ofp, *dsiFp;
-    char        dsiName[MAX_FNAME], dsiPath[MAX_FNAME];
-    char        tmpFile[MAX_FNAME], saveFile[MAX_FNAME];
-    char        searchPat[MAX_FNAME], truePat[MAX_FNAME], falsePat[MAX_FNAME];
-    char        *dsiBuf, *cp, *ep, *start, *end, *tok, *tag, *ext, *inBuf;
-    char        *startDsi, *ip;
-    ssize       len, rc;
-    int         c, i, level, line, patched;
-    
-    dsiBuf = 0;
-    patched = 0;
-    ifp = ofp = dsiFp = 0;
-
-    if (*path == '.' && path[1] == '/') {
-        path += 2;
-    }
-    if (*path == '/') {
-        fprintf(stderr, "dsi: Path must be relative: %s\n", path);
-        return -1;
-    }
-
-    for (level = 0, cp = path; *cp; cp++) {
-        if (*cp == '/') {
-            level++;
-        }
-    }
-
-    if (verbose) {
-        printf("Patching %s\n", path);
-    }
-
-    cp = parentDir;
-    for (i = 0; i < level; i++) {
-        *cp++ = '.';
-        *cp++ = '.';
-        *cp++ = '/';
-    }
-    *cp = '\0';
-            
-    ifp = fopen(path, "r" MPR_TEXT);
-    if (ifp == 0) {
-        fprintf(stderr, "dsi: Can't open %s\n", path);
-        return -1;
-    }
-    stat(path, &sbuf);
-    inBuf = (char*) malloc(sbuf.st_size + 1);
-    rc = fread(inBuf, 1, sbuf.st_size, ifp);
-    if (rc < 0) {
-        fprintf(stderr, "dsi: Can't read file %s\n", path);
-        free(inBuf);
-        return -1;
-    }
-    inBuf[rc] = '\0';
-
-    sprintf(tmpFile, "%s.new", path);
-    ofp = fopen(tmpFile, "w" MPR_TEXT);
-    if (ofp == 0) {
-        fprintf(stderr, "dsi: Can't open %s\n", tmpFile);
-        goto error;
-    }
-
-    line = 0;
-    for (ip = inBuf; *ip; ip++) {
-        start = ip;
-        if (dsiFp == 0) {
-            if (*ip == '\n') {
-                /* Remove duplicate new lines */
-                while (ip[1] == '\n') {
-                    ip++;
-                }
-                fputc(*ip, ofp);
-                line++;
-                continue;
-            }
-            if (*ip != '<' || ip[1] != '!' || ip[2] != '-' || ip[3] != '-') {
-                fputc(*ip, ofp);
-                continue;
-            }
-
-            tok = "<!-- BeginDsi \"";
-            len = strlen(tok);
-            if (strncmp(start, tok, strlen(tok)) == 0) {
+            case "--out":
                 /*
-                 *  Cleanup if file has been corrupted by HTML editors
+                    FUTURE - not supported
                  */
-                if (start > inBuf && start[-1] != '\n') {
-                    fprintf(ofp, "\n");
+                if (++argind >= App.args.length) {
+                    throw usage()
+                }
+                out = App.args[argind]
+                break
+
+            case "--tags":
+                if (++argind >= App.args.length) {
+                    throw usage()
+                }
+                tagFile = App.args[argind]
+                break
+
+            case "--title":
+                if (++argind >= App.args.length) {
+                    throw usage()
+                }
+                title = App.args[argind]
+                break
+
+            default:
+                files = App.args.slice(argind) 
+                argind = App.args.length
+            }
+        }
+        return files
+    }
+
+
+    function emit(...args) {
+        print(args.toString())
+    }
+
+
+    function emitHeader() {
+        if (bare) {
+            return
+        }
+        emit('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"')
+        emit('"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">')
+        emit('<html xmlns="http://www.w3.org/1999/xhtml">')
+        emit('<head>')
+        emit('<meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />')
+
+        emit('<title>' + title + ' Documentation</title>')
+        emit('<link href="api.css" rel="stylesheet" type="text/css" />')
+        emit('</head>\n<body>\n')
+        emit('  <div class="contents">')
+    }
+
+
+    function emitFooter() {
+        if (bare) {
+            return
+        }
+        emit('<div class="footnote">Generated on ' + new Date + '<br/>')
+        emit('  Copyright &copy; <a href="http://www.embedthis.com">Embedthis Software</a> ' + 
+            new Date().fullYear + '.')
+        emit('</div></div></body></html>')
+    }
+
+
+    /*
+        Emit top level navigation
+     */
+    function emitNavigation() {
+        if (bare) {
+            return
+        }
+        emit('<div>')
+        result = []
+        for each (kind in ["Components", "Typedefs", "Functions", "Defines"]) {
+            result.append('<a href="#' + kind + '">' + kind + '</a>')
+        }
+        emit(result.join(" | "))
+        emit('</div>')
+    }
+
+
+    /*
+        Parse all symbol references and build an index of symbols
+     */
+    function parseReferences(xml: XML) {
+
+        for each (def in xml) {
+            if (def.@kind == "group" || def.@kind == "struct") {
+                symbols[def.compoundname] = def.@id
+                for each (sect in def.detaileddescription.para.simplesect) {
+                    if (sect.@kind != "see") {
+                        continue
+                    }
+                    seeAlso[def.compoundname] = sect.para
+                }
+            }
+        }
+
+        var sections: XML = xml.compounddef.sectiondef
+        for each (section in sections) {
+            var members: XML = section.memberdef
+            for each (m in members) {
+                if (m.name != "" && m.@id != "") {
+                    symbols[m.name] = m.@id
+                }
+            }
+        }
+    }
+
+
+    /*
+        Emit a reference
+     */
+    function ref(name: String): String {
+
+        /* Split the core type name off from "*" suffixes */
+        parts = name.split(" ")
+        typeSpec = parts.slice(0, 1)
+        rest = parts.slice(1)
+        sym = typeSpec.toString().trim("*")
+
+        if (symbols[sym]) {
+            result = '<a href="#' + symbols[sym] + '" class="ref">' + typeSpec + '</a>'
+            if (rest && rest != "") {
+               result += " " + rest
+            }
+            return result
+        }
+        return name
+    }
+
+
+    function strip(str: String): String {
+        if (str == "") {
+            return str
+        }
+        str = str.replace(/<para>|<emphasis>|<title>|<type>|<\/para>|<\/emphasis>|<\/title>|<\/type>/g, "")
+        str = str.replace(/<ref refid="[^>]*>/g, '')
+        str = str.replace(/<\/ref>/g, '')
+        str = str.replace(/ kindref="[^"]*"/g, '')
+        str = str.replace(/itemizedlist>/g, '')
+        str = str.replace(/listitem>/g, '')
+        str = str.replace(/<linebreak\/>/g, '')
+        str = str.replace(/bold>/g, '')
+        str = str.trim().trim(".").trim().trim(".")
+        return str
+    }
+
+
+    /*
+        Remove or map XML tags into HTML
+     */
+    function clean(str: String): String {
+        if (str == "") {
+            return str
+        }
+        str = str.replace(/<para>|<emphasis>|<title>|<type>|<\/para>|<\/emphasis>|<\/title>|<\/type>/g, "")
+        str = str.replace(/<ref refid="/g, '<a class="ref" href="#')
+        str = str.replace(/<\/ref>/g, '</a>')
+        str = str.replace(/ kindref="[^"]*"/g, "")
+        str = str.replace(/itemizedlist>/g, 'ul>')
+        str = str.replace(/listitem>/g, 'li>')
+        str = str.replace(/<linebreak\/>/g, "<br/>")
+        str = str.replace(/bold>/g, "b>")
+        str = str.trim().trim(".").trim().trim(".")
+        return str
+    }
+
+
+    /*
+        Clean the string of XML tags and append a "."
+     */
+    function cleanDot(str: String): String {
+        s = clean(str)
+        if (s == "") {
+            return s
+        }
+        return s + "."
+    }
+
+
+    /*
+        Intelligently transform a @return directive
+     */
+    function cleanReturns(str: String): String {
+        str = cleanDot(str)
+        str = str.replace(/^Return[s]* the/, "The")
+        return str
+    }
+
+
+    /*
+        Emit a file level overview
+     */
+    function emitOverview(xml: XML) {
+
+        emit("<h1>" + title + "</h1>")
+        for each (def in xml) {
+            if (def.@kind != "file") {
+                continue
+            }
+            name = def.compoundname
+
+            if (!all && def.briefdescription == '' && def.detaileddescription == '') {
+                return
+            }
+            emit('<a name="' +  name + '"></a>')
+
+            if (def.briefdescription != "") {
+                emit('<p>' + cleanDot(def.briefdescription.para) + '</p>')
+            }
+            if (def.detaileddescription != "") {
+                for each (node in def.detaileddescription.*) {
+                    str = node.toString()
+                    str = str.replace(/para>/g, "p>")
+                    str = str.replace(/title>/g, "h1>")
+                    str = str.replace(/<linebreak\/>/g, "<br/>")
+                    str = str.replace(/<sect[^>]*>|<\/sect[0-9]>/g, "")
+                    str = str.replace(/<simplesect[^>]*>|<\/simplesect>/g, "")
+                    emit(str)
+                }
+            }
+        }
+    }
+
+
+    /*
+        Emit an index of all services
+     */
+    function emitServiceIndex(def: XML) {
+
+        if (all || def.briefdescription != "" || def.detaileddescription != '') {
+            emit('<tr class="apiDef">')
+            emit('<td class="apiName"><a href="#' + def.@id + '" class="nameRef">' + def.compoundname + '</a></td>')
+            emit('<td class="apiBrief">' + cleanDot(def.briefdescription.para) + '</td></tr>')
+        }
+        symbols[def.compoundname] = def.@id
+    }
+
+
+    /*
+        Emit an index of all functions
+     */
+    function emitFunctionIndex(def: XML, section: XML) {
+
+        var members: XML = section.memberdef
+
+        for each (m in members) {
+            if (m.@kind == 'function') {
+                if (!all && m.briefdescription == '' && m.detaileddescription == '') {
+                    continue
+                }
+                if (def.@kind == "file" && m.@id.toString().startsWith("group__")) {
+                    continue
                 }
 
-                startDsi = start;
-                start += len - 1;
+                let definition = m.definition.toString().split(" ")
+                typedef = definition.slice(0, -1).join(" ")
+                name = definition.slice(-1)
 
-                end = getNextTok(dsiName, sizeof(dsiName), start);
-                if (end == 0) {
-                    fprintf(stderr, 
-                        "dsi: Syntax error for DSI in %s at line %d\n", path, line);
-                    goto error;
-                }
-                for (start = end; *start && isspace((int) *start); start++);
+                emit('<tr class="apiDef">')
+                str = '<td class="apiType">' + ref(typedef) + '</td><td>'
+                str += '<a href="#' + m.@id + '" class="nameRef">' + name + '</a>'
 
-                /*
-                    Parse any pattern match args
-                        "searchPattern" "trueReplace" "falseReplace"
-                 */
-                if (*start == '"') {
-                    start = getNextTok(searchPat, sizeof(searchPat), start);
-                    start = getNextTok(truePat, sizeof(truePat), start);
-                    start = getNextTok(falsePat, sizeof(falsePat), start);
+                args = m.argsstring.toString().trim('(').split(",")
+                if (args.length > 0) {
+                    result = []
+                    for (i in args) {
+                        arg = args[i]
+                        result.append(ref(arg))
+                    }
+                    str += "(" + result.join(", ")
                 }
-                if (start == 0) {
-                    fprintf(stderr, "dsi: Syntax error for DSI in %s at line %d\n", path, line);
-                    goto error;
+                emit(str + '</td></tr>')
+                if (m.briefdescription != "") {
+                    emit('<tr class="apiBrief"><td>&nbsp;</td><td>' + 
+                        cleanDot(m.briefdescription.para) + '</td></tr>')
                 }
+            }
+        }
+    }
 
-                for (; *start && isspace((int) *start); start++);
-                end = strstr(start, "-->");
-                if (end == 0) {
-                    fprintf(stderr, "dsi: Missing closing comment in %s at line %d\n", path, line);
-                    goto error;
-                }
-                c = end[3];
-                end[3] = '\0';
-                fprintf(ofp, "%s\n", startDsi);
-                end[3] = c;
 
-                if (dsiName[0] != '/') {
-                    sprintf(dsiPath, "%s/%s", incDir, dsiName);
+    /*
+        Emit an index of all #define directives
+     */
+    function emitDefineIndex(section: XML) {
+
+        var members: XML = section.memberdef
+
+        for each (m in members) {
+            if (m.@kind == 'define') {
+                if (!all && m.briefdescription == '' && m.detaileddescription == '') {
+                    continue
+                }
+                symbols[m.name] = m.@id
+
+                emit('<tr class="apiDef">')
+                emit('<td>#define</td><td><a href="#' + m.@id + '" class="nameRef">' + m.name + '</a>' + 
+                    '&nbsp;&nbsp;&nbsp;' + m.initializer + '</td>')
+                emit('</tr>')
+                if (m.briefdescription != "") {
+                    emit('<tr class="apiBrief"><td>&nbsp;</td><td>' + 
+                        cleanDot(m.briefdescription.para) + '</td></tr>')
+                }
+            }
+        }
+    }
+
+
+    /*
+        Emit an index of struct based typedefs
+     */
+    function emitTypeIndex(def: XML) {
+
+        if (all || def.briefdescription != "" || def.detaileddescription != '') {
+            emit('<tr class="apiDef">')
+            name = def.compoundname
+
+            symbols[name] = def.@id
+
+            emit('<td class="apiName"><a href="#' + symbols[name] + '" class="nameRef">' + name + '</a></td>')
+            emit('<td class="apiBrief">' + cleanDot(def.briefdescription.para) + '</td></tr>')
+        }
+    }
+
+
+    /*
+        Emit an index of all simple (non-struct) typedefs
+     */
+    function emitStructTypeIndex(section: XML) {
+
+        var members: XML = section.memberdef
+
+        for each (m in members) {
+            if (m.@kind == 'typedef') {
+                if (!all && m.briefdescription == '' && m.detaileddescription == '') {
+                    continue
+                }
+                symbols[m.name] = m.@id
+
+                def = m.definition.toString()
+                if (def.contains("(")) {
+                    /* Parse "typedef void(* MprLogHandler)(cchar *file, ... cchar *msg) */
+                    name = def.toString().replace(/typedef[^\(]*\([^\w]*([\w]+).*/, "$1")
+
                 } else {
-                    strcpy(dsiPath, dsiName);
+                    def = def.toString().split(" ")
+                    typedef = def.slice(0, -1).join(" ")
+                    name = def.slice(-1)
                 }
-                dsiFp = fopen(dsiPath, "r" MPR_TEXT);
-                if (dsiFp == 0) {
-                    fprintf(stderr, "dsi: Can't open DSI %s. Referenced in %s at line %d\n", dsiPath, path, line);
-                    goto error;
-                }
-                stat(dsiPath, &sbuf);
 
-                if (verbose > 1) {
-                    printf("     DSI %s\n", dsiPath);
+                emit('<tr class="apiDef">')
+                emit('<td class="apiName"><a href="#' + m.@id + '" class="nameRef">' + name + '</a></td>')
+                if (m.briefdescription != "") {
+                    emit('<td class="apiBrief">' + cleanDot(m.briefdescription.para) + '</td></tr>')
                 }
-                ip = &end[2];
-
-            } else {
-                fputc(*ip, ofp);
             }
+        }
+    }
+
+
+    /*
+        Get master group references for a given group name
+     */
+    function getGroupReferences(group: String): Array {
+        references = []
+        items = seeAlso[group]
+        if (items != undefined) {
+            for each (see in items.ref.*) {
+                references.append(see)
+            }
+        }
+        return references
+    }
+
+
+    /*
+        Emit a See Also section. Handle groups/struct @references
+     */
+    function emitSeeAlso(name: String, node: XML) {
+        if (node.para.toString().startsWith('@-')) {
+            let name = node.para.toString().slice(2).trim()
+            references = getGroupReferences(name)
 
         } else {
-            tok = "<!-- EndDsi -->";
-            len = strlen(tok);
-            if (strncmp(start, tok, strlen(tok)) == 0) {
-                dsiBuf = (char*) malloc(sbuf.st_size + 1);
-                rc = fread(dsiBuf, 1, sbuf.st_size, dsiFp);
-                if (rc < 0) {
-                    fprintf(stderr, "dsi: Can't read DSI %s\n", dsiPath);
-                    return -1;
+            references = []
+            for each (see in node.para.ref.*) {
+                references.append(see)
+            }
+        }
+        emitSeeAlsoReferences(name, references)
+    }
+
+
+    function emitSeeAlsoReferences(name: String, references: Array) {
+        emit('    <dl><dt>See Also:</dt><dd>')
+        references.sort()
+        trimmed = []
+        for each (see in references) {
+            if (see == name) {
+                continue
+            }
+            trimmed.append(ref(see))
+        }
+        emit('    ' + trimmed.join(", ") + '</dd></dl>')
+    }
+
+
+    function emitSimpleSect(name: String, node: XML) {
+        if (node.@kind == "see") {
+            emitSeeAlso(name, node)
+
+        } else if (node.@kind == "return") {
+            emit('    <dl><dt>Returns:</dt><dd>' + cleanReturns(node.para).toPascal() + '</dd></dl>')
+
+        } else if (node.@kind == "remark") {
+            emit('    <dl><dt>Remarks:</dt><dd>' + cleanDot(node.para).toPascal() + '</dd></dl>')
+
+        } else {
+            emit('    <dl><dt>' + clean(node.title) + '</dt><dd>' + cleanDot(node.para).toPascal() + '</dd></dl>')
+        }
+    }
+
+
+    /*
+        Emit function args
+     */
+    function emitArgs(args: XML) {
+
+        result = []
+        for each (p in args.param) {
+            if (p.type == "...") {
+                result.append("...")
+            } else {
+                s = clean(p.type) + " " + p.declname
+                s = s.replace(/ ([\*]*) /, " $1")
+                result.append(s)
+            }
+        }
+        emit("(" + result.join(", ") + ")")
+    }
+
+
+    /*
+        Used for function and simple typedef details
+     */
+    function emitDetail(def: XML, section: XML) {
+
+        var members: XML = section.memberdef
+
+        if (section.@kind == "func") {
+            kind = "function"
+
+        } else if (section.@kind == "typedef") {
+            kind = "typedef"
+        }
+
+        for each (m in members) {
+            if (m.@kind == kind) {
+                if (!all && m.briefdescription == '' && m.detaileddescription == '') {
+                    continue
                 }
-                dsiBuf[rc] = '\0';
-                fclose(dsiFp);
-                dsiFp = 0;              
-                patched++;
+                if (def.@kind == "file" && m.@id.toString().startsWith("group__")) {
+                    continue
+                }
 
-                if (level == 0 && 0) {
-                    rc = fwrite(dsiBuf, 1, rc, ofp);
+                emit('<a name="' + m.@id + '"></a>')
 
-                } else {
-                    for (cp = dsiBuf; *cp; ) {
-                        /*
-                            This is a very fragile parser. It really needs to be more flexible.
-                         */
+                emit('<div class="api">')
+                emit('  <div class="prototype">')
 
-                        /*
-                            <a href=
-                            <link .... href=
-                         */
-                        if (matchLink(ofp, " href=\"", &cp)) {
-                            continue;
-                        } 
-                        if (matchLink(ofp, "\thref=\"", &cp)) {
-                            continue;
-                        } 
+                if (kind == "function") {
+                    emit('    ' + ref(strip(m.type)))
+                    str = m.definition.toString().split(" ").slice(1).join(" ")
+                    emit('    ' + clean(str))
+                    emitArgs(m)
 
-                        /*
-                            <img src=
-                            <script ... src=
-                         */
-                        if (matchLink(ofp, " src=\"", &cp)) {
-                            continue;
-                        } 
-                        if (matchLink(ofp, "\tsrc=\"", &cp)) {
-                            continue;
-                        } 
+                } else if (kind == "typedef") {
+                    emit('    ' + cleanDot(m.definition))
+                }
+                emit('  </div>')
 
-                        /*
-                            <form ... action=
-                         */
-                        if (matchLink(ofp, "action=\"", &cp)) {
-                            continue;
-                        } 
+                emit('  <div class="apiDetail">')
 
-                        /*
-                            _ROOT_ = "
-                         */
-                        if (matchLink(ofp, "_ROOT_=\"", &cp)) {
-                            continue;
-                        } 
+                if (m.briefdescription != "") {
+                    emit('<p>' + cleanDot(m.briefdescription.para) + '</p>')
+                }
 
-                        /*
-                            Special _DSI_ pattern editing
-                         */
-                        tag = "_DSI_";
-                        len = strlen(tag);
-                        if (strncmp(cp, tag, len) == 0) {
-                            cp += len - 1;
-                            ep = strchr(cp, '"');
-                            if (strncmp(cp, searchPat, strlen(searchPat)) == 0){
-                                fprintf(ofp, "%s\"", truePat);
-
-                            } else {
-                                fprintf(ofp, "%s\"", falsePat);
-                            }
-                            cp = ep + 1;
-                            continue;
+                seen = false
+                for each (n in m.detaileddescription.para.*) {
+                    if (n.name() == "simplesect") {
+                        if (n.@kind == "see") {
+                            seen = true
                         }
+                        emitSimpleSect(m.name, n)
 
+                    } else if (n.name() == "parameterlist") {
                         /*
-                            Javascript patches
+                            Parameters
                          */
-                        ext = strchr(dsiPath, '.');
-                        if (ext && strcmp(ext, ".js") == 0) {
-                            /*
-                                = / *DSI* / "
-                             */
-                            if (matchLink(ofp, "= /*DSI*/ \"", &cp)) {
-                                continue;
-                            } 
-
-                            /*
-                                src = '
-                             */
-                            if (matchLink(ofp, "src == '", &cp)) {
-                                continue;
-                            } 
+                        emit('    <dl><dt>Parameters:</dt><dd>')
+                        emit('    <table class="parameters" summary="Parameters">')
+                        for each (p in n.parameteritem) {
+                            emit('    <tr><td class="param">' + p.parameternamelist.parametername + '</td><td>' + 
+                                cleanDot(p.parameterdescription.para) + '</td>')
                         }
+                        emit('    </table></dd></dl>')
 
-                        fputc(*cp, ofp);
-                        cp++;
-
+                    } else {
+                        emit(clean(n))
                     }
                 }
-                fprintf(ofp, "%s", tok);
-                ip = &start[strlen(tok)];
-                
-                /*
-                    Cleanup if file has been corrupted by HTML editors
-                 */
-                if (ip[1] != '\0' && ip[2] != '\0' && ip[2] != '\n') {
-                    fputc('\n', ofp);
+                if (!seen && def.@kind == "group") {
+                    references = getGroupReferences(def.compoundname)
+                    emitSeeAlsoReferences(m.name, references)
                 }
-
-            } else {
-                /*  Don't output as it is being replaced with DSI content */
+                emit('  </div>')
+                emit('</div>')
             }
         }
     }
-    fclose(ifp);
 
-    if (! patched) {
-        fclose(ofp);
-        unlink(tmpFile);
 
-    } else {
+    function emitFields(name: String, def: XML) {
+        let doneHeader = false
+        for each (m in def.sectiondef.memberdef) {
+            if (!doneHeader) {
+                emit('    <dl><dt>Fields:</dt><dd>')
+                emit('    <table class="parameters" summary="Parameters">')
+                doneHeader = true
+            }
+            if (m.@kind == "variable") {
+                field = m.definition.toString().replace(/.*::/, "")
+                if (m.briefdescription != "" || m.detaileddescription != "") {
+                    emit('    <tr><td class="param">' + clean(m.type) + '</td><td><td>' + field + '</td><td>')
+                    if (m.briefdescription != "") {
+                        s = cleanDot(m.briefdescription.para)
+                        if (m.detaileddescription != "") {
+                            s += " "
+                        }
+                        emit(s)
+                    }
+                    if (m.detaileddescription != "") {
+                        s = cleanDot(m.detaileddescription.para)
+                        emit(s)
+                    }
+                    emit('</td>')
+                }
+            }
+        }
+        if (doneHeader) {
+            emit('    </table></dd></dl>')
+        }
+    }
+
+
+    function emitStructDetail(def: XML, fields: XML) {
+        let name = def.compoundname
+        if (!all && def.briefdescription == '' && def.detaileddescription == '') {
+            return
+        }
+        emit('<a name="' + symbols[name] + '"></a>')
+        emit('<div class="api">')
+        emit('  <div class="prototype">' + clean(name) + '</div>')
+        emit('  <div class="apiDetail">')
+
+        if (def.briefdescription != "") {
+            emit('<p>' + cleanDot(def.briefdescription.para) + '</p>')
+        }
+        let doneFields = false
+        if (def.detaileddescription != "") {
+            for each (n in def.detaileddescription.para.*) {
+                if (n.name() == "simplesect") {
+                    emitSimpleSect(name, n)
+
+                    if (!doneFields && fields == null) {
+                        emitFields(name, def)
+                        doneFields = true
+                    }
+                }
+            }
+        }
+        if (fields) {
+            emitFields(name, fields)
+        } else if (!doneFields) {
+            emitFields(name, def)
+        }
+        emit('  </div>')
+        emit('</div>')
+    }
+
+
+    function emitIndicies(xml: XML) {
+
+        var sections: XML
+
         /*
-         *  If we found a DSI in the file, rename the patched file
+            Emit the group indicies
          */
-        fclose(ofp);
-        sprintf(saveFile, "%s.dsiSave", path);
-        unlink(saveFile);
-        chmod(path, 0755);
-        rename(path, saveFile);
-        if (rename(tmpFile, path) < 0) {
-            fprintf(stderr, "dsi: Can't rename %s to %s\n", tmpFile, path);
-            rename(saveFile, path);
-            return -1;
+        emit('<a name="Components"></a><h1>Components</h1>')
+        emit('  <table class="apiIndex" summary="Components">')
+
+        for each (def in xml) {
+            if (def.@kind == "group") {
+                emitServiceIndex(def)
+            }
         }
-        unlink(saveFile);
-    }
-    return 0;
+        emit('</table>')
 
-error:
-    if (ifp) {
-        fclose(ifp);
-    }
-    if (ofp) {
-        fclose(ofp);
-    }
-    if (inBuf) {
-        free(inBuf);
-    }
-    if (dsiBuf) {
-        free(dsiBuf);
-    }
-    return -1;
-}
-    
+        /*
+            Emit the navigation indicies
+         */
+        emit('<a name="Functions"></a><h1>Functions</h1>')
+        emit('  <table class="apiIndex" summary="Functions">')
 
-/*
-    Initialize signals
- */
-static void openSignals() 
-{
-#if !_WIN32
-    struct sigaction    act;
-
-    act.sa_flags = 0;
-    sigemptyset(&act.sa_mask);
-
-    act.sa_handler = catchInterrupt;
-    sigaction(SIGINT, &act, 0);
-#endif
-}
-
-
-static void catchInterrupt(int signo)
-{
-    finished++;
-}
-
-
-/*
-    Parse the next quoted string in the input beginning at start. Return the token (minus quotes) in the 
-    tokBuf. Return with the input pointer one past the trailing quote. Return 0 on all errors.
- */
-static char *getNextTok(char *tokBuf, int tokBufSize, char *start)
-{
-    char    *end;
-
-    if (start == 0 || *start == '\0') {
-        return 0;
-    }
-
-    while (*start && isspace((int) *start)) {
-        start++;
-    }
-
-    if (*start != '"') {
-        fprintf(stderr, "dsi: Missing opening quote\n");
-        return 0;
-    }
-
-    start++;
-    for (end = start; *end && *end != '"'; ) {
-        end++;
-    }
-    if (*end != '"') {
-        fprintf(stderr, "dsi: Missing closing quote\n");
-        return 0;
-    }
-    if ((end - start) >= (tokBufSize - 1)) {
-        fprintf(stderr, "dsi: Token too big\n");
-        return 0;
-    }
-    strncpy(tokBuf, start, end - start);
-    tokBuf[end - start] = '\0';
-    return end + 1;
-}
-
-
-/*
-    Match a link that needs patching 
- */
-static int matchLink(FILE *ofp, char *tag, char **start)
-{
-    ssize   len;
-
-    len = strlen(tag);
-    if (strncmp(*start, tag, len) == 0) {
-        *start += len;
-        if ((*start)[0] == '#' || strncmp(*start, "http://", 7) == 0) {
-            fprintf(ofp, "%s", tag);
-        } else {
-            fprintf(ofp, "%s%s", tag, parentDir);
+        for each (def in xml) {
+            sections = def.sectiondef
+            for each (section in sections) {
+                if (section.@kind == "func") {
+                    emitFunctionIndex(def, section)
+                }
+            }
         }
-        return 1;
+        emit('</table>')
+
+        emit('<a name="Typedefs"></a><h1>Typedefs</h1>')
+        emit('<table class="apiIndex" summary="typedefs">')
+        for each (def in xml) {
+            if (def.@kind == "struct") {
+                emitTypeIndex(def)
+            } else {
+                sections = def.sectiondef
+                for each (section in sections) {
+                    if (section.@kind == "typedef") {
+                        emitStructTypeIndex(section)
+                    }
+                }
+            }
+        }
+        emit('</table>')
+
+        emit('<a name="Defines"></a><h1>Defines</h1>')
+        emit('<table class="apiIndex" summary="Defines">')
+        for each (def in xml) {
+            sections = def.sectiondef
+            for each (section in sections) {
+                if (section.@kind == "define") {
+                    emitDefineIndex(section)
+                }
+            }
+        }
+        emit("  </table>")
     }
-    return 0;
+
+
+    function emitDetails(xml: XML) {
+        /*
+            Emit groups
+         */
+        for each (def in xml) {
+            if (def.@kind != "group") {
+                continue
+            }
+            emit('<h1>' + def.compoundname + '</h1>')
+            let foundStruct = false
+            for each (d in xml) {
+                if (d.@kind == "struct" && d.compoundname.toString() == def.compoundname.toString()) {
+                    foundStruct = true
+                    emitStructDetail(def, d)
+                }
+            }
+            if (!foundStruct) {
+                for each (d in xml) {
+                    if (d.compoundname.toString() == def.compoundname.toString()) {
+                        emitStructDetail(def, d)
+                    }
+                }
+            }
+            let sections: XML = def.sectiondef
+            for each (section in sections) {
+                if (section.@kind == "func") {
+                    emitDetail(def, section)
+                }
+            }
+        }
+
+        /*
+            Emit functions
+         */
+        emit('<h2>Functions</h2>')
+
+        for each (def in xml) {
+            if (def.@kind == "group") {
+                continue
+            }
+            let sections: XML = def.sectiondef
+            for each (section in sections) {
+                if (section.@kind == "func") {
+                    emitDetail(def, section)
+                }
+            }
+        }
+
+        emit('<h2>Typedefs</h2>')
+        for each (def in xml) {
+            if (def.@kind == "struct") {
+                emitStructDetail(def, null)
+            } else {
+                let sections: XML = def.sectiondef
+                for each (section in sections) {
+                    if (section.@kind == "typedef") {
+                        emitDetail(def, section)
+                    }
+                }
+            }
+        }
+    }
+
+
+    function parse(xml: XML) {
+        parseReferences(xml)
+        emitHeader()
+        emitNavigation()
+        emitOverview(xml)
+        emitIndicies(xml)
+        emitDetails(xml)
+        emitFooter()
+    }
+
+
+    function saveTags() {
+        if (tagFile) {
+            Path(tagFile).write(serialize(symbols))
+        }
+    }
+
+
+    function main() {
+        var xml: XML
+
+        for each (f in parseArgs()) {
+            var tmp = new XML(f)
+            if (xml) {
+                len = xml.compounddef.length()
+                xml.compounddef[len] = tmp.compounddef
+            } else {
+                xml = tmp
+            }
+        }
+/*
+for each (n in xml) {
+    e("id " + n.@id)
 }
+*/
+        parse(xml)
+        saveTags()
+    }
+
+    main()
+
+    function e(...args) {
+        App.errorStream.write(args + "\n")
+    }
+}
+
+
 
 /*
     @copy   default
@@ -506,7 +810,7 @@ static int matchLink(FILE *ofp, char *tag, char **start)
     
     This software is distributed under commercial and open source licenses.
     You may use the GPL open source license described below or you may acquire 
-    a commerciar license from Embedthis Software. You agree to be fully bound 
+    a commercial license from Embedthis Software. You agree to be fully bound 
     by the terms of either license. Consult the LICENSE.TXT distributed with 
     this software for full details.
     
@@ -524,6 +828,12 @@ static int matchLink(FILE *ofp, char *tag, char **start)
     acquire a commercial license to use this software. Commercial licenses 
     for this software and support services are available from Embedthis 
     Software at http://www.embedthis.com 
-  
+    
+    Local variables:
+    tab-width: 4
+    c-basic-offset: 4
+    End:
+    vim: sw=8 ts=8 expandtab
+
     @end
  */
