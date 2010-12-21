@@ -17,3 +17,11 @@ include		build/make/Makefile.top
 
 diff import sync:
 	import.sh --$@ ../tools/out/releases/tools-dist.tgz
+
+#
+#   Local variables:
+#   tab-width: 4
+#   c-basic-offset: 4
+#   End:
+#   vim: sw=4 ts=4
+#
