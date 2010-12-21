@@ -1,812 +1,443 @@
 /*
-    gendoc.es - Generate HTML doc from Doxygen XML files
+    edep.c - Embedthis Dependency Program. Generate C, and C++.
 
     Copyright (c) All Rights Reserved. See details at the end of the file.
  */
 
-module embedthis.doc {
-
-    var all: Boolean
-    var bare: Boolean
-    var out: String
-    var symbols = {}
-    var seeAlso = {}
-    var tagFile = null
-    var title: String = "Documentation"
-
-    function usage(): String {
-        return "usage: getdoc [--tags tagfile] [--title Title] files..."
-    }
-
-    function parseArgs(): Array {
-        let files = []
-        for (argind = 1 ; argind < App.args.length; argind++) {
-            arg = App.args[argind]
-            switch (arg) {
-            case "--all":
-            case "-a":
-                all = true
-                break
-
-            case "--bare":
-                bare = true
-                break
-
-            case "--out":
-                /*
-                    FUTURE - not supported
-                 */
-                if (++argind >= App.args.length) {
-                    throw usage()
-                }
-                out = App.args[argind]
-                break
-
-            case "--tags":
-                if (++argind >= App.args.length) {
-                    throw usage()
-                }
-                tagFile = App.args[argind]
-                break
-
-            case "--title":
-                if (++argind >= App.args.length) {
-                    throw usage()
-                }
-                title = App.args[argind]
-                break
-
-            default:
-                files = App.args.slice(argind) 
-                argind = App.args.length
-            }
-        }
-        return files
-    }
-
-
-    function emit(...args) {
-        print(args.toString())
-    }
-
-
-    function emitHeader() {
-        if (bare) {
-            return
-        }
-        emit('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"')
-        emit('"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">')
-        emit('<html xmlns="http://www.w3.org/1999/xhtml">')
-        emit('<head>')
-        emit('<meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />')
-
-        emit('<title>' + title + ' Documentation</title>')
-        emit('<link href="api.css" rel="stylesheet" type="text/css" />')
-        emit('</head>\n<body>\n')
-        emit('  <div class="contents">')
-    }
-
-
-    function emitFooter() {
-        if (bare) {
-            return
-        }
-        emit('<div class="footnote">Generated on ' + new Date + '<br/>')
-        emit('  Copyright &copy; <a href="http://www.embedthis.com">Embedthis Software</a> ' + 
-            new Date().fullYear + '.')
-        emit('</div></div></body></html>')
-    }
-
-
-    /*
-        Emit top level navigation
-     */
-    function emitNavigation() {
-        if (bare) {
-            return
-        }
-        emit('<div>')
-        result = []
-        for each (kind in ["Components", "Typedefs", "Functions", "Defines"]) {
-            result.append('<a href="#' + kind + '">' + kind + '</a>')
-        }
-        emit(result.join(" | "))
-        emit('</div>')
-    }
-
-
-    /*
-        Parse all symbol references and build an index of symbols
-     */
-    function parseReferences(xml: XML) {
-
-        for each (def in xml) {
-            if (def.@kind == "group" || def.@kind == "struct") {
-                symbols[def.compoundname] = def.@id
-                for each (sect in def.detaileddescription.para.simplesect) {
-                    if (sect.@kind != "see") {
-                        continue
-                    }
-                    seeAlso[def.compoundname] = sect.para
-                }
-            }
-        }
-
-        var sections: XML = xml.compounddef.sectiondef
-        for each (section in sections) {
-            var members: XML = section.memberdef
-            for each (m in members) {
-                if (m.name != "" && m.@id != "") {
-                    symbols[m.name] = m.@id
-                }
-            }
-        }
-    }
-
-
-    /*
-        Emit a reference
-     */
-    function ref(name: String): String {
-
-        /* Split the core type name off from "*" suffixes */
-        parts = name.split(" ")
-        typeSpec = parts.slice(0, 1)
-        rest = parts.slice(1)
-        sym = typeSpec.toString().trim("*")
-
-        if (symbols[sym]) {
-            result = '<a href="#' + symbols[sym] + '" class="ref">' + typeSpec + '</a>'
-            if (rest && rest != "") {
-               result += " " + rest
-            }
-            return result
-        }
-        return name
-    }
-
-
-    function strip(str: String): String {
-        if (str == "") {
-            return str
-        }
-        str = str.replace(/<para>|<emphasis>|<title>|<type>|<\/para>|<\/emphasis>|<\/title>|<\/type>/g, "")
-        str = str.replace(/<ref refid="[^>]*>/g, '')
-        str = str.replace(/<\/ref>/g, '')
-        str = str.replace(/ kindref="[^"]*"/g, '')
-        str = str.replace(/itemizedlist>/g, '')
-        str = str.replace(/listitem>/g, '')
-        str = str.replace(/<linebreak\/>/g, '')
-        str = str.replace(/bold>/g, '')
-        str = str.trim().trim(".").trim().trim(".")
-        return str
-    }
-
-
-    /*
-        Remove or map XML tags into HTML
-     */
-    function clean(str: String): String {
-        if (str == "") {
-            return str
-        }
-        str = str.replace(/<para>|<emphasis>|<title>|<type>|<\/para>|<\/emphasis>|<\/title>|<\/type>/g, "")
-        str = str.replace(/<ref refid="/g, '<a class="ref" href="#')
-        str = str.replace(/<\/ref>/g, '</a>')
-        str = str.replace(/ kindref="[^"]*"/g, "")
-        str = str.replace(/itemizedlist>/g, 'ul>')
-        str = str.replace(/listitem>/g, 'li>')
-        str = str.replace(/<linebreak\/>/g, "<br/>")
-        str = str.replace(/bold>/g, "b>")
-        str = str.trim().trim(".").trim().trim(".")
-        return str
-    }
-
-
-    /*
-        Clean the string of XML tags and append a "."
-     */
-    function cleanDot(str: String): String {
-        s = clean(str)
-        if (s == "") {
-            return s
-        }
-        return s + "."
-    }
-
-
-    /*
-        Intelligently transform a @return directive
-     */
-    function cleanReturns(str: String): String {
-        str = cleanDot(str)
-        str = str.replace(/^Return[s]* the/, "The")
-        return str
-    }
-
-
-    /*
-        Emit a file level overview
-     */
-    function emitOverview(xml: XML) {
-
-        emit("<h1>" + title + "</h1>")
-        for each (def in xml) {
-            if (def.@kind != "file") {
-                continue
-            }
-            name = def.compoundname
-
-            if (!all && def.briefdescription == '' && def.detaileddescription == '') {
-                return
-            }
-            emit('<a name="' +  name + '"></a>')
-
-            if (def.briefdescription != "") {
-                emit('<p>' + cleanDot(def.briefdescription.para) + '</p>')
-            }
-            if (def.detaileddescription != "") {
-                for each (node in def.detaileddescription.*) {
-                    str = node.toString()
-                    str = str.replace(/para>/g, "p>")
-                    str = str.replace(/title>/g, "h1>")
-                    str = str.replace(/<linebreak\/>/g, "<br/>")
-                    str = str.replace(/<sect[^>]*>|<\/sect[0-9]>/g, "")
-                    str = str.replace(/<simplesect[^>]*>|<\/simplesect>/g, "")
-                    emit(str)
-                }
-            }
-        }
-    }
-
-
-    /*
-        Emit an index of all services
-     */
-    function emitServiceIndex(def: XML) {
-
-        if (all || def.briefdescription != "" || def.detaileddescription != '') {
-            emit('<tr class="apiDef">')
-            emit('<td class="apiName"><a href="#' + def.@id + '" class="nameRef">' + def.compoundname + '</a></td>')
-            emit('<td class="apiBrief">' + cleanDot(def.briefdescription.para) + '</td></tr>')
-        }
-        symbols[def.compoundname] = def.@id
-    }
-
-
-    /*
-        Emit an index of all functions
-     */
-    function emitFunctionIndex(def: XML, section: XML) {
-
-        var members: XML = section.memberdef
-
-        for each (m in members) {
-            if (m.@kind == 'function') {
-                if (!all && m.briefdescription == '' && m.detaileddescription == '') {
-                    continue
-                }
-                if (def.@kind == "file" && m.@id.toString().startsWith("group__")) {
-                    continue
-                }
-
-                let definition = m.definition.toString().split(" ")
-                typedef = definition.slice(0, -1).join(" ")
-                name = definition.slice(-1)
-
-                emit('<tr class="apiDef">')
-                str = '<td class="apiType">' + ref(typedef) + '</td><td>'
-                str += '<a href="#' + m.@id + '" class="nameRef">' + name + '</a>'
-
-                args = m.argsstring.toString().trim('(').split(",")
-                if (args.length > 0) {
-                    result = []
-                    for (i in args) {
-                        arg = args[i]
-                        result.append(ref(arg))
-                    }
-                    str += "(" + result.join(", ")
-                }
-                emit(str + '</td></tr>')
-                if (m.briefdescription != "") {
-                    emit('<tr class="apiBrief"><td>&nbsp;</td><td>' + 
-                        cleanDot(m.briefdescription.para) + '</td></tr>')
-                }
-            }
-        }
-    }
-
-
-    /*
-        Emit an index of all #define directives
-     */
-    function emitDefineIndex(section: XML) {
-
-        var members: XML = section.memberdef
-
-        for each (m in members) {
-            if (m.@kind == 'define') {
-                if (!all && m.briefdescription == '' && m.detaileddescription == '') {
-                    continue
-                }
-                symbols[m.name] = m.@id
-
-                emit('<tr class="apiDef">')
-                emit('<td>#define</td><td><a href="#' + m.@id + '" class="nameRef">' + m.name + '</a>' + 
-                    '&nbsp;&nbsp;&nbsp;' + m.initializer + '</td>')
-                emit('</tr>')
-                if (m.briefdescription != "") {
-                    emit('<tr class="apiBrief"><td>&nbsp;</td><td>' + 
-                        cleanDot(m.briefdescription.para) + '</td></tr>')
-                }
-            }
-        }
-    }
-
-
-    /*
-        Emit an index of struct based typedefs
-     */
-    function emitTypeIndex(def: XML) {
-
-        if (all || def.briefdescription != "" || def.detaileddescription != '') {
-            emit('<tr class="apiDef">')
-            name = def.compoundname
-
-            symbols[name] = def.@id
-
-            emit('<td class="apiName"><a href="#' + symbols[name] + '" class="nameRef">' + name + '</a></td>')
-            emit('<td class="apiBrief">' + cleanDot(def.briefdescription.para) + '</td></tr>')
-        }
-    }
-
-
-    /*
-        Emit an index of all simple (non-struct) typedefs
-     */
-    function emitStructTypeIndex(section: XML) {
-
-        var members: XML = section.memberdef
-
-        for each (m in members) {
-            if (m.@kind == 'typedef') {
-                if (!all && m.briefdescription == '' && m.detaileddescription == '') {
-                    continue
-                }
-                symbols[m.name] = m.@id
-
-                def = m.definition.toString()
-                if (def.contains("(")) {
-                    /* Parse "typedef void(* MprLogHandler)(cchar *file, ... cchar *msg) */
-                    name = def.toString().replace(/typedef[^\(]*\([^\w]*([\w]+).*/, "$1")
-
-                } else {
-                    def = def.toString().split(" ")
-                    typedef = def.slice(0, -1).join(" ")
-                    name = def.slice(-1)
-                }
-
-                emit('<tr class="apiDef">')
-                emit('<td class="apiName"><a href="#' + m.@id + '" class="nameRef">' + name + '</a></td>')
-                if (m.briefdescription != "") {
-                    emit('<td class="apiBrief">' + cleanDot(m.briefdescription.para) + '</td></tr>')
-                }
-            }
-        }
-    }
-
-
-    /*
-        Get master group references for a given group name
-     */
-    function getGroupReferences(group: String): Array {
-        references = []
-        items = seeAlso[group]
-        if (items != undefined) {
-            for each (see in items.ref.*) {
-                references.append(see)
-            }
-        }
-        return references
-    }
-
-
-    /*
-        Emit a See Also section. Handle groups/struct @references
-     */
-    function emitSeeAlso(name: String, node: XML) {
-        if (node.para.toString().startsWith('@-')) {
-            let name = node.para.toString().slice(2).trim()
-            references = getGroupReferences(name)
-
-        } else {
-            references = []
-            for each (see in node.para.ref.*) {
-                references.append(see)
-            }
-        }
-        emitSeeAlsoReferences(name, references)
-    }
-
-
-    function emitSeeAlsoReferences(name: String, references: Array) {
-        emit('    <dl><dt>See Also:</dt><dd>')
-        references.sort()
-        trimmed = []
-        for each (see in references) {
-            if (see == name) {
-                continue
-            }
-            trimmed.append(ref(see))
-        }
-        emit('    ' + trimmed.join(", ") + '</dd></dl>')
-    }
-
-
-    function emitSimpleSect(name: String, node: XML) {
-        if (node.@kind == "see") {
-            emitSeeAlso(name, node)
-
-        } else if (node.@kind == "return") {
-            emit('    <dl><dt>Returns:</dt><dd>' + cleanReturns(node.para).toPascal() + '</dd></dl>')
-
-        } else if (node.@kind == "remark") {
-            emit('    <dl><dt>Remarks:</dt><dd>' + cleanDot(node.para).toPascal() + '</dd></dl>')
-
-        } else {
-            emit('    <dl><dt>' + clean(node.title) + '</dt><dd>' + cleanDot(node.para).toPascal() + '</dd></dl>')
-        }
-    }
-
-
-    /*
-        Emit function args
-     */
-    function emitArgs(args: XML) {
-
-        result = []
-        for each (p in args.param) {
-            if (p.type == "...") {
-                result.append("...")
-            } else {
-                s = clean(p.type) + " " + p.declname
-                s = s.replace(/ ([\*]*) /, " $1")
-                result.append(s)
-            }
-        }
-        emit("(" + result.join(", ") + ")")
-    }
-
-
-    /*
-        Used for function and simple typedef details
-     */
-    function emitDetail(def: XML, section: XML) {
-
-        var members: XML = section.memberdef
-
-        if (section.@kind == "func") {
-            kind = "function"
-
-        } else if (section.@kind == "typedef") {
-            kind = "typedef"
-        }
-
-        for each (m in members) {
-            if (m.@kind == kind) {
-                if (!all && m.briefdescription == '' && m.detaileddescription == '') {
-                    continue
-                }
-                if (def.@kind == "file" && m.@id.toString().startsWith("group__")) {
-                    continue
-                }
-
-                emit('<a name="' + m.@id + '"></a>')
-
-                emit('<div class="api">')
-                emit('  <div class="prototype">')
-
-                if (kind == "function") {
-                    emit('    ' + ref(strip(m.type)))
-                    str = m.definition.toString().split(" ").slice(1).join(" ")
-                    emit('    ' + clean(str))
-                    emitArgs(m)
-
-                } else if (kind == "typedef") {
-                    emit('    ' + cleanDot(m.definition))
-                }
-                emit('  </div>')
-
-                emit('  <div class="apiDetail">')
-
-                if (m.briefdescription != "") {
-                    emit('<p>' + cleanDot(m.briefdescription.para) + '</p>')
-                }
-
-                seen = false
-                for each (n in m.detaileddescription.para.*) {
-                    if (n.name() == "simplesect") {
-                        if (n.@kind == "see") {
-                            seen = true
-                        }
-                        emitSimpleSect(m.name, n)
-
-                    } else if (n.name() == "parameterlist") {
-                        /*
-                            Parameters
-                         */
-                        emit('    <dl><dt>Parameters:</dt><dd>')
-                        emit('    <table class="parameters" summary="Parameters">')
-                        for each (p in n.parameteritem) {
-                            emit('    <tr><td class="param">' + p.parameternamelist.parametername + '</td><td>' + 
-                                cleanDot(p.parameterdescription.para) + '</td>')
-                        }
-                        emit('    </table></dd></dl>')
-
-                    } else {
-                        emit(clean(n))
-                    }
-                }
-                if (!seen && def.@kind == "group") {
-                    references = getGroupReferences(def.compoundname)
-                    emitSeeAlsoReferences(m.name, references)
-                }
-                emit('  </div>')
-                emit('</div>')
-            }
-        }
-    }
-
-
-    function emitFields(name: String, def: XML) {
-        let doneHeader = false
-        for each (m in def.sectiondef.memberdef) {
-            if (!doneHeader) {
-                emit('    <dl><dt>Fields:</dt><dd>')
-                emit('    <table class="parameters" summary="Parameters">')
-                doneHeader = true
-            }
-            if (m.@kind == "variable") {
-                field = m.definition.toString().replace(/.*::/, "")
-                if (m.briefdescription != "" || m.detaileddescription != "") {
-                    emit('    <tr><td class="param">' + clean(m.type) + '</td><td><td>' + field + '</td><td>')
-                    if (m.briefdescription != "") {
-                        s = cleanDot(m.briefdescription.para)
-                        if (m.detaileddescription != "") {
-                            s += " "
-                        }
-                        emit(s)
-                    }
-                    if (m.detaileddescription != "") {
-                        s = cleanDot(m.detaileddescription.para)
-                        emit(s)
-                    }
-                    emit('</td>')
-                }
-            }
-        }
-        if (doneHeader) {
-            emit('    </table></dd></dl>')
-        }
-    }
-
-
-    function emitStructDetail(def: XML, fields: XML) {
-        let name = def.compoundname
-        if (!all && def.briefdescription == '' && def.detaileddescription == '') {
-            return
-        }
-        emit('<a name="' + symbols[name] + '"></a>')
-        emit('<div class="api">')
-        emit('  <div class="prototype">' + clean(name) + '</div>')
-        emit('  <div class="apiDetail">')
-
-        if (def.briefdescription != "") {
-            emit('<p>' + cleanDot(def.briefdescription.para) + '</p>')
-        }
-        let doneFields = false
-        if (def.detaileddescription != "") {
-            for each (n in def.detaileddescription.para.*) {
-                if (n.name() == "simplesect") {
-                    emitSimpleSect(name, n)
-
-                    if (!doneFields && fields == null) {
-                        emitFields(name, def)
-                        doneFields = true
-                    }
-                }
-            }
-        }
-        if (fields) {
-            emitFields(name, fields)
-        } else if (!doneFields) {
-            emitFields(name, def)
-        }
-        emit('  </div>')
-        emit('</div>')
-    }
-
-
-    function emitIndicies(xml: XML) {
-
-        var sections: XML
-
-        /*
-            Emit the group indicies
-         */
-        emit('<a name="Components"></a><h1>Components</h1>')
-        emit('  <table class="apiIndex" summary="Components">')
-
-        for each (def in xml) {
-            if (def.@kind == "group") {
-                emitServiceIndex(def)
-            }
-        }
-        emit('</table>')
-
-        /*
-            Emit the navigation indicies
-         */
-        emit('<a name="Functions"></a><h1>Functions</h1>')
-        emit('  <table class="apiIndex" summary="Functions">')
-
-        for each (def in xml) {
-            sections = def.sectiondef
-            for each (section in sections) {
-                if (section.@kind == "func") {
-                    emitFunctionIndex(def, section)
-                }
-            }
-        }
-        emit('</table>')
-
-        emit('<a name="Typedefs"></a><h1>Typedefs</h1>')
-        emit('<table class="apiIndex" summary="typedefs">')
-        for each (def in xml) {
-            if (def.@kind == "struct") {
-                emitTypeIndex(def)
-            } else {
-                sections = def.sectiondef
-                for each (section in sections) {
-                    if (section.@kind == "typedef") {
-                        emitStructTypeIndex(section)
-                    }
-                }
-            }
-        }
-        emit('</table>')
-
-        emit('<a name="Defines"></a><h1>Defines</h1>')
-        emit('<table class="apiIndex" summary="Defines">')
-        for each (def in xml) {
-            sections = def.sectiondef
-            for each (section in sections) {
-                if (section.@kind == "define") {
-                    emitDefineIndex(section)
-                }
-            }
-        }
-        emit("  </table>")
-    }
-
-
-    function emitDetails(xml: XML) {
-        /*
-            Emit groups
-         */
-        for each (def in xml) {
-            if (def.@kind != "group") {
-                continue
-            }
-            emit('<h1>' + def.compoundname + '</h1>')
-            let foundStruct = false
-            for each (d in xml) {
-                if (d.@kind == "struct" && d.compoundname.toString() == def.compoundname.toString()) {
-                    foundStruct = true
-                    emitStructDetail(def, d)
-                }
-            }
-            if (!foundStruct) {
-                for each (d in xml) {
-                    if (d.compoundname.toString() == def.compoundname.toString()) {
-                        emitStructDetail(def, d)
-                    }
-                }
-            }
-            let sections: XML = def.sectiondef
-            for each (section in sections) {
-                if (section.@kind == "func") {
-                    emitDetail(def, section)
-                }
-            }
-        }
-
-        /*
-            Emit functions
-         */
-        emit('<h2>Functions</h2>')
-
-        for each (def in xml) {
-            if (def.@kind == "group") {
-                continue
-            }
-            let sections: XML = def.sectiondef
-            for each (section in sections) {
-                if (section.@kind == "func") {
-                    emitDetail(def, section)
-                }
-            }
-        }
-
-        emit('<h2>Typedefs</h2>')
-        for each (def in xml) {
-            if (def.@kind == "struct") {
-                emitStructDetail(def, null)
-            } else {
-                let sections: XML = def.sectiondef
-                for each (section in sections) {
-                    if (section.@kind == "typedef") {
-                        emitDetail(def, section)
-                    }
-                }
-            }
-        }
-    }
-
-
-    function parse(xml: XML) {
-        parseReferences(xml)
-        emitHeader()
-        emitNavigation()
-        emitOverview(xml)
-        emitIndicies(xml)
-        emitDetails(xml)
-        emitFooter()
-    }
-
-
-    function saveTags() {
-        if (tagFile) {
-            Path(tagFile).write(serialize(symbols))
-        }
-    }
-
-
-    function main() {
-        var xml: XML
-
-        for each (f in parseArgs()) {
-            var tmp = new XML(f)
-            if (xml) {
-                len = xml.compounddef.length()
-                xml.compounddef[len] = tmp.compounddef
-            } else {
-                xml = tmp
-            }
-        }
+/******************************* Documentation ********************************/
 /*
-for each (n in xml) {
-    e("id " + n.@id)
-}
-*/
-        parse(xml)
-        saveTags()
+    usage:  edep [-q] [-I includes] files...
+ */
+/********************************* Includes ***********************************/
+#include    "posix.h"
+
+/********************************* Defines ************************************/
+
+#define MAX_INC     128                     /* Max include directories */
+#define MAX_DEPEND  4096                    /* Max dependencies */
+
+/********************************** Locals ************************************/
+
+static char     *dependencies[MAX_DEPEND];
+static int      finished;
+static FILE     *fp;    
+static char     *includeDir[MAX_INC];
+static int      numDependencies;
+static int      numIncludeDir;
+static char     *program;
+static int      quiet;
+
+/**************************** Forward Declarations ****************************/
+
+static char     *mprGetBaseName(char *name);
+static int      mprGetDirName(char *buf, int bufsize, char *path);
+static void     openSignals();
+static int      findDependencies(FILE *fp, char *fname);
+static int      depSort(const void *p1, const void *p2);
+static char     *mapExtension(char *path);
+static void     catchInterrupt(int signo);
+static char     *mapDelimiters(char *s);
+
+/************************************ Code ************************************/
+
+int main(int argc, char *argv[])
+{
+    time_t      now;
+    struct tm   *t;
+    char        path[2048], cwd[2048], dirName[2048], parent[2048];
+    char        *ext, *previous, *cp, *argp, *outdir;
+    int         levels, errors, j, i, nextArg;
+
+    errors = 0;
+    program = mprGetBaseName(argv[0]);
+    quiet = 0;
+
+    if (getcwd(cwd, sizeof(cwd) - 1) == 0) {
+        fprintf(stderr, "Cant get working directory");
+        exit(255);
+    }
+    mapDelimiters(cwd);
+    outdir = cwd;
+
+    for (nextArg = 1; nextArg < argc; nextArg++) {
+        argp = argv[nextArg];
+        if (*argp != '-') {
+            break;
+        }
+        if (strncmp(argp, "-I", 2) == 0) {
+            if (numIncludeDir >= MAX_INC) {
+                fprintf(stderr, "Too many include directories\n");
+                exit(1);
+            }
+            for (cp = &argp[2]; cp && isspace((int) *cp) ; cp++) ;
+            includeDir[numIncludeDir++] = strdup(cp);
+
+        } else if (strncmp(argp, "--out", 5) == 0) {
+            if (++nextArg < argc) {
+                outdir = strdup(argv[nextArg]);
+            } else {
+                errors++;
+            }
+        } else if (strcmp(argp, "-q") == 0) {
+            quiet++;
+        }
+    }
+    if (errors) {
+        fprintf(stderr, "%s: usage: [-q] [-Idir] [-out Dir] files...\n", program);
+        exit(2);
     }
 
-    main()
+    includeDir[numIncludeDir++] = strdup(".");
+#if !BLD_WIN_LIKE && !_WIN32
+    includeDir[numIncludeDir++] = strdup("/usr/include");
+#endif
 
-    function e(...args) {
-        App.errorStream.write(args + "\n")
+    openSignals();
+    if ((fp = fopen("make.newdep", "w")) == 0) {
+        fprintf(stderr, "Can't create make.newdep in %s\n", cwd);
+        exit(255);
     }
+    now = time(0);
+    t = localtime(&now);
+    fprintf(fp, "#\n#   .makedep -- Makefile dependencies. Generated by edep.\n#\n\n");
+
+    fprintf(fp, "all: compile\n\n");
+
+    strcpy(dirName, cwd);
+    fprintf(fp, "BLD_TOP := ");
+    for (i = 0, levels = 0; *dirName; i++) {
+        sprintf(path, "%s/build/make/make.rules", dirName);
+        if (access(path, R_OK) == 0) {
+            break;
+        }
+        mprGetDirName(parent, sizeof(parent), dirName);
+        strcpy(dirName, parent);
+        if (i > 0) {
+            fprintf(fp, "/..");
+        } else {
+            fprintf(fp, "..");
+        }
+        levels++;
+    }
+    if (i == 0) {
+        fprintf(fp, ".");
+    }
+    fprintf(fp, "\n");
+    fprintf(fp, "BLD_INC_DIR := %s/include\n", outdir);
+
+    fprintf(fp, "\n#\n#   Read the build configuration.\n#\n");
+    fprintf(fp, "include $(BLD_INC_DIR)/buildConfig.h\n\n");
+
+    fprintf(fp, "SRC =");
+    for (i = nextArg; i < argc; i++) {
+        if (access(argv[i], R_OK) != 0) {
+            continue;
+        }
+        strncpy(path, argv[i], sizeof(path));
+        fprintf(fp, " \\\n\t%s", mprGetBaseName(path));
+    }
+    fprintf(fp, "\n\n");
+
+    fprintf(fp, "ifneq ($(NATIVE_ONLY),1)\n");
+    fprintf(fp, "OBJECTS =");
+    for (i = nextArg; i < argc; i++) {
+        if (access(argv[i], R_OK) != 0) {
+            continue;
+        }
+        strncpy(path, argv[i], sizeof(path));
+        ext = mapExtension(path);
+        fprintf(fp, " \\\n\t$(BLD_OBJ_DIR)/%s", mprGetBaseName(path));
+    }
+    fprintf(fp, "\n");
+    fprintf(fp, "endif\n");
+
+    for (i = nextArg; !finished && i < argc; i++) {
+        if (*argv[i] == '*') {
+            continue;
+        }
+        strcpy(path, argv[i]);
+        ext = mapExtension(path);
+        fprintf(fp, "\n$(BLD_OBJ_DIR)/%s: ", mprGetBaseName(path));
+
+        numDependencies = 0;
+        findDependencies(fp, argv[i]);
+        qsort(dependencies, numDependencies, sizeof(char*), depSort);
+
+        previous = "";
+        for (j = 0; j < numDependencies; j++) {
+            if (strcmp(previous, dependencies[j]) != 0) {
+                fprintf(fp, " \\\n\t%s", dependencies[j]);
+            }
+            previous = dependencies[j];
+        }
+        for (j = 0; j < numDependencies; j++) {
+            free(dependencies[j]);
+        }
+        fprintf(fp, "\n");
+    }
+
+    fprintf(fp, "\n#\n#   Read the Makefile rules and per-os make definitions.\n#\n");
+    fprintf(fp, "include $(BLD_TOP)/build/make/make.rules\n\n");
+
+    fprintf(fp, "ifeq ($(BUILDING_NATIVE),1)\n");
+    fprintf(fp, "   include $(BLD_TOP)/build/make/make.$(BLD_BUILD_OS)\n");
+    fprintf(fp, "else\n");
+    fprintf(fp, "   include $(BLD_TOP)/build/make/make.$(BLD_HOST_OS)\n");
+    fprintf(fp, "endif\n\n");
+
+    fclose(fp);
+
+    unlink("make.dep");
+    unlink(".makedep");
+    if (rename("make.newdep", ".makedep") != 0) {
+        fprintf(stderr, "Cant rename make.newdep to .makedep\n");
+        exit(255);
+    }
+
+    return 0;
 }
 
 
+/*
+    Do the C and C++ dependencies
+ */
+static int findDependencies(FILE *fp, char *fname)
+{
+    FILE    *ifp;
+    char    path[2048], buf[8192], dirName[2048];
+    char    *cp, *ep;
+    int     line, i, j;
+
+    if ((ifp = fopen(fname, "r")) == 0) {
+        if (!quiet) {
+            fprintf(stderr, "Cant open %s\n", fname);
+        }
+        return -1;
+    }
+
+    for (line = 0; ! feof(ifp); line++) {
+        if (fgets(buf, sizeof(buf), ifp) == 0)
+            break;
+        cp = buf;
+        if (*cp++ != '#') {
+            continue;
+        }
+        while (*cp == '\t' || *cp == ' ') {
+            cp++;
+        }
+        if (*cp != 'i' || strncmp(cp, "include", 7)) {
+            continue;
+        }
+        cp += 7;
+
+        while (*cp == '\t' || *cp == ' ' || *cp == '\"') {
+            cp++;
+        }
+        
+        /*
+            Skip system headers
+         */
+        if (*cp == '<') {
+            continue;
+        }
+
+        ep = cp;
+        while (isalnum((int) *ep) || *ep == '_' || *ep == '.' || *ep == '/' || 
+                *ep == '-') {
+            ep++;
+        }
+        *ep = '\0';
+
+        strcpy(buf, cp);
+        if (buf[0] == '/' || (buf[0] == '.' && buf[1] == '.')) {
+            if (access(buf, R_OK) < 0) {
+                if (!quiet) {
+                    fprintf(stderr, "Cant find include %s\n", buf);
+                }
+                continue;
+            }
+
+        } else {
+            /*
+                First search relative to the including file
+             */
+            mprGetDirName(dirName, sizeof(dirName), fname);
+            if (*dirName) {
+                sprintf(path, "%s/%s", dirName, buf);
+            } else {
+                strcpy(path, dirName);
+            }
+            if (access(path, R_OK) < 0) {
+                for (j = 0; j < numIncludeDir; j++) {
+                    sprintf(path, "%s/%s", includeDir[j], buf);
+                    if (access(path, R_OK) == 0) {
+                        break;
+                    }
+                }
+                if (j == numIncludeDir) {
+                    if (!quiet) {
+                        fprintf(stderr, "Cant find include %s in %s at %d\n", 
+                            buf, fname, line);
+                    }
+                    continue;
+                }
+            }
+        }
+
+        if (numDependencies >= MAX_DEPEND) {
+            fprintf(stderr, "Too many dependencies\n");
+        } else {
+            for (i = 0; i < numDependencies; i++) {
+                if (strcmp(path, dependencies[i]) == 0)
+                    break;
+            }
+            if (i == numDependencies) {
+                dependencies[numDependencies++] = strdup(path);
+                findDependencies(fp, path);
+            }
+        }
+    }
+    fclose(ifp);
+    return 0;
+}
+
+
+static int depSort(const void *p1, const void *p2)
+{
+    char    *s1, *s2;
+
+    s1 = *(char**) p1;
+    s2 = *(char**) p2;
+
+    return strcmp(s1, s2);
+}
+
+
+static char *mapDelimiters(char *s)
+{
+    char    *p;
+
+    if (s == 0) {
+        return 0;
+    }
+    for (p = s; *p; p++) {
+        if (*p == '\\') {
+            *p = '/';
+        } else if (*p == ':') {
+            s = &p[1];
+        }
+    }
+    return s;
+}
+
+
+static char *mapExtension(char *path)
+{
+    static char ext[16];
+    char        *cp;
+    char        *object;
+
+    object = "$(BLD_OBJ)";
+    if ((cp = strrchr(path, '.'))) {
+        strcpy(ext, cp);
+        if (strcmp(cp, ".c") == 0) {
+            strcpy(cp, object);
+        } else if (strcmp(cp, ".cpp") == 0) {
+            strcpy(cp, object);
+        }
+    }
+    return ext;
+}
+
+
+/*
+    Return the last portion of a pathname
+ */
+static char *mprGetBaseName(char *name)
+{
+    char *cp;
+
+    cp = strrchr(name, '/');
+
+    if (cp == 0) {
+        cp = strrchr(name, '\\');
+        if (cp == 0) {
+            return name;
+        }
+    } 
+    if (cp == name) {
+        if (cp[1] == '\0') {
+            return name;
+        }
+    } else {
+        if (cp[1] == '\0') {
+            return "";
+        }
+    }
+    return &cp[1];
+}
+
+
+/*
+    Return the directory portion of a pathname into the users buffer.
+ */
+int mprGetDirName(char *buf, int bufsize, char *path)
+{
+    char    *cp;
+    int     dlen;
+
+    cp = strrchr(path, '/');
+    if (cp == 0) {
+#if BLD_WIN_LIKE
+        cp = strrchr(path, '\\');
+        if (cp == 0)
+#endif
+        {
+            buf[0] = '\0';
+            return 0;
+        }
+    }
+    if (cp == path && cp[1] == '\0') {
+        strcpy(buf, ".");
+        return 0;
+    }
+    dlen = (int) (cp - path);
+    if (dlen < bufsize) {
+        if (dlen == 0) {
+            dlen++;
+        }
+        memcpy(buf, path, dlen);
+        buf[dlen] = '\0';
+        return 0;
+    }
+    return -1;
+}
+
+
+static void openSignals() 
+{
+#if !BLD_WIN_LIKE && !_WIN32
+    struct sigaction    act;
+
+    act.sa_flags = 0;
+    sigemptyset(&act.sa_mask);
+
+    act.sa_handler = catchInterrupt;
+    sigaction(SIGINT, &act, 0);
+#endif
+}
+
+
+static void catchInterrupt(int signo)
+{
+    finished++;
+}
 
 /*
     @copy   default
     
-    Copyright (c) Embedthis Software LLC, 2003-2010. All Rights Reserved.
-    Copyright (c) Michael O'Brien, 1993-2010. All Rights Reserved.
+    Copyright (c) Embedthis Software LLC, 2003-2011. All Rights Reserved.
+    Copyright (c) Michael O'Brien, 1993-2011. All Rights Reserved.
     
     This software is distributed under commercial and open source licenses.
     You may use the GPL open source license described below or you may acquire 
@@ -828,7 +459,7 @@ for each (n in xml) {
     acquire a commercial license to use this software. Commercial licenses 
     for this software and support services are available from Embedthis 
     Software at http://www.embedthis.com 
-    
+ *
     Local variables:
     tab-width: 4
     c-basic-offset: 4
