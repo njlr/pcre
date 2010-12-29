@@ -18,6 +18,9 @@ include		build/make/Makefile.top
 diff import sync:
 	import.sh --$@ ../tools/out/releases/tools-dist.tgz
 
+compileFinal:
+	make dist
+
 #
 #   Local variables:
 #   tab-width: 4
