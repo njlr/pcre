@@ -46,7 +46,7 @@ pcre_exec() and pcre_def_exec(). */
 #include "buildConfig.h"
 #include "config.h"
 
-#if BLD_FEATURE_REGEXP
+#if BLD_FEATURE_PCRE
 #include "pcre_internal.h"
 
 
@@ -146,4 +146,4 @@ return negated;   /* char did not match */
 }
 
 /* End of pcre_xclass.c */
-#endif /* BLD_FEATURE_REGEXP */
+#endif /* BLD_FEATURE_PCRE */

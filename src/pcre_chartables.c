@@ -23,7 +23,7 @@ unit might reference this" and so it will always be supplied to the linker. */
 #include "buildConfig.h"
 #include "config.h"
 
-#if BLD_FEATURE_REGEXP
+#if BLD_FEATURE_PCRE
 
 #include "pcre_internal.h"
 
@@ -197,4 +197,4 @@ graph, print, punct, and cntrl. Other classes are built from combinations. */
   0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};/* 248-255 */
 
 /* End of pcre_chartables.c */
-#endif /* BLD_FEATURE_REGEXP */
+#endif /* BLD_FEATURE_PCRE */

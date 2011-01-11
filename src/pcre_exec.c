@@ -45,7 +45,7 @@ possible. There are also some static supporting functions. */
 #include "buildConfig.h"
 #include "config.h"
 
-#if BLD_FEATURE_REGEXP
+#if BLD_FEATURE_PCRE
 
 #undef NLBLOCK
 #define NLBLOCK md             /* Block containing newline information */
@@ -4982,4 +4982,4 @@ else
 }
 
 /* End of pcre_exec.c */
-#endif /* BLD_FEATURE_REGEXP */
+#endif /* BLD_FEATURE_PCRE */

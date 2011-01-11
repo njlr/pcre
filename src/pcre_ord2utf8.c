@@ -44,7 +44,7 @@ character value into a UTF8 string. */
 #include "buildConfig.h"
 #include "config.h"
 
-#if BLD_FEATURE_REGEXP
+#if BLD_FEATURE_PCRE
 #include "pcre_internal.h"
 
 
@@ -83,4 +83,4 @@ return 0;   /* Keep compiler happy; this function won't ever be */
 }
 
 /* End of pcre_ord2utf8.c */
-#endif /* BLD_FEATURE_REGEXP */
+#endif /* BLD_FEATURE_PCRE */

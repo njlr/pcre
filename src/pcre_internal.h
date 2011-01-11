@@ -48,7 +48,7 @@ functions whose names all begin with "_pcre_". */
 #include "buildConfig.h"
 #include "config.h"
 
-#if BLD_FEATURE_REGEXP
+#if BLD_FEATURE_PCRE
 /* Define DEBUG to get debugging output on stdout. */
 
 #if VXWORKS
@@ -1226,4 +1226,4 @@ extern BOOL         _pcre_xclass(int, const uschar *);
 #endif
 
 /* End of pcre_internal.h */
-#endif /* BLD_FEATURE_REGEXP */
+#endif /* BLD_FEATURE_PCRE */

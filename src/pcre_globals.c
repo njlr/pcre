@@ -49,7 +49,7 @@ differently, and global variables are not used (see pcre.in). */
 #include "buildConfig.h"
 #include "config.h"
 
-#if BLD_FEATURE_REGEXP
+#if BLD_FEATURE_PCRE
 #include "pcre_internal.h"
 
 #ifndef VPCOMPAT
@@ -61,4 +61,4 @@ PCRE_EXP_DATA_DEFN int   (*pcre_callout)(pcre_callout_block *) = NULL;
 #endif
 
 /* End of pcre_globals.c */
-#endif /* BLD_FEATURE_REGEXP */
+#endif /* BLD_FEATURE_PCRE */

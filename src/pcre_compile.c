@@ -45,7 +45,7 @@ supporting internal functions that are not used by other modules. */
 #include "buildConfig.h"
 #include "config.h"
 
-#if BLD_FEATURE_REGEXP
+#if BLD_FEATURE_PCRE
 
 /* EMBEDTHIS */
 #undef NLBLOCK
@@ -6436,4 +6436,4 @@ return (pcre *)re;
 }
 
 /* End of pcre_compile.c */
-#endif /* BLD_FEATURE_REGEXP */
+#endif /* BLD_FEATURE_PCRE */

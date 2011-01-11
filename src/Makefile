@@ -6,8 +6,8 @@
 
 include 		.makedep
 
-ifneq ($(BLD_FEATURE_REGEXP_DIR),)
-	IMPORTS 	+= $(BLD_REGEXP_IMPORTS) $(BLD_MATRIXSSL_IMPORTS)
+ifneq ($(BLD_FEATURE_PCRE),)
+	IMPORTS 	+= $(BLD_PCRE) $(BLD_MATRIXSSL_IMPORTS)
 	IMPORTED	+= $(patsubst %,$(BLD_LIB_DIR)/%, $(notdir $(IMPORTS)))
 endif
 
