@@ -36,7 +36,7 @@ createFeatureConfig()
 #
 #   Extended Feature Selection
 #
-BLD_FEATURE_REGEXP=1
+BLD_FEATURE_PCRE=1
 !EOF_FEATURE_CONFIG2
 }
 
@@ -85,7 +85,7 @@ parseArg()
         BLD_FEATURE_XML=0
         BLD_FEATURE_MATRIXSSL=0
         BLD_FEATURE_OPENSSL=0
-        BLD_FEATURE_REGEXP=0
+        BLD_FEATURE_PCRE=0
         BLD_FEATURE_SSL=0
         ;;
     disable-cmd)
@@ -104,7 +104,7 @@ parseArg()
         BLD_FEATURE_XML=1
         BLD_FEATURE_MATRIXSSL=0
         BLD_FEATURE_OPENSSL=1
-        BLD_FEATURE_REGEXP=1
+        BLD_FEATURE_PCRE=1
         BLD_FEATURE_SSL=1
         ;;
     enable-cmd)
