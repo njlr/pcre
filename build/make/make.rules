@@ -58,7 +58,7 @@ export 	MAKE_CFLAGS MAKE_DFLAGS MAKE_IFLAGS MAKE_LDFLAGS EXPORT_OBJECTS BUILDING
 #
 #	Compute the directory path for display purposes
 #
-_DPATH_			?= .
+DIR			    ?= .
 BUILD_DEPTH     ?= 2
 BUILDING_NATIVE := 0
 MAKE			:= $(BLD_MAKE)
@@ -86,10 +86,10 @@ do [ -d "$$i" ] || continue ;\
             rm -f $(BLD_OUT_DIR)/.needDepend ; \
             $(call log) [Generate] "Makefile dependencies" ; \
             cd $(BLD_TOP) >/dev/null 2>&1 ; makedep ; \
-            $(MAKE) -S --no-print-directory "_DPATH_=$(_DPATH_)/$$i" PRE=$(PRE) TRACE=$(TRACE) depend ; \
+            $(MAKE) -S --no-print-directory "DIR=$(DIR)/$$i" PRE=$(PRE) TRACE=$(TRACE) depend ; \
             cd - >/dev/null 2>&1 ; \
         fi ; \
-		$(MAKE) -S -C "$$i" --no-print-directory "_DPATH_=$(_DPATH_)/$$i" PRE=$(PRE) TRACE=$(TRACE) $$T ; \
+		$(MAKE) -S -C "$$i" --no-print-directory "DIR=$(DIR)/$$i" PRE=$(PRE) TRACE=$(TRACE) $$T ; \
 		if [ $$? != 0 ] ; then \
 			echo "\# WARNING: Makefile error in `pwd`" ; \
 			exit 255 ; \
