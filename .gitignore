@@ -25,3 +25,4 @@ lib/*.so
 *.exe
 releases
 out
+.embedthis
