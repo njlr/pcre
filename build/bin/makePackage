@@ -409,7 +409,7 @@ createChecksums() {
 #
 findTop
 BLD_OUT_DIR=$BLD_TOP/out
-. `cacheConfig ${BLD_OUT_DIR}/include/buildConfig.h`
+. `cacheConfig ${BLD_OUT_DIR}/inc/buildConfig.h`
 
 set -- ${OPTIONS} $*
 while [ "${1#--}" != "$1" -o "${1#-}" != "$1" ] ; do
