@@ -246,7 +246,7 @@ setup() {
     cd ${BLD_TOP}
     BLD_TOP=.
 
-    . `cacheConfig ${BLD_TOP}/out/include/buildConfig.h`
+    . `cacheConfig ${BLD_TOP}/out/inc/buildConfig.h`
 
     . ${BLD_TOP}/build/bin/makePackage.common
     . package/makeInstall.${BLD_PRODUCT}
