@@ -1,0 +1,46 @@
+#
+#   combo.files - Files needed for the combo installation
+#
+#   Copyright (c) Embedthis Software LLC, 2003-2011. All Rights Reserved.
+#
+
+S=${BLD_TOP}/src
+
+#
+#   Output directories. Note: these are in the staging directory.
+#
+DIR="${BLD_OUT_DIR}/staging/${BLD_PRODUCT}-${BLD_VERSION}"
+SRC="${DIR}/src/deps/pcre"
+DOC="${DIR}/doc"
+
+#
+#	Order of headers matters
+#
+HEADERS=${BLD_INC_DIR}/pcre.h
+PCRE_SOURCES="${S}/config.h ${S}/pcre_internal.h ${S}/ucp.h ${S}/ucpinternal.h ${S}/ucptable.h ${S}/*.c"
+
+mkdir -p ${SRC} ${DOC}/man ${DOC}/api
+
+#
+#	BuildFiles
+#
+cp ${BLD_TOP}/package/Makefile.combo ${SRC}/Makefile
+# cp ${BLD_INC_DIR}/buildConfig.h "${DIR}/buildConfig.h"
+
+#
+#	pcre.h
+#
+combo ${HEADERS} | egrep -v '#include.*mpr|#inc.*config.h|#inc.*ucp.*\.h|#inc.*pcre' >${SRC}/pcre.h
+
+echo -e '#include "buildConfig.h"\n#include "pcre.h"' >${SRC}/pcre.c
+combo ${PCRE_SOURCES} | egrep -v '#inc.*mpr|#inc.*config.h|#inc.*ucp.*\.h|#inc.*pcre' >>${SRC}/pcre.c
+
+cp ${BLD_TOP}/doc/man/*.3 ${DOC}/man
+
+#
+#   Local variables:
+#   tab-width: 4
+#   c-basic-offset: 4
+#   End:
+#   vim: sw=4 ts=4 noexpandtab
+#

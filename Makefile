@@ -13,11 +13,10 @@
 #		make test 					# Runs unit tests
 #
 
+DEPS		= tools
+
 include		build/make/Makefile.top
 include		build/make/Makefile.pcre
-
-diff import sync:
-	import.sh --$@ ../tools/out/releases/tools-dist.tgz
 
 #
 #   Local variables:
