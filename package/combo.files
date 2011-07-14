@@ -19,11 +19,10 @@ DOC="${DIR}/doc"
 HEADERS=${BLD_INC_DIR}/pcre.h
 PCRE_SOURCES="${S}/config.h ${S}/pcre_internal.h ${S}/ucp.h ${S}/ucpinternal.h ${S}/ucptable.h ${S}/*.c"
 
-mkdir -p ${SRC} ${DOC}/man ${DOC}/api
-
 #
 #	BuildFiles
 #
+mkdir -p ${SRC} ${DOC}/man ${DOC}/api
 cp ${BLD_TOP}/package/Makefile.combo ${SRC}/Makefile
 # cp ${BLD_INC_DIR}/buildConfig.h "${DIR}/buildConfig.h"
 
