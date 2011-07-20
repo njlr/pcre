@@ -6,7 +6,6 @@
 
 include 		.makedep
 
-PRE_DIRS		+= include
 TARGETS			+= $(BLD_LIB_DIR)/libpcre$(BLD_LIB)
 
 compileExtra:	$(TARGETS)
