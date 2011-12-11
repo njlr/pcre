@@ -26,3 +26,4 @@ lib/*.so
 releases
 out
 .embedthis
+.publisher
