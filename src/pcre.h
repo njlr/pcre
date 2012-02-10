@@ -39,6 +39,10 @@ POSSIBILITY OF SUCH DAMAGE.
 #ifndef _PCRE_H
 #define _PCRE_H
 
+#ifndef BLD_FEATURE_PCRE
+    #define BLD_FEATURE_PCRE 1
+#endif
+
 /* The current PCRE version information. */
 
 #define PCRE_MAJOR          7
