@@ -1,0 +1,49 @@
+/*
+    product.bit -- Product Bit File for the Embedthis PCRE Library
+ */
+
+Bit.load({
+    blend: [
+        ".bit/embedthis.bit",
+    ],
+    settings: {
+        /* Default settings overridden by build.bit */
+		product: 'pcre',
+		title: 'PCRE Library',
+        company: 'Embedthis',
+		version: '1.0.0',
+		buildNumber: 'B0',
+        sync: [],
+    },
+
+    usage: {
+        debug: 'Enable a debug build',
+        assert: 'Enable program assertions',
+    },
+
+    profiles: {
+        debug: { settings: { 
+            debug: true, 
+            assert: true,
+        }, },
+        release: { settings: { 
+            debug: false, 
+            assert: false,
+        } },
+    },
+
+    '+required': [ ]
+    '+optional': [ ],
+
+    defaults: {
+        '+includes': [ 'src' ]
+        '+defines': [ '-DBLD_FEATURE_PCRE=1' ]
+    },
+
+    targets: {
+        libpcre: {
+            type: 'lib',
+            sources: [ 'src/*.c' ],
+        },
+	},
+})
