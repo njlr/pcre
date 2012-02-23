@@ -4,7 +4,7 @@
 
 Bit.load({
     blend: [
-        ".bit/embedthis.bit",
+        "${BITS}/embedthis.bit",
     ],
     settings: {
         /* Default settings overridden by build.bit */
@@ -51,8 +51,8 @@ Bit.load({
             action: "
                 let d = bit.dir.pkg.join('${settings.product}-${settings.version}')
                 safeRemove(bit.dir.pkg)
-                install('.bit/pcre.bit', d.join('src/deps/pcre/pcre.bit'), {hidden: true})
-                install('.bit/Makefile', d.join('src/deps/pcre/Makefile'), {hidden: true})
+                install('package/pcre.bit', d.join('src/deps/pcre/pcre.bit'), {hidden: true})
+                install('package/Makefile', d.join('src/deps/pcre/Makefile'), {hidden: true})
                 install('src/pcre.h', d.join('src/deps/pcre/pcre.h'))
                 install(['src/config.h', 'src/pcre_internal.h', 'src/ucp.h', 'src/ucpinternal.h', 
                         'src/ucptable.h', 'src/*.c'], 
