@@ -62,7 +62,7 @@ Bit.load({
                     header: '#include \"buildConfig.h\"\n#include \"pcre.h\"',
                     title: bit.settings.title + ' Library Source',
                 })
-                package(['combo', 'flat'])
+                package(bit.dir.pkg, ['combo', 'flat'])
             ",
         },
 	},
