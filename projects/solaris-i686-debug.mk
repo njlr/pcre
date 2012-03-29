@@ -4,11 +4,12 @@
 
 PLATFORM       := solaris-i686-debug
 CC             := cc
-LD             := /usr/bin/ld
+LD             := ld
 CFLAGS         := -Wall -fPIC -g -mcpu=i686
 DFLAGS         := -D_REENTRANT -DCPU=i686 -DBLD_FEATURE_PCRE=1 -DPIC
 IFLAGS         := -I$(PLATFORM)/inc
-LDFLAGS        := -L$(PLATFORM)/lib -g
+LDFLAGS        := '-g'
+LIBPATHS       := -L$(PLATFORM)/lib
 LIBS           := -llxnet -lrt -lsocket -lpthread -lm
 
 all: prep \
@@ -64,57 +65,57 @@ $(PLATFORM)/inc/ucptable.h:
 $(PLATFORM)/obj/pcre_chartables.o: \
         src/pcre_chartables.c \
         $(PLATFORM)/inc/buildConfig.h
-	$(CC) -c -o $(PLATFORM)/obj/pcre_chartables.o $(CFLAGS) $(DFLAGS) -I$(PLATFORM)/inc src/pcre_chartables.c
+	$(CC) -c -o $(PLATFORM)/obj/pcre_chartables.o -Wall -fPIC $(LDFLAGS) -mcpu=i686 $(DFLAGS) -I$(PLATFORM)/inc src/pcre_chartables.c
 
 $(PLATFORM)/obj/pcre_compile.o: \
         src/pcre_compile.c \
         $(PLATFORM)/inc/buildConfig.h
-	$(CC) -c -o $(PLATFORM)/obj/pcre_compile.o $(CFLAGS) $(DFLAGS) -I$(PLATFORM)/inc src/pcre_compile.c
+	$(CC) -c -o $(PLATFORM)/obj/pcre_compile.o -Wall -fPIC $(LDFLAGS) -mcpu=i686 $(DFLAGS) -I$(PLATFORM)/inc src/pcre_compile.c
 
 $(PLATFORM)/obj/pcre_exec.o: \
         src/pcre_exec.c \
         $(PLATFORM)/inc/buildConfig.h
-	$(CC) -c -o $(PLATFORM)/obj/pcre_exec.o $(CFLAGS) $(DFLAGS) -I$(PLATFORM)/inc src/pcre_exec.c
+	$(CC) -c -o $(PLATFORM)/obj/pcre_exec.o -Wall -fPIC $(LDFLAGS) -mcpu=i686 $(DFLAGS) -I$(PLATFORM)/inc src/pcre_exec.c
 
 $(PLATFORM)/obj/pcre_globals.o: \
         src/pcre_globals.c \
         $(PLATFORM)/inc/buildConfig.h
-	$(CC) -c -o $(PLATFORM)/obj/pcre_globals.o $(CFLAGS) $(DFLAGS) -I$(PLATFORM)/inc src/pcre_globals.c
+	$(CC) -c -o $(PLATFORM)/obj/pcre_globals.o -Wall -fPIC $(LDFLAGS) -mcpu=i686 $(DFLAGS) -I$(PLATFORM)/inc src/pcre_globals.c
 
 $(PLATFORM)/obj/pcre_newline.o: \
         src/pcre_newline.c \
         $(PLATFORM)/inc/buildConfig.h
-	$(CC) -c -o $(PLATFORM)/obj/pcre_newline.o $(CFLAGS) $(DFLAGS) -I$(PLATFORM)/inc src/pcre_newline.c
+	$(CC) -c -o $(PLATFORM)/obj/pcre_newline.o -Wall -fPIC $(LDFLAGS) -mcpu=i686 $(DFLAGS) -I$(PLATFORM)/inc src/pcre_newline.c
 
 $(PLATFORM)/obj/pcre_ord2utf8.o: \
         src/pcre_ord2utf8.c \
         $(PLATFORM)/inc/buildConfig.h
-	$(CC) -c -o $(PLATFORM)/obj/pcre_ord2utf8.o $(CFLAGS) $(DFLAGS) -I$(PLATFORM)/inc src/pcre_ord2utf8.c
+	$(CC) -c -o $(PLATFORM)/obj/pcre_ord2utf8.o -Wall -fPIC $(LDFLAGS) -mcpu=i686 $(DFLAGS) -I$(PLATFORM)/inc src/pcre_ord2utf8.c
 
 $(PLATFORM)/obj/pcre_tables.o: \
         src/pcre_tables.c \
         $(PLATFORM)/inc/buildConfig.h
-	$(CC) -c -o $(PLATFORM)/obj/pcre_tables.o $(CFLAGS) $(DFLAGS) -I$(PLATFORM)/inc src/pcre_tables.c
+	$(CC) -c -o $(PLATFORM)/obj/pcre_tables.o -Wall -fPIC $(LDFLAGS) -mcpu=i686 $(DFLAGS) -I$(PLATFORM)/inc src/pcre_tables.c
 
 $(PLATFORM)/obj/pcre_try_flipped.o: \
         src/pcre_try_flipped.c \
         $(PLATFORM)/inc/buildConfig.h
-	$(CC) -c -o $(PLATFORM)/obj/pcre_try_flipped.o $(CFLAGS) $(DFLAGS) -I$(PLATFORM)/inc src/pcre_try_flipped.c
+	$(CC) -c -o $(PLATFORM)/obj/pcre_try_flipped.o -Wall -fPIC $(LDFLAGS) -mcpu=i686 $(DFLAGS) -I$(PLATFORM)/inc src/pcre_try_flipped.c
 
 $(PLATFORM)/obj/pcre_ucp_searchfuncs.o: \
         src/pcre_ucp_searchfuncs.c \
         $(PLATFORM)/inc/buildConfig.h
-	$(CC) -c -o $(PLATFORM)/obj/pcre_ucp_searchfuncs.o $(CFLAGS) $(DFLAGS) -I$(PLATFORM)/inc src/pcre_ucp_searchfuncs.c
+	$(CC) -c -o $(PLATFORM)/obj/pcre_ucp_searchfuncs.o -Wall -fPIC $(LDFLAGS) -mcpu=i686 $(DFLAGS) -I$(PLATFORM)/inc src/pcre_ucp_searchfuncs.c
 
 $(PLATFORM)/obj/pcre_valid_utf8.o: \
         src/pcre_valid_utf8.c \
         $(PLATFORM)/inc/buildConfig.h
-	$(CC) -c -o $(PLATFORM)/obj/pcre_valid_utf8.o $(CFLAGS) $(DFLAGS) -I$(PLATFORM)/inc src/pcre_valid_utf8.c
+	$(CC) -c -o $(PLATFORM)/obj/pcre_valid_utf8.o -Wall -fPIC $(LDFLAGS) -mcpu=i686 $(DFLAGS) -I$(PLATFORM)/inc src/pcre_valid_utf8.c
 
 $(PLATFORM)/obj/pcre_xclass.o: \
         src/pcre_xclass.c \
         $(PLATFORM)/inc/buildConfig.h
-	$(CC) -c -o $(PLATFORM)/obj/pcre_xclass.o $(CFLAGS) $(DFLAGS) -I$(PLATFORM)/inc src/pcre_xclass.c
+	$(CC) -c -o $(PLATFORM)/obj/pcre_xclass.o -Wall -fPIC $(LDFLAGS) -mcpu=i686 $(DFLAGS) -I$(PLATFORM)/inc src/pcre_xclass.c
 
 $(PLATFORM)/lib/libpcre.so:  \
         $(PLATFORM)/inc/config.h \
@@ -134,5 +135,5 @@ $(PLATFORM)/lib/libpcre.so:  \
         $(PLATFORM)/obj/pcre_ucp_searchfuncs.o \
         $(PLATFORM)/obj/pcre_valid_utf8.o \
         $(PLATFORM)/obj/pcre_xclass.o
-	$(CC) -shared -o $(PLATFORM)/lib/libpcre.so $(LDFLAGS) $(PLATFORM)/obj/pcre_chartables.o $(PLATFORM)/obj/pcre_compile.o $(PLATFORM)/obj/pcre_exec.o $(PLATFORM)/obj/pcre_globals.o $(PLATFORM)/obj/pcre_newline.o $(PLATFORM)/obj/pcre_ord2utf8.o $(PLATFORM)/obj/pcre_tables.o $(PLATFORM)/obj/pcre_try_flipped.o $(PLATFORM)/obj/pcre_ucp_searchfuncs.o $(PLATFORM)/obj/pcre_valid_utf8.o $(PLATFORM)/obj/pcre_xclass.o $(LIBS)
+	$(CC) -shared -o $(PLATFORM)/lib/libpcre.so $(LDFLAGS) $(LIBPATHS) $(PLATFORM)/obj/pcre_chartables.o $(PLATFORM)/obj/pcre_compile.o $(PLATFORM)/obj/pcre_exec.o $(PLATFORM)/obj/pcre_globals.o $(PLATFORM)/obj/pcre_newline.o $(PLATFORM)/obj/pcre_ord2utf8.o $(PLATFORM)/obj/pcre_tables.o $(PLATFORM)/obj/pcre_try_flipped.o $(PLATFORM)/obj/pcre_ucp_searchfuncs.o $(PLATFORM)/obj/pcre_valid_utf8.o $(PLATFORM)/obj/pcre_xclass.o $(LIBS)
 

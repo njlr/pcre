@@ -4,12 +4,13 @@
 
 PLATFORM       := linux-i686-debug
 CC             := cc
-LD             := /usr/bin/ld
+LD             := ld
 CFLAGS         := -Wall -fPIC -g -Wno-unused-result -mtune=i686
 DFLAGS         := -D_REENTRANT -DCPU=i686 -DBLD_FEATURE_PCRE=1 -DPIC
 IFLAGS         := -I$(PLATFORM)/inc
-LDFLAGS        := -Wl,--enable-new-dtags '-Wl,-rpath,$$ORIGIN/' '-Wl,-rpath,$$ORIGIN/../lib' -L$(PLATFORM)/lib -g -ldl
-LIBS           := -lpthread -lm
+LDFLAGS        := '-Wl,--enable-new-dtags' '-Wl,-rpath,$$ORIGIN/' '-Wl,-rpath,$$ORIGIN/../lib' '-g'
+LIBPATHS       := -L$(PLATFORM)/lib
+LIBS           := -lpthread -lm -ldl
 
 all: prep \
         $(PLATFORM)/lib/libpcre.so
@@ -134,5 +135,5 @@ $(PLATFORM)/lib/libpcre.so:  \
         $(PLATFORM)/obj/pcre_ucp_searchfuncs.o \
         $(PLATFORM)/obj/pcre_valid_utf8.o \
         $(PLATFORM)/obj/pcre_xclass.o
-	$(CC) -shared -o $(PLATFORM)/lib/libpcre.so $(LDFLAGS) $(PLATFORM)/obj/pcre_chartables.o $(PLATFORM)/obj/pcre_compile.o $(PLATFORM)/obj/pcre_exec.o $(PLATFORM)/obj/pcre_globals.o $(PLATFORM)/obj/pcre_newline.o $(PLATFORM)/obj/pcre_ord2utf8.o $(PLATFORM)/obj/pcre_tables.o $(PLATFORM)/obj/pcre_try_flipped.o $(PLATFORM)/obj/pcre_ucp_searchfuncs.o $(PLATFORM)/obj/pcre_valid_utf8.o $(PLATFORM)/obj/pcre_xclass.o $(LIBS)
+	$(CC) -shared -o $(PLATFORM)/lib/libpcre.so $(LDFLAGS) $(LIBPATHS) $(PLATFORM)/obj/pcre_chartables.o $(PLATFORM)/obj/pcre_compile.o $(PLATFORM)/obj/pcre_exec.o $(PLATFORM)/obj/pcre_globals.o $(PLATFORM)/obj/pcre_newline.o $(PLATFORM)/obj/pcre_ord2utf8.o $(PLATFORM)/obj/pcre_tables.o $(PLATFORM)/obj/pcre_try_flipped.o $(PLATFORM)/obj/pcre_ucp_searchfuncs.o $(PLATFORM)/obj/pcre_valid_utf8.o $(PLATFORM)/obj/pcre_xclass.o $(LIBS)
 

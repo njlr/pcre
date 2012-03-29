@@ -4,9 +4,9 @@
 
 export VS="$(PROGRAMFILES)\Microsoft Visual Studio 10.0"
 export SDK="$(PROGRAMFILES)\Microsoft SDKs\Windows\v7.0A"
-export PATH="$(SDK)\Bin:$(VS)\VC\Bin:$(VS)\Common7\IDE:$(VS)\Common7\Tools:$(VS)\SDK\v3.5\bin:$(VS)\VC\VCPackages"
-export INCLUDE="$(SDK)\INCLUDE:$(VS)\VC\INCLUDE"
-export LIB="$(SDK)\lib:$(VS)\VC\lib"
+export PATH="$(SDK)/Bin:$(VS)/VC/Bin:$(VS)/Common7/IDE:$(VS)/Common7/Tools:$(VS)/SDK/v3.5/bin:$(VS)/VC/VCPackages;$(PATH)"
+export INCLUDE="$(INCLUDE);$(SDK)/INCLUDE:$(VS)/VC/INCLUDE"
+export LIB="$(LIB);$(SDK)/lib:$(VS)/VC/lib"
 
 PLATFORM="win-i686-debug"
 CC="cl.exe"
@@ -14,8 +14,9 @@ LD="link.exe"
 CFLAGS="-nologo -GR- -W3 -Zi -Od -MDd"
 DFLAGS="-D_REENTRANT -D_MT -DBLD_FEATURE_PCRE=1"
 IFLAGS="-Iwin-i686-debug/inc"
-LDFLAGS="-nologo -nodefaultlib -incremental:no -libpath:${PLATFORM}/bin -debug -machine:x86
-LIBS="ws2_32.lib advapi32.lib user32.lib kernel32.lib oldnames.lib msvcrt.lib"
+LDFLAGS="-nologo -nodefaultlib -incremental:no -debug -machine:x86"
+LIBPATHS="-libpath:${PLATFORM}/bin"
+LIBS="ws2_32.lib advapi32.lib user32.lib kernel32.lib oldnames.lib msvcrt.lib shell32.lib"
 
 [ ! -x ${PLATFORM}/inc ] && mkdir -p ${PLATFORM}/inc ${PLATFORM}/obj ${PLATFORM}/lib ${PLATFORM}/bin
 [ ! -f ${PLATFORM}/inc/buildConfig.h ] && cp projects/buildConfig.${PLATFORM} ${PLATFORM}/inc/buildConfig.h
@@ -60,5 +61,5 @@ cp -r src/ucptable.h win-i686-debug/inc/ucptable.h
 
 "${CC}" -c -Fo${PLATFORM}/obj/pcre_xclass.obj -Fd${PLATFORM}/obj ${CFLAGS} ${DFLAGS} -I${PLATFORM}/inc src/pcre_xclass.c
 
-"${LD}" -dll -out:${PLATFORM}/bin/libpcre.dll -entry:_DllMainCRTStartup@12 -def:${PLATFORM}/bin/libpcre.def ${LDFLAGS} ${PLATFORM}/obj/pcre_chartables.obj ${PLATFORM}/obj/pcre_compile.obj ${PLATFORM}/obj/pcre_exec.obj ${PLATFORM}/obj/pcre_globals.obj ${PLATFORM}/obj/pcre_newline.obj ${PLATFORM}/obj/pcre_ord2utf8.obj ${PLATFORM}/obj/pcre_tables.obj ${PLATFORM}/obj/pcre_try_flipped.obj ${PLATFORM}/obj/pcre_ucp_searchfuncs.obj ${PLATFORM}/obj/pcre_valid_utf8.obj ${PLATFORM}/obj/pcre_xclass.obj ${LIBS}
+"${LD}" -dll -out:${PLATFORM}/bin/libpcre.dll -entry:_DllMainCRTStartup@12 -def:${PLATFORM}/bin/libpcre.def ${LDFLAGS} ${LIBPATHS} ${PLATFORM}/obj/pcre_chartables.obj ${PLATFORM}/obj/pcre_compile.obj ${PLATFORM}/obj/pcre_exec.obj ${PLATFORM}/obj/pcre_globals.obj ${PLATFORM}/obj/pcre_newline.obj ${PLATFORM}/obj/pcre_ord2utf8.obj ${PLATFORM}/obj/pcre_tables.obj ${PLATFORM}/obj/pcre_try_flipped.obj ${PLATFORM}/obj/pcre_ucp_searchfuncs.obj ${PLATFORM}/obj/pcre_valid_utf8.obj ${PLATFORM}/obj/pcre_xclass.obj ${LIBS}
 
