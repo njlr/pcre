@@ -2,7 +2,7 @@
 *          Unicode Property Table handler        *
 *************************************************/
 
-#include "buildConfig.h"
+#include "bit.h"
 
 #if BLD_FEATURE_PCRE
 

@@ -1,0 +1,471 @@
+// !$*UTF8*$!
+{
+    archiveVersion = 1;
+    classes = {
+    };
+    objectVersion = 46;
+    objects = {
+
+/* Begin PBXAggregateTarget section */
+		D8E723BBD8E75AAF00000006 /* All */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D8E723BBD8E75AAF00000005 /* Build configuration list for PBXAggregateTarget "All" */;
+			buildPhases = (
+				
+			);
+			dependencies = (
+				D8E723BBD8E75AAF00000007 /* PBXTargetDependency libpcre */,
+			);
+			name = All;
+			productName = All;
+		};
+		D8E723BBD8E75AAF00000009 /* Prep */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D8E723BBD8E75AAF00000008 /* Build configuration list for PBXAggregateTarget "Prep" */;
+			buildPhases = (
+				D8E723BBD8E75AAF0000000A,
+			);
+			dependencies = (
+				D8E723BBD8E75AAF0000000B /* PBXTargetDependency Prep */,
+			);
+			name = Prep;
+			productName = Prep;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		D8E723BBD8E75AAF0000000C /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = D8E723BBD8E75AAF0000000D /* pcre_chartables.c */; };
+		D8E723BBD8E75AAF0000000E /* pcre_compile.c in Sources */ = {isa = PBXBuildFile; fileRef = D8E723BBD8E75AAF0000000F /* pcre_compile.c */; };
+		D8E723BBD8E75AAF00000010 /* pcre_exec.c in Sources */ = {isa = PBXBuildFile; fileRef = D8E723BBD8E75AAF00000011 /* pcre_exec.c */; };
+		D8E723BBD8E75AAF00000012 /* pcre_globals.c in Sources */ = {isa = PBXBuildFile; fileRef = D8E723BBD8E75AAF00000013 /* pcre_globals.c */; };
+		D8E723BBD8E75AAF00000014 /* pcre_newline.c in Sources */ = {isa = PBXBuildFile; fileRef = D8E723BBD8E75AAF00000015 /* pcre_newline.c */; };
+		D8E723BBD8E75AAF00000016 /* pcre_ord2utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = D8E723BBD8E75AAF00000017 /* pcre_ord2utf8.c */; };
+		D8E723BBD8E75AAF00000018 /* pcre_tables.c in Sources */ = {isa = PBXBuildFile; fileRef = D8E723BBD8E75AAF00000019 /* pcre_tables.c */; };
+		D8E723BBD8E75AAF0000001A /* pcre_try_flipped.c in Sources */ = {isa = PBXBuildFile; fileRef = D8E723BBD8E75AAF0000001B /* pcre_try_flipped.c */; };
+		D8E723BBD8E75AAF0000001C /* pcre_ucp_searchfuncs.c in Sources */ = {isa = PBXBuildFile; fileRef = D8E723BBD8E75AAF0000001D /* pcre_ucp_searchfuncs.c */; };
+		D8E723BBD8E75AAF0000001E /* pcre_valid_utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = D8E723BBD8E75AAF0000001F /* pcre_valid_utf8.c */; };
+		D8E723BBD8E75AAF00000020 /* pcre_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = D8E723BBD8E75AAF00000021 /* pcre_xclass.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D8E723BBD8E75AAF00000022 /* PBXContainerItemProxy Prep from libpcre */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D8E723BBD8E75AAF00000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D8E723BBD8E75AAF00000009;
+			remoteInfo = Prep;
+		};
+		D8E723BBD8E75AAF00000023 /* PBXContainerItemProxy libpcre from All */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D8E723BBD8E75AAF00000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D8E723BBD8E75AAF00000024;
+			remoteInfo = libpcre;
+		};
+		D8E723BBD8E75AAF00000025 /* PBXContainerItemProxy Prep from Prep */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D8E723BBD8E75AAF00000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D8E723BBD8E75AAF00000009;
+			remoteInfo = Prep;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D8E723BBD8E75AAF0000000D /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_chartables.c; path = src/pcre_chartables.c; sourceTree = "<group>"; };
+		D8E723BBD8E75AAF0000000F /* pcre_compile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_compile.c; path = src/pcre_compile.c; sourceTree = "<group>"; };
+		D8E723BBD8E75AAF00000011 /* pcre_exec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_exec.c; path = src/pcre_exec.c; sourceTree = "<group>"; };
+		D8E723BBD8E75AAF00000013 /* pcre_globals.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_globals.c; path = src/pcre_globals.c; sourceTree = "<group>"; };
+		D8E723BBD8E75AAF00000015 /* pcre_newline.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_newline.c; path = src/pcre_newline.c; sourceTree = "<group>"; };
+		D8E723BBD8E75AAF00000017 /* pcre_ord2utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_ord2utf8.c; path = src/pcre_ord2utf8.c; sourceTree = "<group>"; };
+		D8E723BBD8E75AAF00000019 /* pcre_tables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_tables.c; path = src/pcre_tables.c; sourceTree = "<group>"; };
+		D8E723BBD8E75AAF0000001B /* pcre_try_flipped.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_try_flipped.c; path = src/pcre_try_flipped.c; sourceTree = "<group>"; };
+		D8E723BBD8E75AAF0000001D /* pcre_ucp_searchfuncs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_ucp_searchfuncs.c; path = src/pcre_ucp_searchfuncs.c; sourceTree = "<group>"; };
+		D8E723BBD8E75AAF0000001F /* pcre_valid_utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_valid_utf8.c; path = src/pcre_valid_utf8.c; sourceTree = "<group>"; };
+		D8E723BBD8E75AAF00000021 /* pcre_xclass.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_xclass.c; path = src/pcre_xclass.c; sourceTree = "<group>"; };
+		D8E723BBD8E75AAF00000026 /* libpcre */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libpcre.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D8E723BBD8E75AAF00000027 /* Frameworks and Libraries for libpcre */ = {
+            isa = PBXFrameworksBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+				
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D8E723BBD8E75AAF00000028 /* Top Group */ = {
+            isa = PBXGroup;
+            children = (
+				D8E723BBD8E75AAF00000029 /* libpcre */,
+				D8E723BBD8E75AAF0000002A /* Products */,
+			);
+            sourceTree = "<group>";
+        };
+		D8E723BBD8E75AAF00000029 /* libpcre */ = {
+            isa = PBXGroup;
+            children = (
+				D8E723BBD8E75AAF0000000D /* pcre_chartables.c */,
+				D8E723BBD8E75AAF0000000F /* pcre_compile.c */,
+				D8E723BBD8E75AAF00000011 /* pcre_exec.c */,
+				D8E723BBD8E75AAF00000013 /* pcre_globals.c */,
+				D8E723BBD8E75AAF00000015 /* pcre_newline.c */,
+				D8E723BBD8E75AAF00000017 /* pcre_ord2utf8.c */,
+				D8E723BBD8E75AAF00000019 /* pcre_tables.c */,
+				D8E723BBD8E75AAF0000001B /* pcre_try_flipped.c */,
+				D8E723BBD8E75AAF0000001D /* pcre_ucp_searchfuncs.c */,
+				D8E723BBD8E75AAF0000001F /* pcre_valid_utf8.c */,
+				D8E723BBD8E75AAF00000021 /* pcre_xclass.c */,
+			);
+            name = "libpcre";
+            path = ..;
+            sourceTree = SOURCE_ROOT;
+        };
+		D8E723BBD8E75AAF0000002A /* Products */ = {
+            isa = PBXGroup;
+            children = (
+				D8E723BBD8E75AAF00000026 /* libpcre */,
+			);
+            name = "Products";
+            path = ..;
+            sourceTree = SOURCE_ROOT;
+        };
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D8E723BBD8E75AAF00000024 /* libpcre */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D8E723BBD8E75AAF0000002C /* Build configuration list for PBXNativeTarget "libpcre" */;
+			buildPhases = (
+				D8E723BBD8E75AAF0000002B /* Sources */,
+				D8E723BBD8E75AAF00000027 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D8E723BBD8E75AAF0000002D /* Prep */,				
+			);
+			name = libpcre;
+			productName = pcre;
+			productReference = D8E723BBD8E75AAF00000026 /* libpcre */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D8E723BBD8E75AAF0000000A /* ShellScript for Prep */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+
+			);
+			outputPaths = (
+
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "[ ! -x ${INC_DIR} ] && mkdir -p ${INC_DIR} ${OBJ_DIR} ${LIB_DIR} ${BIN_DIR}
+[ ! -f ${INC_DIR}/bit.h ] && cp pcre-macosx-bit.h ${INC_DIR}/bit.h
+if ! diff ${INC_DIR}/bit.h pcre-macosx-bit.h >/dev/null ; then
+    cp pcre-macosx-bit.h ${INC_DIR}/bit.h
+fi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXProject section */
+		D8E723BBD8E75AAF00000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Embedthis";
+			};
+			buildConfigurationList = D8E723BBD8E75AAF00000002 /* Build configuration list for PBXProject "pcre" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D8E723BBD8E75AAF00000028;
+			productRefGroup = D8E723BBD8E75AAF0000002A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D8E723BBD8E75AAF00000006 /* All */,
+				D8E723BBD8E75AAF00000009 /* Prep */,
+				D8E723BBD8E75AAF00000024 /* libpcre */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D8E723BBD8E75AAF0000002B /* libpcre Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8E723BBD8E75AAF0000000C /* pcre_chartables.c in Sources */,
+				D8E723BBD8E75AAF0000000E /* pcre_compile.c in Sources */,
+				D8E723BBD8E75AAF00000010 /* pcre_exec.c in Sources */,
+				D8E723BBD8E75AAF00000012 /* pcre_globals.c in Sources */,
+				D8E723BBD8E75AAF00000014 /* pcre_newline.c in Sources */,
+				D8E723BBD8E75AAF00000016 /* pcre_ord2utf8.c in Sources */,
+				D8E723BBD8E75AAF00000018 /* pcre_tables.c in Sources */,
+				D8E723BBD8E75AAF0000001A /* pcre_try_flipped.c in Sources */,
+				D8E723BBD8E75AAF0000001C /* pcre_ucp_searchfuncs.c in Sources */,
+				D8E723BBD8E75AAF0000001E /* pcre_valid_utf8.c in Sources */,
+				D8E723BBD8E75AAF00000020 /* pcre_xclass.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D8E723BBD8E75AAF0000002D /* PBXTargetDependency libpcre depends on Prep */ = {
+			isa = PBXTargetDependency;
+			target = D8E723BBD8E75AAF00000009 /* Prep */;
+			targetProxy = D8E723BBD8E75AAF00000022 /* PBXContainerItemProxy */;
+		};
+		D8E723BBD8E75AAF00000007 /* PBXTargetDependency All depends on libpcre */ = {
+			isa = PBXTargetDependency;
+			target = D8E723BBD8E75AAF00000024 /* libpcre */;
+			targetProxy = D8E723BBD8E75AAF00000023 /* PBXContainerItemProxy */;
+		};
+		D8E723BBD8E75AAF0000000B /* PBXTargetDependency Prep depends on Prep */ = {
+			isa = PBXTargetDependency;
+			target = D8E723BBD8E75AAF00000009 /* Prep */;
+			targetProxy = D8E723BBD8E75AAF00000025 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D8E723BBD8E75AAF00000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+
+                /* Common Settings */
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+                CURRENT_PROJECT_VERSION = 1.0.0;
+                DYLIB_COMPATIBILITY_VERSION = "$(CURRENT_PROJECT_VERSION)";
+                DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				/* GCC_VERSION = com.apple.compilers.llvmgcc42; */
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+                GCC_WARN_UNUSED_FUNCTION = YES;
+                GCC_WARN_UNUSED_LABEL = YES;
+                LD_DYLIB_INSTALL_NAME = "@rpath/$(EXECUTABLE_PATH)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+
+                CFG_DIR = "../macosx-x86_64-debug";
+                BIN_DIR = "../macosx-x86_64-debug/bin";
+                LIB_DIR = "../macosx-x86_64-debug/lib";
+                INC_DIR = "../macosx-x86_64-debug/inc";
+                OBJ_DIR = "../macosx-x86_64-debug/obj";
+                SRC_DIR = "..";
+
+                CONFIGURATION_TEMP_DIR = "$(OBJ_DIR)/tmp/$(CONFIGURATION)";
+                CONFIGURATION_BUILD_DIR = "$(BIN_DIR)";
+                INSTALL_PATH = "/usr/lib/pcre";
+                DSTROOT = "/tmp/pcre.dst";
+                OBJROOT = "$(OBJ_DIR)";
+                SYMROOT = "$(BIN_DIR)";
+    
+                /* Debug Settings */
+				COPY_PHASE_STRIP = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"../macosx-x86_64-debug/inc",
+					"$(inherited)"
+				);
+
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"BLD_FEATURE_PCRE=1",
+					"BLD_DEBUG",
+						"$(inherited)"
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"../macosx-x86_64-debug/lib",
+					"$(inherited)"
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-rpath,@executable_path/../lib",
+					"-Wl,-rpath,@executable_path/",
+					"-Wl,-rpath,@loader_path/",
+					"-lpthread",
+					"-lm",
+					"-ldl",
+					"$(inherited)"
+				);
+
+			};
+			name = Debug;
+		};
+		D8E723BBD8E75AAF00000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+
+                /* Common Settings */
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+                CURRENT_PROJECT_VERSION = 1.0.0;
+                DYLIB_COMPATIBILITY_VERSION = "$(CURRENT_PROJECT_VERSION)";
+                DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				/* GCC_VERSION = com.apple.compilers.llvmgcc42; */
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+                GCC_WARN_UNUSED_FUNCTION = YES;
+                GCC_WARN_UNUSED_LABEL = YES;
+                LD_DYLIB_INSTALL_NAME = "@rpath/$(EXECUTABLE_PATH)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+
+                CFG_DIR = "../macosx-x86_64-debug";
+                BIN_DIR = "../macosx-x86_64-debug/bin";
+                LIB_DIR = "../macosx-x86_64-debug/lib";
+                INC_DIR = "../macosx-x86_64-debug/inc";
+                OBJ_DIR = "../macosx-x86_64-debug/obj";
+                SRC_DIR = "..";
+
+                CONFIGURATION_TEMP_DIR = "$(OBJ_DIR)/tmp/$(CONFIGURATION)";
+                CONFIGURATION_BUILD_DIR = "$(BIN_DIR)";
+                INSTALL_PATH = "/usr/lib/pcre";
+                DSTROOT = "/tmp/pcre.dst";
+                OBJROOT = "$(OBJ_DIR)";
+                SYMROOT = "$(BIN_DIR)";
+    
+                /* Release Settings */
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+                GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				HEADER_SEARCH_PATHS = (
+					"../macosx-x86_64-debug/inc",
+					"$(inherited)"
+				);
+
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"BLD_FEATURE_PCRE=1",
+					"BLD_DEBUG",
+						"$(inherited)"
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"../macosx-x86_64-debug/lib",
+					"$(inherited)"
+				);
+				OTHER_LDFLAGS = (
+					"-Wl,-rpath,@executable_path/../lib",
+					"-Wl,-rpath,@executable_path/",
+					"-Wl,-rpath,@loader_path/",
+					"-lpthread",
+					"-lm",
+					"-ldl",
+					"$(inherited)"
+				);
+
+			};
+			name = Release;
+		};
+		D8E723BBD8E75AAF0000002E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = libpcre;
+
+			};
+			name = Debug;
+		};
+		D8E723BBD8E75AAF0000002F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = libpcre;
+
+			};
+			name = Release;
+		};
+		D8E723BBD8E75AAF00000030 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = All;
+
+			};
+			name = Debug;
+		};
+		D8E723BBD8E75AAF00000031 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = All;
+
+			};
+			name = Release;
+		};
+		D8E723BBD8E75AAF00000032 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Prep;
+
+			};
+			name = Debug;
+		};
+		D8E723BBD8E75AAF00000033 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Prep;
+
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D8E723BBD8E75AAF00000002 /* Build configuration list for PBXProject "pcre" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8E723BBD8E75AAF00000003 /* Debug */,
+				D8E723BBD8E75AAF00000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D8E723BBD8E75AAF0000002C /* Build configuration list for PBXNativeTarget "libpcre" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8E723BBD8E75AAF0000002E /* Debug */,
+				D8E723BBD8E75AAF0000002F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D8E723BBD8E75AAF00000005 /* Build configuration list for PBXNativeTarget "All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8E723BBD8E75AAF00000030 /* Debug */,
+				D8E723BBD8E75AAF00000031 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D8E723BBD8E75AAF00000008 /* Build configuration list for PBXNativeTarget "Prep" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8E723BBD8E75AAF00000032 /* Debug */,
+				D8E723BBD8E75AAF00000033 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D8E723BBD8E75AAF00000001 /* Project object */;
+}

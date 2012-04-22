@@ -45,7 +45,7 @@ functions whose names all begin with "_pcre_". */
 #ifndef PCRE_INTERNAL_H
 #define PCRE_INTERNAL_H
 
-#include "buildConfig.h"
+#include "bit.h"
 #include "config.h"
 
 /* EMBEDTHIS */
@@ -106,10 +106,6 @@ functions whose names all begin with "_pcre_". */
     #include    <taskHookLib.h>
 #endif /* VXWORKS */
 
-#if 0
-#define DEBUG
-#endif
-
 /* Use a macro for debugging printing, 'cause that eliminates the use of #ifdef
 inline, and there are *still* stupid compilers about that don't like indented
 pre-processor statements, or at least there were when I first wrote this. After
@@ -118,6 +114,7 @@ all, it had only been about 10 years then...
 It turns out that the Mac Debugging.h header also defines the macro DPRINTF, so
 be absolutely sure we get our version. */
 
+#undef DEBUG
 #undef DPRINTF
 #ifdef DEBUG
 #define DPRINTF(p) printf p

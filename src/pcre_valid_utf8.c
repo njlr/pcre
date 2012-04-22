@@ -42,7 +42,7 @@ POSSIBILITY OF SUCH DAMAGE.
 strings. */
 
 
-#include "buildConfig.h"
+#include "bit.h"
 #include "config.h"
 
 #if BLD_FEATURE_PCRE

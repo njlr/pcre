@@ -2,7 +2,7 @@
 property table. See ucpinternal.h for a description of the layout.
 This version was made from the Unicode 5.0.0 tables. */
 
-#include "buildConfig.h"
+#include "bit.h"
 
 #if BLD_FEATURE_PCRE
 

@@ -56,7 +56,7 @@ Bit.load({
                     d.join('src/deps/pcre/pcre.c'), {
                     cat: true,
                     filter: /^#inc.*pcre.*$|#inc.*config.h.*$|#inc.*ucp.*.h.*$/mg,
-                    header: '#include \"buildConfig.h\"\n#include \"pcre.h\"',
+                    header: '#include \"bit.h\"\n#include \"pcre.h\"',
                     title: bit.settings.title + ' Library Source',
                 })
                 package(bit.dir.pkg, ['combo', 'flat'])

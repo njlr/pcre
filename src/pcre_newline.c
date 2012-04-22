@@ -47,7 +47,7 @@ and NLTYPE_ANY. The full list of Unicode newline characters is taken from
 http://unicode.org/unicode/reports/tr18/. */
 
 
-#include "buildConfig.h"
+#include "bit.h"
 #include "config.h"
 
 #if BLD_FEATURE_PCRE

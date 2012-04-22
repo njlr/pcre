@@ -42,7 +42,7 @@ POSSIBILITY OF SUCH DAMAGE.
 supporting internal functions that are not used by other modules. */
 
 
-#include "buildConfig.h"
+#include "bit.h"
 #include "config.h"
 
 #if BLD_FEATURE_PCRE

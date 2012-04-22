@@ -44,7 +44,7 @@ uses macros to change their names from _pcre_xxx to xxxx, thereby avoiding name
 clashes with the library. */
 
 
-#include "buildConfig.h"
+#include "bit.h"
 #include "config.h"
 
 #if BLD_FEATURE_PCRE
