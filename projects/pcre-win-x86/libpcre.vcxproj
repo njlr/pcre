@@ -7,7 +7,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\win-i686-debug\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\win-x86-debug\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     
   <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DEBUG_IDE;_REENTRANT;_MT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     <Optimization>Disabled</Optimization>
@@ -51,8 +51,8 @@
 
 <PropertyGroup>
   <_ProjectFileVersion>10</_ProjectFileVersion>
-  <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\win-i686-debug\bin\</OutDir>
-  <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\win-i686-debug\obj\libpcre\</IntDir>
+  <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\win-x86-debug\bin\</OutDir>
+  <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\win-x86-debug\obj\libpcre\</IntDir>
   <CustomBuildBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PreBuildEvent</CustomBuildBeforeTargets>
   </PropertyGroup>
 <ItemGroup>
@@ -69,36 +69,36 @@
   <ClCompile Include="..\..\src\pcre_xclass.c" />
 </ItemGroup>
 <ItemGroup>
-  <ClInclude Include="win-i686-debug\inc\config.h" />
+  <ClInclude Include="win-x86-debug\inc\config.h" />
 </ItemGroup>
 <ItemGroup>
-  <ClInclude Include="win-i686-debug\inc\pcre.h" />
+  <ClInclude Include="win-x86-debug\inc\pcre.h" />
 </ItemGroup>
 <ItemGroup>
-  <ClInclude Include="win-i686-debug\inc\pcre_internal.h" />
+  <ClInclude Include="win-x86-debug\inc\pcre_internal.h" />
 </ItemGroup>
 <ItemGroup>
-  <ClInclude Include="win-i686-debug\inc\ucp.h" />
+  <ClInclude Include="win-x86-debug\inc\ucp.h" />
 </ItemGroup>
 <ItemGroup>
-  <ClInclude Include="win-i686-debug\inc\ucpinternal.h" />
+  <ClInclude Include="win-x86-debug\inc\ucpinternal.h" />
 </ItemGroup>
 <ItemGroup>
-  <ClInclude Include="win-i686-debug\inc\ucptable.h" />
+  <ClInclude Include="win-x86-debug\inc\ucptable.h" />
 </ItemGroup>
 <ItemDefinitionGroup>
 <Link>
   <AdditionalDependencies>;%(AdditionalDependencies)</AdditionalDependencies>
-  <AdditionalLibraryDirectories>$(OutDir);win-i686-debug\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+  <AdditionalLibraryDirectories>$(OutDir);win-x86-debug\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 </Link>
 <CustomBuildStep>
-  <Command>xcopy /Y /S /D ..\..\src\config.h ..\..\win-i686-debug\inc
-xcopy /Y /S /D ..\..\src\pcre.h ..\..\win-i686-debug\inc
-xcopy /Y /S /D ..\..\src\pcre_internal.h ..\..\win-i686-debug\inc
-xcopy /Y /S /D ..\..\src\ucp.h ..\..\win-i686-debug\inc
-xcopy /Y /S /D ..\..\src\ucpinternal.h ..\..\win-i686-debug\inc
-xcopy /Y /S /D ..\..\src\ucptable.h ..\..\win-i686-debug\inc</Command>
-  <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\win-i686-debug\bin\libpcre.dll</Outputs>
+  <Command>xcopy /Y /S /D ..\..\src\config.h ..\..\win-x86-debug\inc
+xcopy /Y /S /D ..\..\src\pcre.h ..\..\win-x86-debug\inc
+xcopy /Y /S /D ..\..\src\pcre_internal.h ..\..\win-x86-debug\inc
+xcopy /Y /S /D ..\..\src\ucp.h ..\..\win-x86-debug\inc
+xcopy /Y /S /D ..\..\src\ucpinternal.h ..\..\win-x86-debug\inc
+xcopy /Y /S /D ..\..\src\ucptable.h ..\..\win-x86-debug\inc</Command>
+  <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\win-x86-debug\bin\libpcre.dll</Outputs>
   </CustomBuildStep>
 </ItemDefinitionGroup>
 

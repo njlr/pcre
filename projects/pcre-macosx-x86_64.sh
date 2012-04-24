@@ -10,7 +10,7 @@ CFLAGS="-Wall -g -Wno-unused-result -Wshorten-64-to-32"
 DFLAGS="-DBLD_FEATURE_PCRE=1 -DBLD_DEBUG"
 IFLAGS="-I${CONFIG}/inc"
 LDFLAGS="-Wl,-rpath,@executable_path/../lib -Wl,-rpath,@executable_path/ -Wl,-rpath,@loader_path/ -g"
-LIBPATHS="-L${CONFIG}/lib"
+LIBPATHS="-L${CONFIG}/bin"
 LIBS="-lpthread -lm -ldl"
 
 [ ! -x ${CONFIG}/inc ] && mkdir -p ${CONFIG}/inc ${CONFIG}/obj ${CONFIG}/lib ${CONFIG}/bin
@@ -60,5 +60,5 @@ ${CC} -c -o ${CONFIG}/obj/pcre_valid_utf8.o -arch x86_64 ${CFLAGS} ${DFLAGS} -I$
 
 ${CC} -c -o ${CONFIG}/obj/pcre_xclass.o -arch x86_64 ${CFLAGS} ${DFLAGS} -I${CONFIG}/inc src/pcre_xclass.c
 
-${CC} -dynamiclib -o ${CONFIG}/lib/libpcre.dylib -arch x86_64 ${LDFLAGS} ${LIBPATHS} -install_name @rpath/libpcre.dylib ${CONFIG}/obj/pcre_chartables.o ${CONFIG}/obj/pcre_compile.o ${CONFIG}/obj/pcre_exec.o ${CONFIG}/obj/pcre_globals.o ${CONFIG}/obj/pcre_newline.o ${CONFIG}/obj/pcre_ord2utf8.o ${CONFIG}/obj/pcre_tables.o ${CONFIG}/obj/pcre_try_flipped.o ${CONFIG}/obj/pcre_ucp_searchfuncs.o ${CONFIG}/obj/pcre_valid_utf8.o ${CONFIG}/obj/pcre_xclass.o ${LIBS}
+${CC} -dynamiclib -o ${CONFIG}/bin/libpcre.dylib -arch x86_64 ${LDFLAGS} -compatibility_version 1.0.0 -current_version 1.0.0 ${LIBPATHS} -install_name @rpath/libpcre.dylib ${CONFIG}/obj/pcre_chartables.o ${CONFIG}/obj/pcre_compile.o ${CONFIG}/obj/pcre_exec.o ${CONFIG}/obj/pcre_globals.o ${CONFIG}/obj/pcre_newline.o ${CONFIG}/obj/pcre_ord2utf8.o ${CONFIG}/obj/pcre_tables.o ${CONFIG}/obj/pcre_try_flipped.o ${CONFIG}/obj/pcre_ucp_searchfuncs.o ${CONFIG}/obj/pcre_valid_utf8.o ${CONFIG}/obj/pcre_xclass.o ${LIBS}
 

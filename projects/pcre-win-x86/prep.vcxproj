@@ -33,8 +33,8 @@
 
 <PropertyGroup>
   <_ProjectFileVersion>10</_ProjectFileVersion>
-  <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\win-i686-debug\bin\</OutDir>
-  <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\win-i686-debug\obj\prep\</IntDir>
+  <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\win-x86-debug\bin\</OutDir>
+  <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\win-x86-debug\obj\prep\</IntDir>
   <CustomBuildBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PreBuildEvent</CustomBuildBeforeTargets>
   </PropertyGroup>
 <ItemDefinitionGroup>
@@ -43,11 +43,11 @@
   <AdditionalLibraryDirectories>$(OutDir);;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 </Link>
 <CustomBuildStep>
-  <Command>if not exist ..\..\win-i686-debug\obj md ..\..\win-i686-debug\obj
-if not exist ..\..\win-i686-debug\bin md ..\..\win-i686-debug\bin
-if not exist ..\..\win-i686-debug\inc md ..\..\win-i686-debug\inc
-if not exist ..\..\win-i686-debug\inc\bit.h copy ..\win-bit.h ..\..\win-i686-debug\inc\bit.h
-if not exist ..\..\win-i686-debug\bin\libmpr.def xcopy /Y /S *.def ..\..\win-i686-debug\bin</Command>
+  <Command>if not exist ..\..\win-x86-debug\obj md ..\..\win-x86-debug\obj
+if not exist ..\..\win-x86-debug\bin md ..\..\win-x86-debug\bin
+if not exist ..\..\win-x86-debug\inc md ..\..\win-x86-debug\inc
+if not exist ..\..\win-x86-debug\inc\bit.h copy ..\win-bit.h ..\..\win-x86-debug\inc\bit.h
+if not exist ..\..\win-x86-debug\bin\libmpr.def xcopy /Y /S *.def ..\..\win-x86-debug\bin</Command>
   <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\always</Outputs>
   </CustomBuildStep>
 </ItemDefinitionGroup>

@@ -2,19 +2,20 @@
 #   macosx-x86_64-debug.mk -- Build It Makefile to build PCRE Library for macosx on x86_64
 #
 
+ARCH     := x86_64
 OS       := macosx
-CONFIG   := $(OS)-x86_64-debug
+CONFIG   := $(OS)-$(ARCH)-debug
 CC       := /usr/bin/clang
 LD       := /usr/bin/ld
 CFLAGS   := -Wall -g -Wno-unused-result -Wshorten-64-to-32
 DFLAGS   := -DBLD_FEATURE_PCRE=1 -DBLD_DEBUG
 IFLAGS   := -I$(CONFIG)/inc
 LDFLAGS  := '-Wl,-rpath,@executable_path/../lib' '-Wl,-rpath,@executable_path/' '-Wl,-rpath,@loader_path/' '-g'
-LIBPATHS := -L$(CONFIG)/lib
+LIBPATHS := -L$(CONFIG)/bin
 LIBS     := -lpthread -lm -ldl
 
 all: prep \
-        $(CONFIG)/lib/libpcre.dylib
+        $(CONFIG)/bin/libpcre.dylib
 
 .PHONY: prep
 
@@ -27,7 +28,7 @@ prep:
 	fi; true
 
 clean:
-	rm -rf $(CONFIG)/lib/libpcre.dylib
+	rm -rf $(CONFIG)/bin/libpcre.dylib
 	rm -rf $(CONFIG)/obj/pcre_chartables.o
 	rm -rf $(CONFIG)/obj/pcre_compile.o
 	rm -rf $(CONFIG)/obj/pcre_exec.o
@@ -144,7 +145,7 @@ $(CONFIG)/obj/pcre_xclass.o: \
         $(CONFIG)/inc/pcre_internal.h
 	$(CC) -c -o $(CONFIG)/obj/pcre_xclass.o -arch x86_64 $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_xclass.c
 
-$(CONFIG)/lib/libpcre.dylib:  \
+$(CONFIG)/bin/libpcre.dylib:  \
         $(CONFIG)/inc/config.h \
         $(CONFIG)/inc/pcre.h \
         $(CONFIG)/inc/pcre_internal.h \
@@ -162,5 +163,5 @@ $(CONFIG)/lib/libpcre.dylib:  \
         $(CONFIG)/obj/pcre_ucp_searchfuncs.o \
         $(CONFIG)/obj/pcre_valid_utf8.o \
         $(CONFIG)/obj/pcre_xclass.o
-	$(CC) -dynamiclib -o $(CONFIG)/lib/libpcre.dylib -arch x86_64 $(LDFLAGS) $(LIBPATHS) -install_name @rpath/libpcre.dylib $(CONFIG)/obj/pcre_chartables.o $(CONFIG)/obj/pcre_compile.o $(CONFIG)/obj/pcre_exec.o $(CONFIG)/obj/pcre_globals.o $(CONFIG)/obj/pcre_newline.o $(CONFIG)/obj/pcre_ord2utf8.o $(CONFIG)/obj/pcre_tables.o $(CONFIG)/obj/pcre_try_flipped.o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CONFIG)/obj/pcre_valid_utf8.o $(CONFIG)/obj/pcre_xclass.o $(LIBS)
+	$(CC) -dynamiclib -o $(CONFIG)/bin/libpcre.dylib -arch x86_64 $(LDFLAGS) -compatibility_version 1.0.0 -current_version 1.0.0 -compatibility_version 1.0.0 -current_version 1.0.0 $(LIBPATHS) -install_name @rpath/libpcre.dylib $(CONFIG)/obj/pcre_chartables.o $(CONFIG)/obj/pcre_compile.o $(CONFIG)/obj/pcre_exec.o $(CONFIG)/obj/pcre_globals.o $(CONFIG)/obj/pcre_newline.o $(CONFIG)/obj/pcre_ord2utf8.o $(CONFIG)/obj/pcre_tables.o $(CONFIG)/obj/pcre_try_flipped.o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CONFIG)/obj/pcre_valid_utf8.o $(CONFIG)/obj/pcre_xclass.o $(LIBS)
 
