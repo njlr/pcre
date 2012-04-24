@@ -86,6 +86,12 @@
 <ItemGroup>
   <ClInclude Include="win-x86-debug\inc\ucptable.h" />
 </ItemGroup>
+
+    <ItemDefinitionGroup>
+    <Link>
+      <ModuleDefinitionFile>libpcre.def</ModuleDefinitionFile>
+    </Link>
+    </ItemDefinitionGroup>
 <ItemDefinitionGroup>
 <Link>
   <AdditionalDependencies>;%(AdditionalDependencies)</AdditionalDependencies>

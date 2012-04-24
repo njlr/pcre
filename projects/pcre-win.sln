@@ -1,8 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "prep", "pcre-win-x86\prep.vcxproj", "{8A07E887-EB7E-4128-89EE-476C224807C3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "prep", "pcre-win\prep.vcxproj", "{8A07E887-EB7E-4128-89EE-476C224807C3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpcre", "pcre-win-x86\libpcre.vcxproj", "{A5550DE8-FE63-432A-B32C-B41B3AB17DCB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpcre", "pcre-win\libpcre.vcxproj", "{A5550DE8-FE63-432A-B32C-B41B3AB17DCB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8A07E887-EB7E-4128-89EE-476C224807C3} = {8A07E887-EB7E-4128-89EE-476C224807C3}
 	EndProjectSection

@@ -1,18 +1,19 @@
 #
-#   solaris-x86-debug.mk -- Build It Makefile to build PCRE Library for solaris on x86
+#   linux-x86-debug.mk -- Build It Makefile to build PCRE Library for linux on x86
 #
 
 ARCH     := x86
-OS       := solaris
-CONFIG   := $(OS)-$(ARCH)-debug
+OS       := linux
+PROFILE  := debug
+CONFIG   := $(OS)-$(ARCH)-$(PROFILE)
 CC       := gcc
 LD       := ld
-CFLAGS   := -Wall -fPIC -g -mcpu=generic
+CFLAGS   := -Wall -fPIC -g -Wno-unused-result -mtune=generic
 DFLAGS   := -D_REENTRANT -DBLD_FEATURE_PCRE=1 -DPIC -DBLD_DEBUG
 IFLAGS   := -I$(CONFIG)/inc
-LDFLAGS  := '-g'
+LDFLAGS  := '-Wl,--enable-new-dtags' '-Wl,-rpath,$$ORIGIN/' '-Wl,-rpath,$$ORIGIN/../bin' '-rdynamic' '-g'
 LIBPATHS := -L$(CONFIG)/bin
-LIBS     := -llxnet -lrt -lsocket -lpthread -lm
+LIBS     := -lpthread -lm -ldl
 
 all: prep \
         $(CONFIG)/bin/libpcre.so
@@ -71,57 +72,57 @@ $(CONFIG)/inc/ucptable.h:
 $(CONFIG)/obj/pcre_chartables.o: \
         src/pcre_chartables.c \
         $(CONFIG)/inc/bit.h
-	$(CC) -c -o $(CONFIG)/obj/pcre_chartables.o -Wall -fPIC $(LDFLAGS) -mcpu=generic $(DFLAGS) -I$(CONFIG)/inc src/pcre_chartables.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_chartables.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_chartables.c
 
 $(CONFIG)/obj/pcre_compile.o: \
         src/pcre_compile.c \
         $(CONFIG)/inc/bit.h
-	$(CC) -c -o $(CONFIG)/obj/pcre_compile.o -Wall -fPIC $(LDFLAGS) -mcpu=generic $(DFLAGS) -I$(CONFIG)/inc src/pcre_compile.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_compile.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_compile.c
 
 $(CONFIG)/obj/pcre_exec.o: \
         src/pcre_exec.c \
         $(CONFIG)/inc/bit.h
-	$(CC) -c -o $(CONFIG)/obj/pcre_exec.o -Wall -fPIC $(LDFLAGS) -mcpu=generic $(DFLAGS) -I$(CONFIG)/inc src/pcre_exec.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_exec.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_exec.c
 
 $(CONFIG)/obj/pcre_globals.o: \
         src/pcre_globals.c \
         $(CONFIG)/inc/bit.h
-	$(CC) -c -o $(CONFIG)/obj/pcre_globals.o -Wall -fPIC $(LDFLAGS) -mcpu=generic $(DFLAGS) -I$(CONFIG)/inc src/pcre_globals.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_globals.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_globals.c
 
 $(CONFIG)/obj/pcre_newline.o: \
         src/pcre_newline.c \
         $(CONFIG)/inc/bit.h
-	$(CC) -c -o $(CONFIG)/obj/pcre_newline.o -Wall -fPIC $(LDFLAGS) -mcpu=generic $(DFLAGS) -I$(CONFIG)/inc src/pcre_newline.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_newline.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_newline.c
 
 $(CONFIG)/obj/pcre_ord2utf8.o: \
         src/pcre_ord2utf8.c \
         $(CONFIG)/inc/bit.h
-	$(CC) -c -o $(CONFIG)/obj/pcre_ord2utf8.o -Wall -fPIC $(LDFLAGS) -mcpu=generic $(DFLAGS) -I$(CONFIG)/inc src/pcre_ord2utf8.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_ord2utf8.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_ord2utf8.c
 
 $(CONFIG)/obj/pcre_tables.o: \
         src/pcre_tables.c \
         $(CONFIG)/inc/bit.h
-	$(CC) -c -o $(CONFIG)/obj/pcre_tables.o -Wall -fPIC $(LDFLAGS) -mcpu=generic $(DFLAGS) -I$(CONFIG)/inc src/pcre_tables.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_tables.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_tables.c
 
 $(CONFIG)/obj/pcre_try_flipped.o: \
         src/pcre_try_flipped.c \
         $(CONFIG)/inc/bit.h
-	$(CC) -c -o $(CONFIG)/obj/pcre_try_flipped.o -Wall -fPIC $(LDFLAGS) -mcpu=generic $(DFLAGS) -I$(CONFIG)/inc src/pcre_try_flipped.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_try_flipped.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_try_flipped.c
 
 $(CONFIG)/obj/pcre_ucp_searchfuncs.o: \
         src/pcre_ucp_searchfuncs.c \
         $(CONFIG)/inc/bit.h
-	$(CC) -c -o $(CONFIG)/obj/pcre_ucp_searchfuncs.o -Wall -fPIC $(LDFLAGS) -mcpu=generic $(DFLAGS) -I$(CONFIG)/inc src/pcre_ucp_searchfuncs.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_ucp_searchfuncs.c
 
 $(CONFIG)/obj/pcre_valid_utf8.o: \
         src/pcre_valid_utf8.c \
         $(CONFIG)/inc/bit.h
-	$(CC) -c -o $(CONFIG)/obj/pcre_valid_utf8.o -Wall -fPIC $(LDFLAGS) -mcpu=generic $(DFLAGS) -I$(CONFIG)/inc src/pcre_valid_utf8.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_valid_utf8.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_valid_utf8.c
 
 $(CONFIG)/obj/pcre_xclass.o: \
         src/pcre_xclass.c \
         $(CONFIG)/inc/bit.h
-	$(CC) -c -o $(CONFIG)/obj/pcre_xclass.o -Wall -fPIC $(LDFLAGS) -mcpu=generic $(DFLAGS) -I$(CONFIG)/inc src/pcre_xclass.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_xclass.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_xclass.c
 
 $(CONFIG)/bin/libpcre.so:  \
         $(CONFIG)/inc/config.h \
