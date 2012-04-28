@@ -1,8 +1,9 @@
 #
-#   linux-x86-debug.sh -- Build It Shell Script to build PCRE Library
+#   pcre-linux.sh -- Build It Shell Script to build PCRE Library
 #
 
 ARCH="x86"
+ARCH="$(shell uname -m | sed 's/i.86/x86/')"
 OS="linux"
 PROFILE="debug"
 CONFIG="${OS}-${ARCH}-${PROFILE}"

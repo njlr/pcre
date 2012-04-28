@@ -1,5 +1,5 @@
 #
-#   win-x86-debug.nmake -- Build It Makefile to build PCRE Library for win on x86
+#   pcre-win.nmake -- Build It Makefile to build PCRE Library for win
 #
 
 !IFDEF VSINSTALLDIR
@@ -18,7 +18,10 @@ PATH      = $(SDK)\Bin:$(VS)\VC\Bin:$(VS)\Common7\IDE:$(VS)\Common7\Tools:$(VS)\
 INCLUDE   = $(INCLUDE);$(SDK)\INCLUDE:$(VS)\VC\INCLUDE
 LIB       = $(LIB);$(SDK)\lib:$(VS)\VC\lib
 
-ARCH     = x86
+ARCH     = $(PROCESSOR_ARCHITECTURE)
+!IF "$(ARCH)" == "AMD64"
+ARCH     = x86_64
+!ENDIF
 OS       = win
 PROFILE  = debug
 CONFIG   = $(OS)-$(ARCH)-$(PROFILE)
@@ -41,7 +44,7 @@ prep:
 	@if not exist $(CONFIG)\obj md $(CONFIG)\obj
 	@if not exist $(CONFIG)\bin md $(CONFIG)\bin
 	@if not exist $(CONFIG)\inc\bit.h copy projects\pcre-$(OS)-bit.h $(CONFIG)\inc\bit.h
-	@if not exist $(CONFIG)\bin\libmpr.def xcopy /Y /S projects\pcre-win-$(ARCH)\*.def $(CONFIG)\bin
+	@if not exist $(CONFIG)\bin\libmpr.def xcopy /Y /S projects\pcre-win\*.def $(CONFIG)\bin
 
 clean:
 	-if exist $(CONFIG)\bin\libpcre.dll del /Q $(CONFIG)\bin\libpcre.dll
@@ -58,28 +61,28 @@ clean:
 	-if exist $(CONFIG)\obj\pcre_xclass.obj del /Q $(CONFIG)\obj\pcre_xclass.obj
 
 $(CONFIG)\inc\config.h: 
-	-if exist win-x86-debug\inc\config.h del /Q win-x86-debug\inc\config.h
-	copy /Y src\config.h win-x86-debug\inc\config.h
+	-if exist $(CONFIG)\inc\config.h del /Q $(CONFIG)\inc\config.h
+	copy /Y src\config.h $(CONFIG)\inc\config.h
 
 $(CONFIG)\inc\pcre.h: 
-	-if exist win-x86-debug\inc\pcre.h del /Q win-x86-debug\inc\pcre.h
-	copy /Y src\pcre.h win-x86-debug\inc\pcre.h
+	-if exist $(CONFIG)\inc\pcre.h del /Q $(CONFIG)\inc\pcre.h
+	copy /Y src\pcre.h $(CONFIG)\inc\pcre.h
 
 $(CONFIG)\inc\pcre_internal.h: 
-	-if exist win-x86-debug\inc\pcre_internal.h del /Q win-x86-debug\inc\pcre_internal.h
-	copy /Y src\pcre_internal.h win-x86-debug\inc\pcre_internal.h
+	-if exist $(CONFIG)\inc\pcre_internal.h del /Q $(CONFIG)\inc\pcre_internal.h
+	copy /Y src\pcre_internal.h $(CONFIG)\inc\pcre_internal.h
 
 $(CONFIG)\inc\ucp.h: 
-	-if exist win-x86-debug\inc\ucp.h del /Q win-x86-debug\inc\ucp.h
-	copy /Y src\ucp.h win-x86-debug\inc\ucp.h
+	-if exist $(CONFIG)\inc\ucp.h del /Q $(CONFIG)\inc\ucp.h
+	copy /Y src\ucp.h $(CONFIG)\inc\ucp.h
 
 $(CONFIG)\inc\ucpinternal.h: 
-	-if exist win-x86-debug\inc\ucpinternal.h del /Q win-x86-debug\inc\ucpinternal.h
-	copy /Y src\ucpinternal.h win-x86-debug\inc\ucpinternal.h
+	-if exist $(CONFIG)\inc\ucpinternal.h del /Q $(CONFIG)\inc\ucpinternal.h
+	copy /Y src\ucpinternal.h $(CONFIG)\inc\ucpinternal.h
 
 $(CONFIG)\inc\ucptable.h: 
-	-if exist win-x86-debug\inc\ucptable.h del /Q win-x86-debug\inc\ucptable.h
-	copy /Y src\ucptable.h win-x86-debug\inc\ucptable.h
+	-if exist $(CONFIG)\inc\ucptable.h del /Q $(CONFIG)\inc\ucptable.h
+	copy /Y src\ucptable.h $(CONFIG)\inc\ucptable.h
 
 $(CONFIG)\obj\pcre_chartables.obj: \
         src\pcre_chartables.c \
