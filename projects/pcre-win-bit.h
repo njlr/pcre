@@ -18,20 +18,20 @@
 #define BLD_VNUM 100000000
 #define BLD_CONFIG_CMD "bit -emulate win-x86 -q -d -without all configure -gen sh,nmake,vs"
 #define BLD_LIB_NAME "bin"
-#define BLD_CFG_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library"
-#define BLD_BIN_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library/bin"
-#define BLD_DOC_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library/doc"
-#define BLD_INC_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library/inc"
-#define BLD_JEM_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library/jems"
-#define BLD_LIB_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library/bin"
-#define BLD_LOG_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library/logs"
-#define BLD_MAN_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library/man"
-#define BLD_PRD_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library"
-#define BLD_SAM_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library/samples"
-#define BLD_SPL_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library/tmp"
-#define BLD_SRC_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library/src"
-#define BLD_VER_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library"
-#define BLD_WEB_PREFIX "/Users/mob/git/pcre/C:/Program Files/PCRE Library/web"
+#define BLD_CFG_PREFIX "C:/Program Files/PCRE Library"
+#define BLD_BIN_PREFIX "C:/Program Files/PCRE Library/bin"
+#define BLD_DOC_PREFIX "C:/Program Files/PCRE Library/doc"
+#define BLD_INC_PREFIX "C:/Program Files/PCRE Library/inc"
+#define BLD_JEM_PREFIX "C:/Program Files/PCRE Library/jems"
+#define BLD_LIB_PREFIX "C:/Program Files/PCRE Library/bin"
+#define BLD_LOG_PREFIX "C:/Program Files/PCRE Library/logs"
+#define BLD_MAN_PREFIX "C:/Program Files/PCRE Library/man"
+#define BLD_PRD_PREFIX "C:/Program Files/PCRE Library"
+#define BLD_SAM_PREFIX "C:/Program Files/PCRE Library/samples"
+#define BLD_SPL_PREFIX "C:/Program Files/PCRE Library/tmp"
+#define BLD_SRC_PREFIX "C:/Program Files/PCRE Library/src"
+#define BLD_VER_PREFIX "C:/Program Files/PCRE Library"
+#define BLD_WEB_PREFIX "C:/Program Files/PCRE Library/web"
 #define BLD_EXE ".exe"
 #define BLD_SHLIB ".lib"
 #define BLD_SHOBJ ".dll"
@@ -51,13 +51,7 @@
 #define BLD_CC_WARN_UNUSED 0
 #define BLD_FEATURE_ALL 0
 #define BLD_FEATURE_WINSDK 1
-#define BLD_WINSDK "$(SDK)"
 #define BLD_FEATURE_CC 1
-#define BLD_CC "cl.exe"
 #define BLD_FEATURE_LINK 1
-#define BLD_LINK "link.exe"
 #define BLD_FEATURE_DUMPBIN 1
-#define BLD_DUMPBIN "dumpbin"
 #define BLD_FEATURE_RC 1
-#define BLD_RC "rc"
-#define BLD_FEATURE_INNO 0
