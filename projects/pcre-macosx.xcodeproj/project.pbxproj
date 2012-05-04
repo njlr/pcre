@@ -65,9 +65,9 @@
 
 /* Begin PBXFileReference section */
 		2791F086279220020000000C /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_chartables.c; path = src/pcre_chartables.c; sourceTree = "<group>"; };
-		2791F0862792200200000024 /* bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bit.h; path = macosx-x86_64-debug/inc/bit.h; sourceTree = "<group>"; };
-		2791F0862792200200000025 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = macosx-x86_64-debug/inc/config.h; sourceTree = "<group>"; };
-		2791F0862792200200000026 /* pcre_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre_internal.h; path = macosx-x86_64-debug/inc/pcre_internal.h; sourceTree = "<group>"; };
+		2791F0862792200200000024 /* bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bit.h; path = macosx-x64-debug/inc/bit.h; sourceTree = "<group>"; };
+		2791F0862792200200000025 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = macosx-x64-debug/inc/config.h; sourceTree = "<group>"; };
+		2791F0862792200200000026 /* pcre_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre_internal.h; path = macosx-x64-debug/inc/pcre_internal.h; sourceTree = "<group>"; };
 		2791F086279220020000000E /* pcre_compile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_compile.c; path = src/pcre_compile.c; sourceTree = "<group>"; };
 		2791F0862792200200000010 /* pcre_exec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_exec.c; path = src/pcre_exec.c; sourceTree = "<group>"; };
 		2791F0862792200200000012 /* pcre_globals.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_globals.c; path = src/pcre_globals.c; sourceTree = "<group>"; };
@@ -254,11 +254,11 @@ fi";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 
-                CFG_DIR = "../macosx-x86_64-debug";
-                BIN_DIR = "../macosx-x86_64-debug/bin";
-                LIB_DIR = "../macosx-x86_64-debug/bin";
-                INC_DIR = "../macosx-x86_64-debug/inc";
-                OBJ_DIR = "../macosx-x86_64-debug/obj";
+                CFG_DIR = "../macosx-x64-debug";
+                BIN_DIR = "../macosx-x64-debug/bin";
+                LIB_DIR = "../macosx-x64-debug/bin";
+                INC_DIR = "../macosx-x64-debug/inc";
+                OBJ_DIR = "../macosx-x64-debug/obj";
                 SRC_DIR = "..";
 
                 CONFIGURATION_TEMP_DIR = "$(OBJ_DIR)/tmp/$(CONFIGURATION)";
@@ -283,7 +283,7 @@ fi";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
-					"../macosx-x86_64-debug/inc",
+					"../macosx-x64-debug/inc",
 					"$(inherited)"
 				);
 
@@ -293,7 +293,7 @@ fi";
 						"$(inherited)"
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"../macosx-x86_64-debug/bin",
+					"../macosx-x64-debug/bin",
 					"$(inherited)"
 				);
 				OTHER_LDFLAGS = (
@@ -326,11 +326,11 @@ fi";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 
-                CFG_DIR = "../macosx-x86_64-debug";
-                BIN_DIR = "../macosx-x86_64-debug/bin";
-                LIB_DIR = "../macosx-x86_64-debug/bin";
-                INC_DIR = "../macosx-x86_64-debug/inc";
-                OBJ_DIR = "../macosx-x86_64-debug/obj";
+                CFG_DIR = "../macosx-x64-debug";
+                BIN_DIR = "../macosx-x64-debug/bin";
+                LIB_DIR = "../macosx-x64-debug/bin";
+                INC_DIR = "../macosx-x64-debug/inc";
+                OBJ_DIR = "../macosx-x64-debug/obj";
                 SRC_DIR = "..";
 
                 CONFIGURATION_TEMP_DIR = "$(OBJ_DIR)/tmp/$(CONFIGURATION)";
@@ -356,7 +356,7 @@ fi";
 				GCC_OPTIMIZATION_LEVEL = s;
                 GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				HEADER_SEARCH_PATHS = (
-					"../macosx-x86_64-debug/inc",
+					"../macosx-x64-debug/inc",
 					"$(inherited)"
 				);
 
@@ -366,7 +366,7 @@ fi";
 						"$(inherited)"
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"../macosx-x86_64-debug/bin",
+					"../macosx-x64-debug/bin",
 					"$(inherited)"
 				);
 				OTHER_LDFLAGS = (
