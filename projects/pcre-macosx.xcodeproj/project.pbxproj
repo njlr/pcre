@@ -172,6 +172,24 @@
 [ ! -f ${INC_DIR}/bit.h ] && cp pcre-macosx-bit.h ${INC_DIR}/bit.h
 if ! diff ${INC_DIR}/bit.h pcre-macosx-bit.h >/dev/null ; then
 cp pcre-macosx-bit.h ${INC_DIR}/bit.h
+fi
+if [ ../src/config.h -nt ${CFG_DIR}/inc/config.h ] ; then
+cp ../src/config.h ${CFG_DIR}/inc/config.h
+fi
+if [ ../src/pcre.h -nt ${CFG_DIR}/inc/pcre.h ] ; then
+cp ../src/pcre.h ${CFG_DIR}/inc/pcre.h
+fi
+if [ ../src/pcre_internal.h -nt ${CFG_DIR}/inc/pcre_internal.h ] ; then
+cp ../src/pcre_internal.h ${CFG_DIR}/inc/pcre_internal.h
+fi
+if [ ../src/ucp.h -nt ${CFG_DIR}/inc/ucp.h ] ; then
+cp ../src/ucp.h ${CFG_DIR}/inc/ucp.h
+fi
+if [ ../src/ucpinternal.h -nt ${CFG_DIR}/inc/ucpinternal.h ] ; then
+cp ../src/ucpinternal.h ${CFG_DIR}/inc/ucpinternal.h
+fi
+if [ ../src/ucptable.h -nt ${CFG_DIR}/inc/ucptable.h ] ; then
+cp ../src/ucptable.h ${CFG_DIR}/inc/ucptable.h
 fi";
 		};
 /* End PBXShellScriptBuildPhase section */
