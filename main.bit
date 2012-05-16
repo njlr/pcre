@@ -21,7 +21,7 @@ Bit.load({
     },
 
     defaults: {
-        '+defines': [ '-DBLD_FEATURE_PCRE=1' ]
+        '+defines': [ '-DBIT_FEATURE_PCRE=1' ]
     },
 
     targets: {

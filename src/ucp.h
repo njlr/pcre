@@ -4,7 +4,7 @@
 
 #include "bit.h"
 
-#if BLD_FEATURE_PCRE
+#if BIT_FEATURE_PCRE
 
 #ifndef _UCP_H
 #define _UCP_H
@@ -135,4 +135,4 @@ enum {
 #endif
 
 /* End of ucp.h */
-#endif /* BLD_FEATURE_PCRE */
+#endif /* BIT_FEATURE_PCRE */

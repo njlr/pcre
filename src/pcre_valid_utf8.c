@@ -45,7 +45,7 @@ strings. */
 #include "bit.h"
 #include "config.h"
 
-#if BLD_FEATURE_PCRE
+#if BIT_FEATURE_PCRE
 #include "pcre_internal.h"
 
 
@@ -160,4 +160,4 @@ return -1;
 }
 
 /* End of pcre_valid_utf8.c */
-#endif /* BLD_FEATURE_PCRE */
+#endif /* BIT_FEATURE_PCRE */

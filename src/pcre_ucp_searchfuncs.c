@@ -44,7 +44,7 @@ properties. */
 #include "bit.h"
 #include "config.h"
 
-#if BLD_FEATURE_PCRE
+#if BIT_FEATURE_PCRE
 #include "pcre_internal.h"
 
 #include "ucp.h"               /* Category definitions */
@@ -177,4 +177,4 @@ return (offset == 0)? NOTACHAR : c + offset;
 
 
 /* End of pcre_ucp_searchfuncs.c */
-#endif /* BLD_FEATURE_PCRE */
+#endif /* BIT_FEATURE_PCRE */

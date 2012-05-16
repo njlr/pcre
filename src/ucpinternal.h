@@ -7,7 +7,7 @@
 
 #include "bit.h"
 
-#if BLD_FEATURE_PCRE
+#if BIT_FEATURE_PCRE
 
 /* Internal header file defining the layout of the bits in each pair of 32-bit
 words that form a data item in the table. */
@@ -91,7 +91,7 @@ When searching the data, proceed as follows:
     (2).
 */
 
-#endif /* BLD_FEATURE_PCRE */
+#endif /* BIT_FEATURE_PCRE */
 #endif /* _UCPINTERNAL_H */
 
 /* End of ucpinternal.h */

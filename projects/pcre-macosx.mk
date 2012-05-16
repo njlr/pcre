@@ -2,14 +2,14 @@
 #   pcre-macosx.mk -- Build It Makefile to build PCRE Library for macosx
 #
 
-ARCH     := $(shell uname -m | sed 's/i.86/x86/')
+ARCH     := $(shell uname -m | sed 's/i.86/x86/;s/x86_64/x64/')
 OS       := macosx
 PROFILE  := debug
 CONFIG   := $(OS)-$(ARCH)-$(PROFILE)
 CC       := /usr/bin/clang
 LD       := /usr/bin/ld
 CFLAGS   := -Wno-deprecated-declarations -g -w
-DFLAGS   := -DBLD_FEATURE_PCRE=1 -DBLD_DEBUG
+DFLAGS   := -DBIT_FEATURE_PCRE=1 -DBIT_DEBUG
 IFLAGS   := -I$(CONFIG)/inc
 LDFLAGS  := '-Wl,-rpath,@executable_path/../lib' '-Wl,-rpath,@executable_path/' '-Wl,-rpath,@loader_path/' '-g'
 LIBPATHS := -L$(CONFIG)/bin

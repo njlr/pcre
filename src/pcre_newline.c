@@ -50,7 +50,7 @@ http://unicode.org/unicode/reports/tr18/. */
 #include "bit.h"
 #include "config.h"
 
-#if BLD_FEATURE_PCRE
+#if BIT_FEATURE_PCRE
 #include "pcre_internal.h"
 
 
@@ -162,4 +162,4 @@ else switch(c)
 }
 
 /* End of pcre_newline.c */
-#endif /* BLD_FEATURE_PCRE */
+#endif /* BIT_FEATURE_PCRE */
