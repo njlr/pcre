@@ -6,8 +6,8 @@ ARCH     := $(shell uname -m | sed 's/i.86/x86/;s/x86_64/x64/')
 OS       := linux
 PROFILE  := debug
 CONFIG   := $(OS)-$(ARCH)-$(PROFILE)
-CC       := gcc
-LD       := ld
+CC       := /usr/bin/gcc
+LD       := /usr/bin/ld
 CFLAGS   := -fPIC -g -mtune=generic -w
 DFLAGS   := -D_REENTRANT -DBIT_FEATURE_PCRE=1 -DPIC -DBIT_DEBUG
 IFLAGS   := -I$(CONFIG)/inc
