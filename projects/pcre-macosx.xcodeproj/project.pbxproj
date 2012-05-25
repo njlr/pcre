@@ -66,6 +66,8 @@
 /* Begin PBXFileReference section */
 		2791F086279220020000000C /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_chartables.c; path = src/pcre_chartables.c; sourceTree = "<group>"; };
 		2791F0862792200200000024 /* bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bit.h; path = macosx-x64-debug/inc/bit.h; sourceTree = "<group>"; };
+		2791F0862792200200000025 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = macosx-x64-debug/inc/config.h; sourceTree = "<group>"; };
+		2791F0862792200200000026 /* pcre_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre_internal.h; path = macosx-x64-debug/inc/pcre_internal.h; sourceTree = "<group>"; };
 		2791F086279220020000000E /* pcre_compile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_compile.c; path = src/pcre_compile.c; sourceTree = "<group>"; };
 		2791F0862792200200000010 /* pcre_exec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_exec.c; path = src/pcre_exec.c; sourceTree = "<group>"; };
 		2791F0862792200200000012 /* pcre_globals.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_globals.c; path = src/pcre_globals.c; sourceTree = "<group>"; };
@@ -76,11 +78,11 @@
 		2791F086279220020000001C /* pcre_ucp_searchfuncs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_ucp_searchfuncs.c; path = src/pcre_ucp_searchfuncs.c; sourceTree = "<group>"; };
 		2791F086279220020000001E /* pcre_valid_utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_valid_utf8.c; path = src/pcre_valid_utf8.c; sourceTree = "<group>"; };
 		2791F0862792200200000020 /* pcre_xclass.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_xclass.c; path = src/pcre_xclass.c; sourceTree = "<group>"; };
-		2791F0862792200200000025 /* libpcre */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libpcre.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		2791F0862792200200000027 /* libpcre */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libpcre.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2791F0862792200200000026 /* Frameworks and Libraries for libpcre */ = {
+		2791F0862792200200000028 /* Frameworks and Libraries for libpcre */ = {
             isa = PBXFrameworksBuildPhase;
             buildActionMask = 2147483647;
             files = (
@@ -91,18 +93,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2791F0862792200200000027 /* Top Group */ = {
+		2791F0862792200200000029 /* Top Group */ = {
             isa = PBXGroup;
             children = (
-				2791F0862792200200000028 /* libpcre */,
-				2791F0862792200200000029 /* Products */,
+				2791F086279220020000002A /* libpcre */,
+				2791F086279220020000002B /* Products */,
 			);
             sourceTree = "<group>";
         };
-		2791F0862792200200000028 /* libpcre */ = {
+		2791F086279220020000002A /* libpcre */ = {
             isa = PBXGroup;
             children = (
 				2791F0862792200200000024 /* bit.h */,
+				2791F0862792200200000025 /* config.h */,
+				2791F0862792200200000026 /* pcre_internal.h */,
 				2791F086279220020000000C /* pcre_chartables.c */,
 				2791F086279220020000000E /* pcre_compile.c */,
 				2791F0862792200200000010 /* pcre_exec.c */,
@@ -119,10 +123,10 @@
             path = ..;
             sourceTree = SOURCE_ROOT;
         };
-		2791F0862792200200000029 /* Products */ = {
+		2791F086279220020000002B /* Products */ = {
             isa = PBXGroup;
             children = (
-				2791F0862792200200000025 /* libpcre */,
+				2791F0862792200200000027 /* libpcre */,
 			);
             name = "Products";
             path = ..;
@@ -133,19 +137,19 @@
 /* Begin PBXNativeTarget section */
 		2791F0862792200200000023 /* libpcre */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2791F086279220020000002B /* Build configuration list for PBXNativeTarget "libpcre" */;
+			buildConfigurationList = 2791F086279220020000002D /* Build configuration list for PBXNativeTarget "libpcre" */;
 			buildPhases = (
-				2791F086279220020000002A /* Sources */,
-				2791F0862792200200000026 /* Frameworks */,
+				2791F086279220020000002C /* Sources */,
+				2791F0862792200200000028 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				2791F086279220020000002C /* Prep */,				
+				2791F086279220020000002E /* Prep */,				
 			);
 			name = libpcre;
 			productName = pcre;
-			productReference = 2791F0862792200200000025 /* libpcre */;
+			productReference = 2791F0862792200200000027 /* libpcre */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -204,8 +208,8 @@ fi";
 			knownRegions = (
 				en,
 			);
-			mainGroup = 2791F0862792200200000027;
-			productRefGroup = 2791F0862792200200000029 /* Products */;
+			mainGroup = 2791F0862792200200000029;
+			productRefGroup = 2791F086279220020000002B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -217,7 +221,7 @@ fi";
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2791F086279220020000002A /* libpcre Sources */ = {
+		2791F086279220020000002C /* libpcre Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -238,7 +242,7 @@ fi";
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2791F086279220020000002C /* PBXTargetDependency libpcre depends on Prep */ = {
+		2791F086279220020000002E /* PBXTargetDependency libpcre depends on Prep */ = {
 			isa = PBXTargetDependency;
 			target = 2791F0862792200200000009 /* Prep */;
 			targetProxy = 2791F0862792200200000021 /* PBXContainerItemProxy */;
@@ -396,28 +400,10 @@ fi";
 			};
 			name = Release;
 		};
-		2791F086279220020000002D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = libpcre;
-
-
-			};
-			name = Debug;
-		};
-		2791F086279220020000002E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = libpcre;
-
-
-			};
-			name = Release;
-		};
 		2791F086279220020000002F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = All;
+				PRODUCT_NAME = libpcre;
 
 
 			};
@@ -426,7 +412,7 @@ fi";
 		2791F0862792200200000030 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = All;
+				PRODUCT_NAME = libpcre;
 
 
 			};
@@ -435,13 +421,31 @@ fi";
 		2791F0862792200200000031 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = Prep;
+				PRODUCT_NAME = All;
 
 
 			};
 			name = Debug;
 		};
 		2791F0862792200200000032 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = All;
+
+
+			};
+			name = Release;
+		};
+		2791F0862792200200000033 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Prep;
+
+
+			};
+			name = Debug;
+		};
+		2791F0862792200200000034 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = Prep;
@@ -462,16 +466,7 @@ fi";
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2791F086279220020000002B /* Build configuration list for PBXNativeTarget "libpcre" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2791F086279220020000002D /* Debug */,
-				2791F086279220020000002E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2791F0862792200200000005 /* Build configuration list for PBXNativeTarget "All" */ = {
+		2791F086279220020000002D /* Build configuration list for PBXNativeTarget "libpcre" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2791F086279220020000002F /* Debug */,
@@ -480,11 +475,20 @@ fi";
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2791F0862792200200000008 /* Build configuration list for PBXNativeTarget "Prep" */ = {
+		2791F0862792200200000005 /* Build configuration list for PBXNativeTarget "All" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2791F0862792200200000031 /* Debug */,
 				2791F0862792200200000032 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2791F0862792200200000008 /* Build configuration list for PBXNativeTarget "Prep" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2791F0862792200200000033 /* Debug */,
+				2791F0862792200200000034 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

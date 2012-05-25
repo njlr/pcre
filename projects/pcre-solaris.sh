@@ -9,7 +9,7 @@ PROFILE="debug"
 CONFIG="${OS}-${ARCH}-${PROFILE}"
 CC="/usr/bin/gcc"
 LD="/usr/bin/ld"
-CFLAGS="-Wall -fPIC -g -Wshorten-64-to-32 -mtune=generic"
+CFLAGS="-Wall -fPIC -g -mtune=generic"
 DFLAGS="-D_REENTRANT -DBIT_FEATURE_PCRE=1 -DPIC -DBIT_DEBUG"
 IFLAGS="-I${CONFIG}/inc"
 LDFLAGS="-g"
@@ -41,27 +41,27 @@ cp -r src/ucpinternal.h ${CONFIG}/inc/ucpinternal.h
 rm -rf ${CONFIG}/inc/ucptable.h
 cp -r src/ucptable.h ${CONFIG}/inc/ucptable.h
 
-${CC} -c -o ${CONFIG}/obj/pcre_chartables.o -Wall -fPIC ${LDFLAGS} -Wshorten-64-to-32 -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_chartables.c
+${CC} -c -o ${CONFIG}/obj/pcre_chartables.o -Wall -fPIC ${LDFLAGS} -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_chartables.c
 
-${CC} -c -o ${CONFIG}/obj/pcre_compile.o -Wall -fPIC ${LDFLAGS} -Wshorten-64-to-32 -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_compile.c
+${CC} -c -o ${CONFIG}/obj/pcre_compile.o -Wall -fPIC ${LDFLAGS} -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_compile.c
 
-${CC} -c -o ${CONFIG}/obj/pcre_exec.o -Wall -fPIC ${LDFLAGS} -Wshorten-64-to-32 -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_exec.c
+${CC} -c -o ${CONFIG}/obj/pcre_exec.o -Wall -fPIC ${LDFLAGS} -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_exec.c
 
-${CC} -c -o ${CONFIG}/obj/pcre_globals.o -Wall -fPIC ${LDFLAGS} -Wshorten-64-to-32 -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_globals.c
+${CC} -c -o ${CONFIG}/obj/pcre_globals.o -Wall -fPIC ${LDFLAGS} -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_globals.c
 
-${CC} -c -o ${CONFIG}/obj/pcre_newline.o -Wall -fPIC ${LDFLAGS} -Wshorten-64-to-32 -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_newline.c
+${CC} -c -o ${CONFIG}/obj/pcre_newline.o -Wall -fPIC ${LDFLAGS} -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_newline.c
 
-${CC} -c -o ${CONFIG}/obj/pcre_ord2utf8.o -Wall -fPIC ${LDFLAGS} -Wshorten-64-to-32 -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_ord2utf8.c
+${CC} -c -o ${CONFIG}/obj/pcre_ord2utf8.o -Wall -fPIC ${LDFLAGS} -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_ord2utf8.c
 
-${CC} -c -o ${CONFIG}/obj/pcre_tables.o -Wall -fPIC ${LDFLAGS} -Wshorten-64-to-32 -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_tables.c
+${CC} -c -o ${CONFIG}/obj/pcre_tables.o -Wall -fPIC ${LDFLAGS} -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_tables.c
 
-${CC} -c -o ${CONFIG}/obj/pcre_try_flipped.o -Wall -fPIC ${LDFLAGS} -Wshorten-64-to-32 -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_try_flipped.c
+${CC} -c -o ${CONFIG}/obj/pcre_try_flipped.o -Wall -fPIC ${LDFLAGS} -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_try_flipped.c
 
-${CC} -c -o ${CONFIG}/obj/pcre_ucp_searchfuncs.o -Wall -fPIC ${LDFLAGS} -Wshorten-64-to-32 -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_ucp_searchfuncs.c
+${CC} -c -o ${CONFIG}/obj/pcre_ucp_searchfuncs.o -Wall -fPIC ${LDFLAGS} -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_ucp_searchfuncs.c
 
-${CC} -c -o ${CONFIG}/obj/pcre_valid_utf8.o -Wall -fPIC ${LDFLAGS} -Wshorten-64-to-32 -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_valid_utf8.c
+${CC} -c -o ${CONFIG}/obj/pcre_valid_utf8.o -Wall -fPIC ${LDFLAGS} -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_valid_utf8.c
 
-${CC} -c -o ${CONFIG}/obj/pcre_xclass.o -Wall -fPIC ${LDFLAGS} -Wshorten-64-to-32 -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_xclass.c
+${CC} -c -o ${CONFIG}/obj/pcre_xclass.o -Wall -fPIC ${LDFLAGS} -mtune=generic ${DFLAGS} -I${CONFIG}/inc src/pcre_xclass.c
 
 ${CC} -shared -o ${CONFIG}/bin/libpcre.so ${LDFLAGS} ${LIBPATHS} ${CONFIG}/obj/pcre_chartables.o ${CONFIG}/obj/pcre_compile.o ${CONFIG}/obj/pcre_exec.o ${CONFIG}/obj/pcre_globals.o ${CONFIG}/obj/pcre_newline.o ${CONFIG}/obj/pcre_ord2utf8.o ${CONFIG}/obj/pcre_tables.o ${CONFIG}/obj/pcre_try_flipped.o ${CONFIG}/obj/pcre_ucp_searchfuncs.o ${CONFIG}/obj/pcre_valid_utf8.o ${CONFIG}/obj/pcre_xclass.o ${LIBS}
 
