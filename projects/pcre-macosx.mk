@@ -4,14 +4,14 @@
 
 ARCH     := $(shell uname -m | sed 's/i.86/x86/;s/x86_64/x64/')
 OS       := macosx
-PROFILE  := xcode
+PROFILE  := debug
 CONFIG   := $(OS)-$(ARCH)-$(PROFILE)
 CC       := /usr/bin/clang
 LD       := /usr/bin/ld
-CFLAGS   := -Wno-deprecated-declarations -O3 -w
-DFLAGS   := -DBIT_FEATURE_PCRE=1
+CFLAGS   := -Wno-deprecated-declarations -g -w
+DFLAGS   := -DBIT_FEATURE_PCRE=1 -DBIT_DEBUG
 IFLAGS   := -I$(CONFIG)/inc
-LDFLAGS  := '-Wl,-rpath,@executable_path/' '-Wl,-rpath,@loader_path/'
+LDFLAGS  := '-Wl,-rpath,@executable_path/' '-Wl,-rpath,@loader_path/' '-g'
 LIBPATHS := -L$(CONFIG)/bin
 LIBS     := -lpthread -lm -ldl
 
@@ -71,57 +71,79 @@ $(CONFIG)/inc/ucptable.h:
 
 $(CONFIG)/obj/pcre_chartables.o: \
         src/pcre_chartables.c \
-        $(CONFIG)/inc/bit.h
+        $(CONFIG)/inc/bit.h \
+        $(CONFIG)/inc/config.h \
+        $(CONFIG)/inc/pcre_internal.h
 	$(CC) -c -o $(CONFIG)/obj/pcre_chartables.o -arch x86_64 $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_chartables.c
 
 $(CONFIG)/obj/pcre_compile.o: \
         src/pcre_compile.c \
-        $(CONFIG)/inc/bit.h
+        $(CONFIG)/inc/bit.h \
+        $(CONFIG)/inc/config.h \
+        $(CONFIG)/inc/pcre_internal.h
 	$(CC) -c -o $(CONFIG)/obj/pcre_compile.o -arch x86_64 $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_compile.c
 
 $(CONFIG)/obj/pcre_exec.o: \
         src/pcre_exec.c \
-        $(CONFIG)/inc/bit.h
+        $(CONFIG)/inc/bit.h \
+        $(CONFIG)/inc/config.h \
+        $(CONFIG)/inc/pcre_internal.h
 	$(CC) -c -o $(CONFIG)/obj/pcre_exec.o -arch x86_64 $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_exec.c
 
 $(CONFIG)/obj/pcre_globals.o: \
         src/pcre_globals.c \
-        $(CONFIG)/inc/bit.h
+        $(CONFIG)/inc/bit.h \
+        $(CONFIG)/inc/config.h \
+        $(CONFIG)/inc/pcre_internal.h
 	$(CC) -c -o $(CONFIG)/obj/pcre_globals.o -arch x86_64 $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_globals.c
 
 $(CONFIG)/obj/pcre_newline.o: \
         src/pcre_newline.c \
-        $(CONFIG)/inc/bit.h
+        $(CONFIG)/inc/bit.h \
+        $(CONFIG)/inc/config.h \
+        $(CONFIG)/inc/pcre_internal.h
 	$(CC) -c -o $(CONFIG)/obj/pcre_newline.o -arch x86_64 $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_newline.c
 
 $(CONFIG)/obj/pcre_ord2utf8.o: \
         src/pcre_ord2utf8.c \
-        $(CONFIG)/inc/bit.h
+        $(CONFIG)/inc/bit.h \
+        $(CONFIG)/inc/config.h \
+        $(CONFIG)/inc/pcre_internal.h
 	$(CC) -c -o $(CONFIG)/obj/pcre_ord2utf8.o -arch x86_64 $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_ord2utf8.c
 
 $(CONFIG)/obj/pcre_tables.o: \
         src/pcre_tables.c \
-        $(CONFIG)/inc/bit.h
+        $(CONFIG)/inc/bit.h \
+        $(CONFIG)/inc/config.h \
+        $(CONFIG)/inc/pcre_internal.h
 	$(CC) -c -o $(CONFIG)/obj/pcre_tables.o -arch x86_64 $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_tables.c
 
 $(CONFIG)/obj/pcre_try_flipped.o: \
         src/pcre_try_flipped.c \
-        $(CONFIG)/inc/bit.h
+        $(CONFIG)/inc/bit.h \
+        $(CONFIG)/inc/config.h \
+        $(CONFIG)/inc/pcre_internal.h
 	$(CC) -c -o $(CONFIG)/obj/pcre_try_flipped.o -arch x86_64 $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_try_flipped.c
 
 $(CONFIG)/obj/pcre_ucp_searchfuncs.o: \
         src/pcre_ucp_searchfuncs.c \
-        $(CONFIG)/inc/bit.h
+        $(CONFIG)/inc/bit.h \
+        $(CONFIG)/inc/config.h \
+        $(CONFIG)/inc/pcre_internal.h
 	$(CC) -c -o $(CONFIG)/obj/pcre_ucp_searchfuncs.o -arch x86_64 $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_ucp_searchfuncs.c
 
 $(CONFIG)/obj/pcre_valid_utf8.o: \
         src/pcre_valid_utf8.c \
-        $(CONFIG)/inc/bit.h
+        $(CONFIG)/inc/bit.h \
+        $(CONFIG)/inc/config.h \
+        $(CONFIG)/inc/pcre_internal.h
 	$(CC) -c -o $(CONFIG)/obj/pcre_valid_utf8.o -arch x86_64 $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_valid_utf8.c
 
 $(CONFIG)/obj/pcre_xclass.o: \
         src/pcre_xclass.c \
-        $(CONFIG)/inc/bit.h
+        $(CONFIG)/inc/bit.h \
+        $(CONFIG)/inc/config.h \
+        $(CONFIG)/inc/pcre_internal.h
 	$(CC) -c -o $(CONFIG)/obj/pcre_xclass.o -arch x86_64 $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_xclass.c
 
 $(CONFIG)/bin/libpcre.dylib:  \
