@@ -53,7 +53,7 @@ functions whose names all begin with "_pcre_". */
     #define _VSB_CONFIG_FILE "vsbConfig.h"
 #endif
 
-#if BIT_FEATURE_PCRE
+#if BIT_PACK_PCRE
 /* Define DEBUG to get debugging output on stdout. */
 
 #if VXWORKS
@@ -1228,4 +1228,4 @@ extern BOOL         _pcre_xclass(int, const uschar *);
 #endif
 
 /* End of pcre_internal.h */
-#endif /* BIT_FEATURE_PCRE */
+#endif /* BIT_PACK_PCRE */

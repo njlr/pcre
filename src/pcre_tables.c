@@ -47,7 +47,7 @@ clashes with the library. */
 #include "bit.h"
 #include "config.h"
 
-#if BIT_FEATURE_PCRE
+#if BIT_PACK_PCRE
 #include "pcre_internal.h"
 
 
@@ -316,4 +316,4 @@ const int _pcre_utt_size = sizeof(_pcre_utt)/sizeof(ucp_type_table);
 #endif  /* SUPPORT_UTF8 */
 
 /* End of pcre_tables.c */
-#endif /* BIT_FEATURE_PCRE */
+#endif /* BIT_PACK_PCRE */

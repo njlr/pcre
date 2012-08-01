@@ -46,7 +46,7 @@ auxiliary local function to flip the appropriate bytes. */
 #include "bit.h"
 #include "config.h"
 
-#if BIT_FEATURE_PCRE
+#if BIT_PACK_PCRE
 #include "pcre_internal.h"
 
 
@@ -135,4 +135,4 @@ return internal_re;
 }
 
 /* End of pcre_tryflipped.c */
-#endif /* BIT_FEATURE_PCRE */
+#endif /* BIT_PACK_PCRE */

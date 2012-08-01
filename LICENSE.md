@@ -1,7 +1,6 @@
 Embedthis PCRE License Agreement
 ===
 
-
 Perl Regular Expressions. The Perl Regular Expression Library is licensed by the BSD license:
 
 Redistribution and use in source and binary forms, with or without

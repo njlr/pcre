@@ -44,7 +44,7 @@ character value into a UTF8 string. */
 #include "bit.h"
 #include "config.h"
 
-#if BIT_FEATURE_PCRE
+#if BIT_PACK_PCRE
 #include "pcre_internal.h"
 
 
@@ -83,4 +83,4 @@ return 0;   /* Keep compiler happy; this function won't ever be */
 }
 
 /* End of pcre_ord2utf8.c */
-#endif /* BIT_FEATURE_PCRE */
+#endif /* BIT_PACK_PCRE */
