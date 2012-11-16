@@ -27,3 +27,9 @@ releases
 out
 .embedthis
 .publisher
+/*-*.bit
+/*-*-debug/
+/*-*-release/
+.*.guid
+start.bit
+*-xcode

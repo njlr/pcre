@@ -45,10 +45,15 @@ functions whose names all begin with "_pcre_". */
 #ifndef PCRE_INTERNAL_H
 #define PCRE_INTERNAL_H
 
-#include "buildConfig.h"
+#include "bit.h"
 #include "config.h"
 
-#if BLD_FEATURE_PCRE
+/* EMBEDTHIS */
+#ifndef _VSB_CONFIG_FILE
+    #define _VSB_CONFIG_FILE "vsbConfig.h"
+#endif
+
+#if BIT_PACK_PCRE
 /* Define DEBUG to get debugging output on stdout. */
 
 #if VXWORKS
@@ -101,10 +106,6 @@ functions whose names all begin with "_pcre_". */
     #include    <taskHookLib.h>
 #endif /* VXWORKS */
 
-#if 0
-#define DEBUG
-#endif
-
 /* Use a macro for debugging printing, 'cause that eliminates the use of #ifdef
 inline, and there are *still* stupid compilers about that don't like indented
 pre-processor statements, or at least there were when I first wrote this. After
@@ -113,6 +114,7 @@ all, it had only been about 10 years then...
 It turns out that the Mac Debugging.h header also defines the macro DPRINTF, so
 be absolutely sure we get our version. */
 
+#undef DEBUG
 #undef DPRINTF
 #ifdef DEBUG
 #define DPRINTF(p) printf p
@@ -187,12 +189,14 @@ PCRE_EXP_DATA_DEFN only if they are not already set. */
 #endif
 
 /* EMBEDTHIS */
+#if UNUSED
 #undef PCRE_EXP_DEFN
 #define PCRE_EXP_DEFN 
 #undef PCRE_EXP_DATA_DEFN
 #define PCRE_EXP_DATA_DEFN 
 #undef PCRE_EXP_DECL
 #define PCRE_EXP_DECL extern
+#endif
 
 /* We need to have types that specify unsigned 16-bit and 32-bit integers. We
 cannot determine these outside the compilation (e.g. by running a program as
@@ -232,8 +236,8 @@ to save lots of typing. I tried "uchar", but it causes problems on Digital
 Unix, where it is defined in sys/types, so use "uschar" instead. */
 
 /* EMBEDTHIS - added conditional */
-#ifdef BLD_CHAR
-typedef unsigned BLD_CHAR uschar;
+#ifdef BIT_CHAR
+typedef unsigned BIT_CHAR uschar;
 #else
 typedef unsigned char uschar;
 #endif
@@ -295,9 +299,9 @@ used for the external interface and appears in pcre.h, which is why its name
 must begin with PCRE_. */
 
 /* EMBEDTHIS - added conditional */
-#ifdef BLD_CHAR
-#define PCRE_SPTR const BLD_CHAR *
-#define USPTR const unsigned BLD_CHAR *
+#ifdef BIT_CHAR
+#define PCRE_SPTR const BIT_CHAR *
+#define USPTR const unsigned BIT_CHAR *
 
 #else
 #ifdef CUSTOM_SUBJECT_PTR
@@ -1226,4 +1230,4 @@ extern BOOL         _pcre_xclass(int, const uschar *);
 #endif
 
 /* End of pcre_internal.h */
-#endif /* BLD_FEATURE_PCRE */
+#endif /* BIT_PACK_PCRE */

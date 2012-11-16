@@ -42,10 +42,10 @@ POSSIBILITY OF SUCH DAMAGE.
 supporting internal functions that are not used by other modules. */
 
 
-#include "buildConfig.h"
+#include "bit.h"
 #include "config.h"
 
-#if BLD_FEATURE_PCRE
+#if BIT_PACK_PCRE
 
 /* EMBEDTHIS */
 #undef NLBLOCK
@@ -6436,4 +6436,4 @@ return (pcre *)re;
 }
 
 /* End of pcre_compile.c */
-#endif /* BLD_FEATURE_PCRE */
+#endif /* BIT_PACK_PCRE */

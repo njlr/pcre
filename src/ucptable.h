@@ -2,9 +2,9 @@
 property table. See ucpinternal.h for a description of the layout.
 This version was made from the Unicode 5.0.0 tables. */
 
-#include "buildConfig.h"
+#include "bit.h"
 
-#if BLD_FEATURE_PCRE
+#if BIT_PACK_PCRE
 
 static const cnode ucp_table[] = {
   { 0x09800000, 0x0000001f },
@@ -3091,5 +3091,5 @@ static const cnode ucp_table[] = {
   { 0x09900000, 0x0c00fffd },
 };
 
-#endif /* BLD_FEATURE_PCRE */
+#endif /* BIT_PACK_PCRE */
 

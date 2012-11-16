@@ -1,27 +1,27 @@
-# 
-#	Makefile -- Top level Makefile for PCRE 
 #
-#	Copyright (c) Embedthis Software LLC, 2003-2011. All Rights Reserved.
-#
-#
-#	Standard Make targets supported are:
+#	Makefile - Top level Makefile when using "make" to build.
+#			   Alternatively, use bit directly.
 #	
-#		make 						# Does a "make compile"
-#		make clean					# Removes generated objects
-#		make compile				# Compiles the source
-#		make depend					# Generates the make dependencies
-#		make test 					# Runs unit tests
-#
 
-DEPS		= tools
+OS      := $(shell uname | sed 's/CYGWIN.*/windows/;s/Darwin/macosx/' | tr '[A-Z]' '[a-z]')
+MAKE	:= make
+EXT		:= mk
 
-include		build/make/Makefile.top
-include		build/make/Makefile.pcre
+ifeq ($(OS),windows)
+ifeq ($(PROCESSOR_ARCHITEW6432),AMD64)
+	ARCH:=x64
+else
+	ARCH:=x86
+endif
+	MAKE:= projects/windows.bat $(ARCH)
+	EXT := nmake
+endif
 
-#
-#   Local variables:
-#   tab-width: 4
-#   c-basic-offset: 4
-#   End:
-#   vim: sw=4 ts=4 noexpandtab
-#
+all clean clobber compile:
+	$(MAKE) -f projects/*-$(OS).$(EXT) $@
+
+build configure generate test package:
+	bit $@
+
+version:
+	@bit -q version

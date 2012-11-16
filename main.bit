@@ -1,0 +1,53 @@
+/*
+    main.bit -- Main Bit File for the Embedthis PCRE Library
+ */
+
+Bit.load({
+    blend: [
+        "${BITS}/embedthis.bit",
+    ],
+    settings: {
+        /* Default settings overridden by build.bit */
+		product: 'pcre',
+		title: 'PCRE Library',
+        company: 'Embedthis',
+		version: '1.0.0',
+		buildNumber: 'B0',
+        sync: [],
+    },
+
+    usage: {
+        assert: 'Enable program assertions',
+    },
+
+    defaults: {
+        '+defines': [ '-DBIT_FEATURE_PCRE=1' ]
+    },
+
+    targets: {
+        libpcre: {
+            type: 'lib',
+            headers: [ 'src/*.h' ],
+            sources: [ 'src/*.c' ],
+        },
+
+        package: {
+            depends: ['build'],
+            action: "
+                let d = bit.dir.pkg.join('${settings.product}-${settings.version}')
+                safeRemove(bit.dir.pkg)
+                install('package/pcre.bit', d.join('src/deps/pcre/pcre.bit'), {hidden: true})
+                install('src/pcre.h', d.join('src/deps/pcre/pcre.h'))
+                install(['src/config.h', 'src/pcre_internal.h', 'src/ucp.h', 'src/ucpinternal.h', 
+                        'src/ucptable.h', 'src/*.c'], 
+                    d.join('src/deps/pcre/pcre.c'), {
+                    cat: true,
+                    filter: /^#inc.*pcre.*$|#inc.*config.h.*$|#inc.*ucp.*.h.*$/mg,
+                    header: '#include \"bit.h\"\n#include \"pcre.h\"',
+                    title: bit.settings.title + ' Library Source',
+                })
+                package(bit.dir.pkg, ['combo', 'flat'])
+            ",
+        },
+	},
+})

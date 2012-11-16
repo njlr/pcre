@@ -39,6 +39,10 @@ POSSIBILITY OF SUCH DAMAGE.
 #ifndef _PCRE_H
 #define _PCRE_H
 
+#ifndef BIT_PACK_PCRE
+    #define BIT_PACK_PCRE 1
+#endif
+
 /* The current PCRE version information. */
 
 #define PCRE_MAJOR          7
@@ -51,7 +55,10 @@ imported have to be identified as such. When building PCRE, the appropriate
 export setting is defined in pcre_internal.h, which includes this file. So we
 don't change existing definitions of PCRE_EXP_DECL and PCRECPP_EXP_DECL. */
 
-#if BLD_ALL_IN_ONE
+/* EMBEDTHIS */
+#ifndef _VSB_CONFIG_FILE
+    #define _VSB_CONFIG_FILE "vsbConfig.h"
+
     /*
      *  When building all-in-one, we must use internal definitions
      */
@@ -80,14 +87,6 @@ don't change existing definitions of PCRE_EXP_DECL and PCRECPP_EXP_DECL. */
     #    endif
     #  endif
     #endif
-    
-    /* EMBEDTHIS */
-    #undef PCRE_EXP_DEFN
-    #define PCRE_EXP_DEFN 
-    #undef PCRE_EXP_DATA_DEFN
-    #define PCRE_EXP_DATA_DEFN 
-    #undef PCRE_EXP_DECL
-    #define PCRE_EXP_DECL extern
 #else
     #if defined(_WIN32) && !defined(PCRE_STATIC)
     #  ifndef PCRE_EXP_DECL
@@ -121,14 +120,6 @@ don't change existing definitions of PCRE_EXP_DECL and PCRECPP_EXP_DECL. */
     #    define PCRECPP_EXP_DEFN
     #  endif
     #endif
-
-    /* EMBEDTHIS */
-    #undef PCRE_EXP_DEFN
-    #define PCRE_EXP_DEFN 
-    #undef PCRE_EXP_DATA_DEFN
-    #define PCRE_EXP_DATA_DEFN 
-    #undef PCRE_EXP_DECL
-    #define PCRE_EXP_DECL extern
 #endif
 
 /* Have to include stdlib.h in order to ensure that size_t is defined;
@@ -250,8 +241,8 @@ typedef struct real_pcre pcre;
 replaced with a custom type. For conventional use, the public interface is a
 const char *. */
 
-#ifdef BLD_CHAR
-#define PCRE_SPTR const BLD_CHAR *
+#ifdef BIT_CHAR
+#define PCRE_SPTR const BIT_CHAR *
 #else
 #ifndef PCRE_SPTR
 #define PCRE_SPTR const char *
