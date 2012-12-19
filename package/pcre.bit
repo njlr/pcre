@@ -6,7 +6,7 @@ Bit.load({
 
     targets: {
         libpcre: {
-            enable: 'bit.packs.sqlite.enable',
+            enable: 'bit.packs.pcre.enable',
 			scripts: {
 				prebuild: "
 					if (bit.settings.charlen == 2) {
