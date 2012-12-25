@@ -7,12 +7,11 @@ Bit.load({
         "${BITS}/embedthis.bit",
     ],
     settings: {
-        /* Default settings overridden by build.bit */
 		product: 'pcre',
 		title: 'PCRE Library',
         company: 'Embedthis',
 		version: '1.0.0',
-		buildNumber: 'B0',
+		buildNumber: '0',
         sync: [],
     },
 
