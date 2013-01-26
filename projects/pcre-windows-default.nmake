@@ -1,0 +1,190 @@
+#
+#   pcre-windows-default.nmake -- Makefile to build PCRE Library for windows
+#
+
+PRODUCT         =pcre
+VERSION         =1.0.0
+BUILD_NUMBER    =0
+PROFILE  = default
+PA        = $(PROCESSOR_ARCHITECTURE)
+!IF "$(PA)" == "AMD64"
+ARCH     = x64
+ENTRY    = _DllMainCRTStartup
+!ELSE
+ARCH  = x86
+ENTRY    = _DllMainCRTStartup@12
+!ENDIF
+
+OS       = windows
+CONFIG   = $(OS)-$(ARCH)-$(PROFILE)
+CC       = cl
+LD       = link
+RC       = rc
+CFLAGS   = -nologo -GR- -W3 -O2 -MD
+DFLAGS   = -D_REENTRANT -D_MT -DBIT_FEATURE_PCRE=1
+IFLAGS   = -I$(CONFIG)\inc
+LDFLAGS  = -nologo -nodefaultlib -incremental:no -machine:$(ARCH)
+LIBPATHS = -libpath:$(CONFIG)\bin
+LIBS     = ws2_32.lib advapi32.lib user32.lib kernel32.lib oldnames.lib msvcrt.lib shell32.lib
+
+all compile: prep \
+        $(CONFIG)\bin\libpcre.dll
+
+.PHONY: prep
+
+prep:
+!IF "$(VSINSTALLDIR)" == ""
+	echo "Visual Studio vars not set. Run vcvars.bat."
+	exit 255
+!ENDIF
+	@if not exist $(CONFIG)\inc md $(CONFIG)\inc
+	@if not exist $(CONFIG)\obj md $(CONFIG)\obj
+	@if not exist $(CONFIG)\bin md $(CONFIG)\bin
+	@if not exist $(CONFIG)\inc\bit.h copy projects\pcre-$(OS)-$(PROFILE)-bit.h $(CONFIG)\inc\bit.h
+	@echo $(DFLAGS) $(CFLAGS) >projects/.flags
+
+clean:
+	-if exist $(CONFIG)\bin\libpcre.dll del /Q $(CONFIG)\bin\libpcre.dll
+	-if exist $(CONFIG)\obj\pcre_chartables.obj del /Q $(CONFIG)\obj\pcre_chartables.obj
+	-if exist $(CONFIG)\obj\pcre_compile.obj del /Q $(CONFIG)\obj\pcre_compile.obj
+	-if exist $(CONFIG)\obj\pcre_exec.obj del /Q $(CONFIG)\obj\pcre_exec.obj
+	-if exist $(CONFIG)\obj\pcre_globals.obj del /Q $(CONFIG)\obj\pcre_globals.obj
+	-if exist $(CONFIG)\obj\pcre_newline.obj del /Q $(CONFIG)\obj\pcre_newline.obj
+	-if exist $(CONFIG)\obj\pcre_ord2utf8.obj del /Q $(CONFIG)\obj\pcre_ord2utf8.obj
+	-if exist $(CONFIG)\obj\pcre_tables.obj del /Q $(CONFIG)\obj\pcre_tables.obj
+	-if exist $(CONFIG)\obj\pcre_try_flipped.obj del /Q $(CONFIG)\obj\pcre_try_flipped.obj
+	-if exist $(CONFIG)\obj\pcre_ucp_searchfuncs.obj del /Q $(CONFIG)\obj\pcre_ucp_searchfuncs.obj
+	-if exist $(CONFIG)\obj\pcre_valid_utf8.obj del /Q $(CONFIG)\obj\pcre_valid_utf8.obj
+	-if exist $(CONFIG)\obj\pcre_xclass.obj del /Q $(CONFIG)\obj\pcre_xclass.obj
+
+$(CONFIG)\inc\config.h:  \
+        $(CONFIG)\inc\bit.h
+	-if exist $(CONFIG)\inc\config.h del /Q $(CONFIG)\inc\config.h
+	copy /Y src\config.h $(CONFIG)\inc\config.h
+
+$(CONFIG)\inc\pcre.h:  \
+        $(CONFIG)\inc\bit.h
+	-if exist $(CONFIG)\inc\pcre.h del /Q $(CONFIG)\inc\pcre.h
+	copy /Y src\pcre.h $(CONFIG)\inc\pcre.h
+
+$(CONFIG)\inc\ucp.h:  \
+        $(CONFIG)\inc\bit.h
+	-if exist $(CONFIG)\inc\ucp.h del /Q $(CONFIG)\inc\ucp.h
+	copy /Y src\ucp.h $(CONFIG)\inc\ucp.h
+
+$(CONFIG)\inc\pcre_internal.h:  \
+        $(CONFIG)\inc\bit.h \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre.h \
+        $(CONFIG)\inc\ucp.h
+	-if exist $(CONFIG)\inc\pcre_internal.h del /Q $(CONFIG)\inc\pcre_internal.h
+	copy /Y src\pcre_internal.h $(CONFIG)\inc\pcre_internal.h
+
+$(CONFIG)\inc\ucpinternal.h: 
+	-if exist $(CONFIG)\inc\ucpinternal.h del /Q $(CONFIG)\inc\ucpinternal.h
+	copy /Y src\ucpinternal.h $(CONFIG)\inc\ucpinternal.h
+
+$(CONFIG)\inc\ucptable.h: 
+	-if exist $(CONFIG)\inc\ucptable.h del /Q $(CONFIG)\inc\ucptable.h
+	copy /Y src\ucptable.h $(CONFIG)\inc\ucptable.h
+
+$(CONFIG)\obj\pcre_chartables.obj: \
+        src\pcre_chartables.c \
+        $(CONFIG)\inc\bit.h \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre_internal.h
+	"$(CC)" -c -Fo$(CONFIG)\obj\pcre_chartables.obj -Fd$(CONFIG)\obj\pcre_chartables.pdb $(CFLAGS) $(DFLAGS) -I$(CONFIG)\inc src\pcre_chartables.c
+
+$(CONFIG)\obj\pcre_compile.obj: \
+        src\pcre_compile.c \
+        $(CONFIG)\inc\bit.h \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre_internal.h
+	"$(CC)" -c -Fo$(CONFIG)\obj\pcre_compile.obj -Fd$(CONFIG)\obj\pcre_compile.pdb $(CFLAGS) $(DFLAGS) -I$(CONFIG)\inc src\pcre_compile.c
+
+$(CONFIG)\obj\pcre_exec.obj: \
+        src\pcre_exec.c \
+        $(CONFIG)\inc\bit.h \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre_internal.h
+	"$(CC)" -c -Fo$(CONFIG)\obj\pcre_exec.obj -Fd$(CONFIG)\obj\pcre_exec.pdb $(CFLAGS) $(DFLAGS) -I$(CONFIG)\inc src\pcre_exec.c
+
+$(CONFIG)\obj\pcre_globals.obj: \
+        src\pcre_globals.c \
+        $(CONFIG)\inc\bit.h \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre_internal.h
+	"$(CC)" -c -Fo$(CONFIG)\obj\pcre_globals.obj -Fd$(CONFIG)\obj\pcre_globals.pdb $(CFLAGS) $(DFLAGS) -I$(CONFIG)\inc src\pcre_globals.c
+
+$(CONFIG)\obj\pcre_newline.obj: \
+        src\pcre_newline.c \
+        $(CONFIG)\inc\bit.h \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre_internal.h
+	"$(CC)" -c -Fo$(CONFIG)\obj\pcre_newline.obj -Fd$(CONFIG)\obj\pcre_newline.pdb $(CFLAGS) $(DFLAGS) -I$(CONFIG)\inc src\pcre_newline.c
+
+$(CONFIG)\obj\pcre_ord2utf8.obj: \
+        src\pcre_ord2utf8.c \
+        $(CONFIG)\inc\bit.h \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre_internal.h
+	"$(CC)" -c -Fo$(CONFIG)\obj\pcre_ord2utf8.obj -Fd$(CONFIG)\obj\pcre_ord2utf8.pdb $(CFLAGS) $(DFLAGS) -I$(CONFIG)\inc src\pcre_ord2utf8.c
+
+$(CONFIG)\obj\pcre_tables.obj: \
+        src\pcre_tables.c \
+        $(CONFIG)\inc\bit.h \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre_internal.h
+	"$(CC)" -c -Fo$(CONFIG)\obj\pcre_tables.obj -Fd$(CONFIG)\obj\pcre_tables.pdb $(CFLAGS) $(DFLAGS) -I$(CONFIG)\inc src\pcre_tables.c
+
+$(CONFIG)\obj\pcre_try_flipped.obj: \
+        src\pcre_try_flipped.c \
+        $(CONFIG)\inc\bit.h \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre_internal.h
+	"$(CC)" -c -Fo$(CONFIG)\obj\pcre_try_flipped.obj -Fd$(CONFIG)\obj\pcre_try_flipped.pdb $(CFLAGS) $(DFLAGS) -I$(CONFIG)\inc src\pcre_try_flipped.c
+
+$(CONFIG)\obj\pcre_ucp_searchfuncs.obj: \
+        src\pcre_ucp_searchfuncs.c \
+        $(CONFIG)\inc\bit.h \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre_internal.h
+	"$(CC)" -c -Fo$(CONFIG)\obj\pcre_ucp_searchfuncs.obj -Fd$(CONFIG)\obj\pcre_ucp_searchfuncs.pdb $(CFLAGS) $(DFLAGS) -I$(CONFIG)\inc src\pcre_ucp_searchfuncs.c
+
+$(CONFIG)\obj\pcre_valid_utf8.obj: \
+        src\pcre_valid_utf8.c \
+        $(CONFIG)\inc\bit.h \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre_internal.h
+	"$(CC)" -c -Fo$(CONFIG)\obj\pcre_valid_utf8.obj -Fd$(CONFIG)\obj\pcre_valid_utf8.pdb $(CFLAGS) $(DFLAGS) -I$(CONFIG)\inc src\pcre_valid_utf8.c
+
+$(CONFIG)\obj\pcre_xclass.obj: \
+        src\pcre_xclass.c \
+        $(CONFIG)\inc\bit.h \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre_internal.h
+	"$(CC)" -c -Fo$(CONFIG)\obj\pcre_xclass.obj -Fd$(CONFIG)\obj\pcre_xclass.pdb $(CFLAGS) $(DFLAGS) -I$(CONFIG)\inc src\pcre_xclass.c
+
+$(CONFIG)\bin\libpcre.dll:  \
+        $(CONFIG)\inc\config.h \
+        $(CONFIG)\inc\pcre.h \
+        $(CONFIG)\inc\pcre_internal.h \
+        $(CONFIG)\inc\ucp.h \
+        $(CONFIG)\inc\ucpinternal.h \
+        $(CONFIG)\inc\ucptable.h \
+        $(CONFIG)\obj\pcre_chartables.obj \
+        $(CONFIG)\obj\pcre_compile.obj \
+        $(CONFIG)\obj\pcre_exec.obj \
+        $(CONFIG)\obj\pcre_globals.obj \
+        $(CONFIG)\obj\pcre_newline.obj \
+        $(CONFIG)\obj\pcre_ord2utf8.obj \
+        $(CONFIG)\obj\pcre_tables.obj \
+        $(CONFIG)\obj\pcre_try_flipped.obj \
+        $(CONFIG)\obj\pcre_ucp_searchfuncs.obj \
+        $(CONFIG)\obj\pcre_valid_utf8.obj \
+        $(CONFIG)\obj\pcre_xclass.obj
+	"$(LD)" -dll -out:$(CONFIG)\bin\libpcre.dll -entry:$(ENTRY) $(LDFLAGS) $(LIBPATHS) $(CONFIG)\obj\pcre_chartables.obj $(CONFIG)\obj\pcre_compile.obj $(CONFIG)\obj\pcre_exec.obj $(CONFIG)\obj\pcre_globals.obj $(CONFIG)\obj\pcre_newline.obj $(CONFIG)\obj\pcre_ord2utf8.obj $(CONFIG)\obj\pcre_tables.obj $(CONFIG)\obj\pcre_try_flipped.obj $(CONFIG)\obj\pcre_ucp_searchfuncs.obj $(CONFIG)\obj\pcre_valid_utf8.obj $(CONFIG)\obj\pcre_xclass.obj $(LIBS)
+
+version: 
+	@echo 1.0.0-0
+
