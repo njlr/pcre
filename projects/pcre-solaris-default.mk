@@ -12,23 +12,27 @@ CC              ?= /usr/bin/gcc
 LD              ?= /usr/bin/ld
 CONFIG          ?= $(OS)-$(ARCH)-$(PROFILE)
 
-CFLAGS          += -fPIC -O2 -w
-DFLAGS          += -D_REENTRANT -DBIT_FEATURE_PCRE=1 -DPIC$(patsubst %,-D%,$(filter BIT_%,$(MAKEFLAGS)))
+CFLAGS          += -fPIC  -w
+DFLAGS          += -D_REENTRANT -DBIT_FEATURE_PCRE=1 -DPIC $(patsubst %,-D%,$(filter BIT_%,$(MAKEFLAGS)))
 IFLAGS          += -I$(CONFIG)/inc
-LDFLAGS         += 
+LDFLAGS         += '-g'
 LIBPATHS        += -L$(CONFIG)/bin
 LIBS            += -llxnet -lrt -lsocket -lpthread -lm -ldl
 
-DEBUG           ?= release
+DEBUG           ?= debug
 CFLAGS-debug    := -g
-CFLAGS-release  := -O2
 DFLAGS-debug    := -DBIT_DEBUG
-DFLAGS-release  := 
 LDFLAGS-debug   := -g
+DFLAGS-release  := 
+CFLAGS-release  := -O2
 LDFLAGS-release := 
-CFLAGS          += $(CFLAGS-$(PROFILE))
-DFLAGS          += $(DFLAGS-$(PROFILE))
-LDFLAGS         += $(LDFLAGS-$(PROFILE))
+CFLAGS          += $(CFLAGS-$(DEBUG))
+DFLAGS          += $(DFLAGS-$(DEBUG))
+LDFLAGS         += $(LDFLAGS-$(DEBUG))
+
+ifeq ($(wildcard $(CONFIG)/inc/.prefixes*),$(CONFIG)/inc/.prefixes)
+    include $(CONFIG)/inc/.prefixes
+endif
 
 all compile: prep \
         $(CONFIG)/bin/libpcre.so
@@ -99,77 +103,77 @@ $(CONFIG)/obj/pcre_chartables.o: \
         $(CONFIG)/inc/bit.h \
         $(CONFIG)/inc/config.h \
         $(CONFIG)/inc/pcre_internal.h
-	$(LDFLAGS)$(LDFLAGS)$(CC) -c -o $(CONFIG)/obj/pcre_chartables.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_chartables.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_chartables.o -fPIC $(LDFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_chartables.c
 
 $(CONFIG)/obj/pcre_compile.o: \
         src/pcre_compile.c \
         $(CONFIG)/inc/bit.h \
         $(CONFIG)/inc/config.h \
         $(CONFIG)/inc/pcre_internal.h
-	$(LDFLAGS)$(LDFLAGS)$(CC) -c -o $(CONFIG)/obj/pcre_compile.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_compile.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_compile.o -fPIC $(LDFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_compile.c
 
 $(CONFIG)/obj/pcre_exec.o: \
         src/pcre_exec.c \
         $(CONFIG)/inc/bit.h \
         $(CONFIG)/inc/config.h \
         $(CONFIG)/inc/pcre_internal.h
-	$(LDFLAGS)$(LDFLAGS)$(CC) -c -o $(CONFIG)/obj/pcre_exec.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_exec.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_exec.o -fPIC $(LDFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_exec.c
 
 $(CONFIG)/obj/pcre_globals.o: \
         src/pcre_globals.c \
         $(CONFIG)/inc/bit.h \
         $(CONFIG)/inc/config.h \
         $(CONFIG)/inc/pcre_internal.h
-	$(LDFLAGS)$(LDFLAGS)$(CC) -c -o $(CONFIG)/obj/pcre_globals.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_globals.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_globals.o -fPIC $(LDFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_globals.c
 
 $(CONFIG)/obj/pcre_newline.o: \
         src/pcre_newline.c \
         $(CONFIG)/inc/bit.h \
         $(CONFIG)/inc/config.h \
         $(CONFIG)/inc/pcre_internal.h
-	$(LDFLAGS)$(LDFLAGS)$(CC) -c -o $(CONFIG)/obj/pcre_newline.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_newline.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_newline.o -fPIC $(LDFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_newline.c
 
 $(CONFIG)/obj/pcre_ord2utf8.o: \
         src/pcre_ord2utf8.c \
         $(CONFIG)/inc/bit.h \
         $(CONFIG)/inc/config.h \
         $(CONFIG)/inc/pcre_internal.h
-	$(LDFLAGS)$(LDFLAGS)$(CC) -c -o $(CONFIG)/obj/pcre_ord2utf8.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_ord2utf8.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_ord2utf8.o -fPIC $(LDFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_ord2utf8.c
 
 $(CONFIG)/obj/pcre_tables.o: \
         src/pcre_tables.c \
         $(CONFIG)/inc/bit.h \
         $(CONFIG)/inc/config.h \
         $(CONFIG)/inc/pcre_internal.h
-	$(LDFLAGS)$(LDFLAGS)$(CC) -c -o $(CONFIG)/obj/pcre_tables.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_tables.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_tables.o -fPIC $(LDFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_tables.c
 
 $(CONFIG)/obj/pcre_try_flipped.o: \
         src/pcre_try_flipped.c \
         $(CONFIG)/inc/bit.h \
         $(CONFIG)/inc/config.h \
         $(CONFIG)/inc/pcre_internal.h
-	$(LDFLAGS)$(LDFLAGS)$(CC) -c -o $(CONFIG)/obj/pcre_try_flipped.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_try_flipped.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_try_flipped.o -fPIC $(LDFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_try_flipped.c
 
 $(CONFIG)/obj/pcre_ucp_searchfuncs.o: \
         src/pcre_ucp_searchfuncs.c \
         $(CONFIG)/inc/bit.h \
         $(CONFIG)/inc/config.h \
         $(CONFIG)/inc/pcre_internal.h
-	$(LDFLAGS)$(LDFLAGS)$(CC) -c -o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_ucp_searchfuncs.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_ucp_searchfuncs.o -fPIC $(LDFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_ucp_searchfuncs.c
 
 $(CONFIG)/obj/pcre_valid_utf8.o: \
         src/pcre_valid_utf8.c \
         $(CONFIG)/inc/bit.h \
         $(CONFIG)/inc/config.h \
         $(CONFIG)/inc/pcre_internal.h
-	$(LDFLAGS)$(LDFLAGS)$(CC) -c -o $(CONFIG)/obj/pcre_valid_utf8.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_valid_utf8.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_valid_utf8.o -fPIC $(LDFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_valid_utf8.c
 
 $(CONFIG)/obj/pcre_xclass.o: \
         src/pcre_xclass.c \
         $(CONFIG)/inc/bit.h \
         $(CONFIG)/inc/config.h \
         $(CONFIG)/inc/pcre_internal.h
-	$(LDFLAGS)$(LDFLAGS)$(CC) -c -o $(CONFIG)/obj/pcre_xclass.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_xclass.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_xclass.o -fPIC $(LDFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_xclass.c
 
 $(CONFIG)/bin/libpcre.so:  \
         $(CONFIG)/inc/config.h \
@@ -189,8 +193,8 @@ $(CONFIG)/bin/libpcre.so:  \
         $(CONFIG)/obj/pcre_ucp_searchfuncs.o \
         $(CONFIG)/obj/pcre_valid_utf8.o \
         $(CONFIG)/obj/pcre_xclass.o
-	$(LDFLAGS)$(LDFLAGS)$(CC) -shared -o $(CONFIG)/bin/libpcre.so $(LIBPATHS) $(CONFIG)/obj/pcre_chartables.o $(CONFIG)/obj/pcre_compile.o $(CONFIG)/obj/pcre_exec.o $(CONFIG)/obj/pcre_globals.o $(CONFIG)/obj/pcre_newline.o $(CONFIG)/obj/pcre_ord2utf8.o $(CONFIG)/obj/pcre_tables.o $(CONFIG)/obj/pcre_try_flipped.o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CONFIG)/obj/pcre_valid_utf8.o $(CONFIG)/obj/pcre_xclass.o $(LIBS)
+	$(CC) -shared -o $(CONFIG)/bin/libpcre.so $(LDFLAGS) $(LIBPATHS) $(CONFIG)/obj/pcre_chartables.o $(CONFIG)/obj/pcre_compile.o $(CONFIG)/obj/pcre_exec.o $(CONFIG)/obj/pcre_globals.o $(CONFIG)/obj/pcre_newline.o $(CONFIG)/obj/pcre_ord2utf8.o $(CONFIG)/obj/pcre_tables.o $(CONFIG)/obj/pcre_try_flipped.o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CONFIG)/obj/pcre_valid_utf8.o $(CONFIG)/obj/pcre_xclass.o $(LIBS)
 
 version: 
-	@echo 1.0.0-0 
+	@echo 1.0.0-0
 

@@ -309,6 +309,7 @@ fi";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"BIT_FEATURE_PCRE=1",
 					"BIT_DEBUG",
+					"BIT_DEBUG",
 					"$(inherited)"
 				);
 				LIBRARY_SEARCH_PATHS = (
@@ -379,6 +380,7 @@ fi";
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"BIT_FEATURE_PCRE=1",
+					"BIT_DEBUG",
 					"$(inherited)"
 				);
 				LIBRARY_SEARCH_PATHS = (
