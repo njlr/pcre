@@ -2,6 +2,10 @@
 #   pcre-vxworks-default.mk -- Makefile to build PCRE Library for vxworks
 #
 
+export WIND_BASE := $(WIND_BASE)
+export WIND_HOME := $(WIND_BASE)/..
+export WIND_PLATFORM := $(WIND_PLATFORM)
+
 PRODUCT         := pcre
 VERSION         := 1.0.0
 BUILD_NUMBER    := 0
@@ -28,7 +32,7 @@ BIT_MAN_PREFIX  := $(BIT_VER_PREFIX)
 
 CFLAGS          += -fno-builtin -fno-defer-pop -fvolatile  -w
 DFLAGS          += -D_REENTRANT -DVXWORKS -DRW_MULTI_THREAD -D_GNU_TOOL -DBIT_FEATURE_PCRE=1  -DCPU=PENTIUM $(patsubst %,-D%,$(filter BIT_%,$(MAKEFLAGS)))
-IFLAGS          += -I$(CONFIG)/inc
+IFLAGS          += -I$(CONFIG)/inc -I$(WIND_BASE)/target/h -I$(WIND_BASE)/target/h/wrn/coreip
 LDFLAGS         += '-Wl,-r'
 LIBPATHS        += -L$(CONFIG)/bin -L$(CONFIG)/bin
 LIBS            += 
@@ -112,77 +116,77 @@ $(CONFIG)/obj/pcre_chartables.o: \
     $(CONFIG)/inc/pcre_internal.h \
     $(CONFIG)/inc/pcre.h \
     $(CONFIG)/inc/ucp.h
-	$(LIBS)$(CC) -c -o $(CONFIG)/obj/pcre_chartables.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_chartables.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_chartables.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_chartables.c
 
 $(CONFIG)/obj/pcre_compile.o: \
     src/pcre_compile.c\
     $(CONFIG)/inc/bit.h \
     $(CONFIG)/inc/config.h \
     $(CONFIG)/inc/pcre_internal.h
-	$(LIBS)$(CC) -c -o $(CONFIG)/obj/pcre_compile.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_compile.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_compile.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_compile.c
 
 $(CONFIG)/obj/pcre_exec.o: \
     src/pcre_exec.c\
     $(CONFIG)/inc/bit.h \
     $(CONFIG)/inc/config.h \
     $(CONFIG)/inc/pcre_internal.h
-	$(LIBS)$(CC) -c -o $(CONFIG)/obj/pcre_exec.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_exec.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_exec.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_exec.c
 
 $(CONFIG)/obj/pcre_globals.o: \
     src/pcre_globals.c\
     $(CONFIG)/inc/bit.h \
     $(CONFIG)/inc/config.h \
     $(CONFIG)/inc/pcre_internal.h
-	$(LIBS)$(CC) -c -o $(CONFIG)/obj/pcre_globals.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_globals.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_globals.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_globals.c
 
 $(CONFIG)/obj/pcre_newline.o: \
     src/pcre_newline.c\
     $(CONFIG)/inc/bit.h \
     $(CONFIG)/inc/config.h \
     $(CONFIG)/inc/pcre_internal.h
-	$(LIBS)$(CC) -c -o $(CONFIG)/obj/pcre_newline.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_newline.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_newline.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_newline.c
 
 $(CONFIG)/obj/pcre_ord2utf8.o: \
     src/pcre_ord2utf8.c\
     $(CONFIG)/inc/bit.h \
     $(CONFIG)/inc/config.h \
     $(CONFIG)/inc/pcre_internal.h
-	$(LIBS)$(CC) -c -o $(CONFIG)/obj/pcre_ord2utf8.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_ord2utf8.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_ord2utf8.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_ord2utf8.c
 
 $(CONFIG)/obj/pcre_tables.o: \
     src/pcre_tables.c\
     $(CONFIG)/inc/bit.h \
     $(CONFIG)/inc/config.h \
     $(CONFIG)/inc/pcre_internal.h
-	$(LIBS)$(CC) -c -o $(CONFIG)/obj/pcre_tables.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_tables.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_tables.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_tables.c
 
 $(CONFIG)/obj/pcre_try_flipped.o: \
     src/pcre_try_flipped.c\
     $(CONFIG)/inc/bit.h \
     $(CONFIG)/inc/config.h \
     $(CONFIG)/inc/pcre_internal.h
-	$(LIBS)$(CC) -c -o $(CONFIG)/obj/pcre_try_flipped.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_try_flipped.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_try_flipped.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_try_flipped.c
 
 $(CONFIG)/obj/pcre_ucp_searchfuncs.o: \
     src/pcre_ucp_searchfuncs.c\
     $(CONFIG)/inc/bit.h \
     $(CONFIG)/inc/config.h \
     $(CONFIG)/inc/pcre_internal.h
-	$(LIBS)$(CC) -c -o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_ucp_searchfuncs.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_ucp_searchfuncs.c
 
 $(CONFIG)/obj/pcre_valid_utf8.o: \
     src/pcre_valid_utf8.c\
     $(CONFIG)/inc/bit.h \
     $(CONFIG)/inc/config.h \
     $(CONFIG)/inc/pcre_internal.h
-	$(LIBS)$(CC) -c -o $(CONFIG)/obj/pcre_valid_utf8.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_valid_utf8.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_valid_utf8.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_valid_utf8.c
 
 $(CONFIG)/obj/pcre_xclass.o: \
     src/pcre_xclass.c\
     $(CONFIG)/inc/bit.h \
     $(CONFIG)/inc/config.h \
     $(CONFIG)/inc/pcre_internal.h
-	$(LIBS)$(CC) -c -o $(CONFIG)/obj/pcre_xclass.o $(CFLAGS) $(DFLAGS) -I$(CONFIG)/inc src/pcre_xclass.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_xclass.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_xclass.c
 
 $(CONFIG)/bin/libpcre.out: \
     $(CONFIG)/inc/config.h \
@@ -202,7 +206,7 @@ $(CONFIG)/bin/libpcre.out: \
     $(CONFIG)/obj/pcre_ucp_searchfuncs.o \
     $(CONFIG)/obj/pcre_valid_utf8.o \
     $(CONFIG)/obj/pcre_xclass.o
-	$(LIBS)$(CC) -r -o $(CONFIG)/bin/libpcre.out $(LDFLAGS) $(LIBPATHS) $(CONFIG)/obj/pcre_chartables.o $(CONFIG)/obj/pcre_compile.o $(CONFIG)/obj/pcre_exec.o $(CONFIG)/obj/pcre_globals.o $(CONFIG)/obj/pcre_newline.o $(CONFIG)/obj/pcre_ord2utf8.o $(CONFIG)/obj/pcre_tables.o $(CONFIG)/obj/pcre_try_flipped.o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CONFIG)/obj/pcre_valid_utf8.o $(CONFIG)/obj/pcre_xclass.o 
+	$(CC) -r -o $(CONFIG)/bin/libpcre.out $(LDFLAGS) $(LIBPATHS) $(CONFIG)/obj/pcre_chartables.o $(CONFIG)/obj/pcre_compile.o $(CONFIG)/obj/pcre_exec.o $(CONFIG)/obj/pcre_globals.o $(CONFIG)/obj/pcre_newline.o $(CONFIG)/obj/pcre_ord2utf8.o $(CONFIG)/obj/pcre_tables.o $(CONFIG)/obj/pcre_try_flipped.o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CONFIG)/obj/pcre_valid_utf8.o $(CONFIG)/obj/pcre_xclass.o 
 
 version: 
 	@echo 1.0.0-0
