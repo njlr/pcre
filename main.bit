@@ -7,12 +7,12 @@ Bit.load({
         "${BITS}/embedthis.bit",
     ],
     settings: {
-		product: 'pcre',
-		title: 'PCRE Library',
+        product: 'pcre',
+        title: 'PCRE Library',
         company: 'Embedthis',
-		version: '1.0.0',
-		buildNumber: '0',
-        bit: '0.8.1',
+        version: '1.0.0',
+        buildNumber: '0',
+        bit: '0.8.4',
         prefixes: 'embedthis-prefixes',
         sync: [],
     },
@@ -32,7 +32,7 @@ Bit.load({
             sources: [ 'src/*.c' ],
         },
         projects: {},
-	},
+    },
 
     manifest: {
         packages: {
