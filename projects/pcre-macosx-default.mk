@@ -15,7 +15,7 @@ LBIN              := $(CONFIG)/bin
 
 
 CFLAGS            += -w
-DFLAGS            += -DBIT_FEATURE_PCRE=1  $(patsubst %,-D%,$(filter BIT_%,$(MAKEFLAGS))) 
+DFLAGS            += -D-DBIT_FEATURE_PCRE=1  $(patsubst %,-D%,$(filter BIT_%,$(MAKEFLAGS))) 
 IFLAGS            += -I$(CONFIG)/inc
 LDFLAGS           += '-Wl,-rpath,@executable_path/' '-Wl,-rpath,@loader_path/'
 LIBPATHS          += -L$(CONFIG)/bin
@@ -314,7 +314,7 @@ DEPS_20 += $(CONFIG)/obj/pcre_xclass.o
 
 $(CONFIG)/bin/libpcre.dylib: $(DEPS_20)
 	@echo '      [Link] libpcre'
-	$(CC) -dynamiclib -o $(CONFIG)/bin/libpcre.dylib $(LDFLAGS) -compatibility_version 1.0.0 -current_version 1.0.0 $(LIBPATHS) -install_name @rpath/libpcre.dylib $(CONFIG)/obj/pcre_chartables.o $(CONFIG)/obj/pcre_compile.o $(CONFIG)/obj/pcre_exec.o $(CONFIG)/obj/pcre_globals.o $(CONFIG)/obj/pcre_newline.o $(CONFIG)/obj/pcre_ord2utf8.o $(CONFIG)/obj/pcre_tables.o $(CONFIG)/obj/pcre_try_flipped.o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CONFIG)/obj/pcre_valid_utf8.o $(CONFIG)/obj/pcre_xclass.o $(LIBS)
+	$(CC) -dynamiclib -o $(CONFIG)/bin/libpcre.dylib $(LDFLAGS) $(LIBPATHS) -install_name @rpath/libpcre.dylib -compatibility_version 1.0.0 -current_version 1.0.0 $(CONFIG)/obj/pcre_chartables.o $(CONFIG)/obj/pcre_compile.o $(CONFIG)/obj/pcre_exec.o $(CONFIG)/obj/pcre_globals.o $(CONFIG)/obj/pcre_newline.o $(CONFIG)/obj/pcre_ord2utf8.o $(CONFIG)/obj/pcre_tables.o $(CONFIG)/obj/pcre_try_flipped.o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CONFIG)/obj/pcre_valid_utf8.o $(CONFIG)/obj/pcre_xclass.o $(LIBS)
 
 #
 #   stop
