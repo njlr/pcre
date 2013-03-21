@@ -48,7 +48,7 @@ BIT_CACHE_PREFIX  = $(BIT_VAPP_PREFIX)\cache
 BIT_SRC_PREFIX    = $(BIT_VAPP_PREFIX)\src
 
 
-TARGETS           = $(TARGETS) $(CONFIG)\bin\libpcre.dll
+TARGETS            = $(TARGETS) $(CONFIG)\bin\libpcre.dll
 
 !IFNDEF SHOW
 .SILENT:
@@ -307,7 +307,7 @@ DEPS_20 = $(DEPS_20) $(CONFIG)\obj\pcre_xclass.obj
 
 $(CONFIG)\bin\libpcre.dll: $(DEPS_20)
 	@echo '      [Link] libpcre'
-	"$(LD)" -dll -out:$(CONFIG)\bin\libpcre.dll -entry:$(ENTRY) $(LDFLAGS) $(LIBPATHS) $(CONFIG)\obj\pcre_chartables.obj $(CONFIG)\obj\pcre_compile.obj $(CONFIG)\obj\pcre_exec.obj $(CONFIG)\obj\pcre_globals.obj $(CONFIG)\obj\pcre_newline.obj $(CONFIG)\obj\pcre_ord2utf8.obj $(CONFIG)\obj\pcre_tables.obj $(CONFIG)\obj\pcre_try_flipped.obj $(CONFIG)\obj\pcre_ucp_searchfuncs.obj $(CONFIG)\obj\pcre_valid_utf8.obj $(CONFIG)\obj\pcre_xclass.obj $(LIBS)
+	"$(LD)" -dll -out:$(CONFIG)\bin\libpcre.dll -entry:$(ENTRY) $(LDFLAGS) $(LIBPATHS) $(CONFIG)\obj\pcre_chartables.obj $(CONFIG)\obj\pcre_compile.obj $(CONFIG)\obj\pcre_exec.obj $(CONFIG)\obj\pcre_globals.obj $(CONFIG)\obj\pcre_newline.obj $(CONFIG)\obj\pcre_ord2utf8.obj $(CONFIG)\obj\pcre_tables.obj $(CONFIG)\obj\pcre_try_flipped.obj $(CONFIG)\obj\pcre_ucp_searchfuncs.obj $(CONFIG)\obj\pcre_valid_utf8.obj $(CONFIG)\obj\pcre_xclass.obj $(LIBS) 
 
 #
 #   stop
@@ -320,7 +320,6 @@ stop: $(DEPS_21)
 DEPS_22 = $(DEPS_22) stop
 
 installBinary: $(DEPS_22)
-#  Omit build script installBinary
 
 #
 #   start
@@ -343,5 +342,4 @@ install: $(DEPS_24)
 DEPS_25 = $(DEPS_25) stop
 
 uninstall: $(DEPS_25)
-
 
