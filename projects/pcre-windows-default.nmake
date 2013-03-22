@@ -320,6 +320,7 @@ $(CONFIG)\bin\libpcre.dll: $(DEPS_20)
 #   stop
 #
 stop: $(DEPS_21)
+#  Omit build script stop
 
 #
 #   installBinary
@@ -332,6 +333,7 @@ installBinary: $(DEPS_22)
 #   start
 #
 start: $(DEPS_23)
+#  Omit build script start
 
 #
 #   install
