@@ -20,6 +20,13 @@ OS                = windows
 CONFIG            = $(OS)-$(ARCH)-$(PROFILE)
 LBIN              = $(CONFIG)\bin
 
+ifeq ($(BIT_PACK_LIB),1)
+    BIT_PACK_COMPILER := 1
+endif
+ifeq ($(BIT_PACK_RC),1)
+    BIT_PACK_WINSDK := 1
+endif
+
 CC                = cl
 LD                = link
 RC                = rc
@@ -73,18 +80,18 @@ prep:
 	@if not exist $(CONFIG)\inc\bit.h copy projects\pcre-windows-default-bit.h $(CONFIG)\inc\bit.h
 
 clean:
-	if exist "$(CONFIG)\bin\libpcre.dll" rd /Q "$(CONFIG)\bin\libpcre.dll"
-	if exist "$(CONFIG)\obj\pcre_chartables.obj" rd /Q "$(CONFIG)\obj\pcre_chartables.obj"
-	if exist "$(CONFIG)\obj\pcre_compile.obj" rd /Q "$(CONFIG)\obj\pcre_compile.obj"
-	if exist "$(CONFIG)\obj\pcre_exec.obj" rd /Q "$(CONFIG)\obj\pcre_exec.obj"
-	if exist "$(CONFIG)\obj\pcre_globals.obj" rd /Q "$(CONFIG)\obj\pcre_globals.obj"
-	if exist "$(CONFIG)\obj\pcre_newline.obj" rd /Q "$(CONFIG)\obj\pcre_newline.obj"
-	if exist "$(CONFIG)\obj\pcre_ord2utf8.obj" rd /Q "$(CONFIG)\obj\pcre_ord2utf8.obj"
-	if exist "$(CONFIG)\obj\pcre_tables.obj" rd /Q "$(CONFIG)\obj\pcre_tables.obj"
-	if exist "$(CONFIG)\obj\pcre_try_flipped.obj" rd /Q "$(CONFIG)\obj\pcre_try_flipped.obj"
-	if exist "$(CONFIG)\obj\pcre_ucp_searchfuncs.obj" rd /Q "$(CONFIG)\obj\pcre_ucp_searchfuncs.obj"
-	if exist "$(CONFIG)\obj\pcre_valid_utf8.obj" rd /Q "$(CONFIG)\obj\pcre_valid_utf8.obj"
-	if exist "$(CONFIG)\obj\pcre_xclass.obj" rd /Q "$(CONFIG)\obj\pcre_xclass.obj"
+	if exist "$(CONFIG)\bin\libpcre.dll" rd /Q /S"$(CONFIG)\bin\libpcre.dll"
+	if exist "$(CONFIG)\obj\pcre_chartables.obj" rd /Q /S"$(CONFIG)\obj\pcre_chartables.obj"
+	if exist "$(CONFIG)\obj\pcre_compile.obj" rd /Q /S"$(CONFIG)\obj\pcre_compile.obj"
+	if exist "$(CONFIG)\obj\pcre_exec.obj" rd /Q /S"$(CONFIG)\obj\pcre_exec.obj"
+	if exist "$(CONFIG)\obj\pcre_globals.obj" rd /Q /S"$(CONFIG)\obj\pcre_globals.obj"
+	if exist "$(CONFIG)\obj\pcre_newline.obj" rd /Q /S"$(CONFIG)\obj\pcre_newline.obj"
+	if exist "$(CONFIG)\obj\pcre_ord2utf8.obj" rd /Q /S"$(CONFIG)\obj\pcre_ord2utf8.obj"
+	if exist "$(CONFIG)\obj\pcre_tables.obj" rd /Q /S"$(CONFIG)\obj\pcre_tables.obj"
+	if exist "$(CONFIG)\obj\pcre_try_flipped.obj" rd /Q /S"$(CONFIG)\obj\pcre_try_flipped.obj"
+	if exist "$(CONFIG)\obj\pcre_ucp_searchfuncs.obj" rd /Q /S"$(CONFIG)\obj\pcre_ucp_searchfuncs.obj"
+	if exist "$(CONFIG)\obj\pcre_valid_utf8.obj" rd /Q /S"$(CONFIG)\obj\pcre_valid_utf8.obj"
+	if exist "$(CONFIG)\obj\pcre_xclass.obj" rd /Q /S"$(CONFIG)\obj\pcre_xclass.obj"
 
 
 

@@ -18,6 +18,10 @@ CONFIG             := $(OS)-$(ARCH)-$(PROFILE)
 LBIN               := $(CONFIG)/bin
 
 
+ifeq ($(BIT_PACK_LIB),1)
+    BIT_PACK_COMPILER := 1
+endif
+
 CFLAGS             += -fno-builtin -fno-defer-pop -fvolatile -w
 DFLAGS             += -D_REENTRANT -DVXWORKS -DRW_MULTI_THREAD -D_GNU_TOOL -DBIT_FEATURE_PCRE=1 -DCPU=PENTIUM $(patsubst %,-D%,$(filter BIT_%,$(MAKEFLAGS))) 
 IFLAGS             += -I$(CONFIG)/inc -I$(WIND_BASE)/target/h -I$(WIND_BASE)/target/h/wrn/coreip
@@ -81,18 +85,18 @@ prep:
 	fi; true
 
 clean:
-	rm -f "$(CONFIG)/bin/libpcre.out"
-	rm -f "$(CONFIG)/obj/pcre_chartables.o"
-	rm -f "$(CONFIG)/obj/pcre_compile.o"
-	rm -f "$(CONFIG)/obj/pcre_exec.o"
-	rm -f "$(CONFIG)/obj/pcre_globals.o"
-	rm -f "$(CONFIG)/obj/pcre_newline.o"
-	rm -f "$(CONFIG)/obj/pcre_ord2utf8.o"
-	rm -f "$(CONFIG)/obj/pcre_tables.o"
-	rm -f "$(CONFIG)/obj/pcre_try_flipped.o"
-	rm -f "$(CONFIG)/obj/pcre_ucp_searchfuncs.o"
-	rm -f "$(CONFIG)/obj/pcre_valid_utf8.o"
-	rm -f "$(CONFIG)/obj/pcre_xclass.o"
+	rm -fr "$(CONFIG)/bin/libpcre.out"
+	rm -fr "$(CONFIG)/obj/pcre_chartables.o"
+	rm -fr "$(CONFIG)/obj/pcre_compile.o"
+	rm -fr "$(CONFIG)/obj/pcre_exec.o"
+	rm -fr "$(CONFIG)/obj/pcre_globals.o"
+	rm -fr "$(CONFIG)/obj/pcre_newline.o"
+	rm -fr "$(CONFIG)/obj/pcre_ord2utf8.o"
+	rm -fr "$(CONFIG)/obj/pcre_tables.o"
+	rm -fr "$(CONFIG)/obj/pcre_try_flipped.o"
+	rm -fr "$(CONFIG)/obj/pcre_ucp_searchfuncs.o"
+	rm -fr "$(CONFIG)/obj/pcre_valid_utf8.o"
+	rm -fr "$(CONFIG)/obj/pcre_xclass.o"
 
 clobber: clean
 	rm -fr ./$(CONFIG)
