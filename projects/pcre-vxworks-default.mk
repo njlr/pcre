@@ -2,18 +2,14 @@
 #   pcre-vxworks-default.mk -- Makefile to build PCRE Library for vxworks
 #
 
-export WIND_BASE := $(WIND_BASE)
-export WIND_HOME := $(WIND_BASE)/..
-export WIND_PLATFORM := $(WIND_PLATFORM)
-
 PRODUCT            := pcre
 VERSION            := 1.0.0
 BUILD_NUMBER       := 0
 PROFILE            := default
 ARCH               := $(shell uname -m | sed 's/i.86/x86/;s/x86_64/x64/;s/arm.*/arm/;s/mips.*/mips/')
 OS                 := vxworks
-CC                 := ccpentium
-LD                 := /usr/bin/ld
+CC                 := cc$(subst x86,pentium,$(ARCH))
+LD                 := link
 CONFIG             := $(OS)-$(ARCH)-$(PROFILE)
 LBIN               := $(CONFIG)/bin
 
@@ -21,6 +17,15 @@ LBIN               := $(CONFIG)/bin
 ifeq ($(BIT_PACK_LIB),1)
     BIT_PACK_COMPILER := 1
 endif
+
+BIT_PACK_COMPILER_PATH := cc$(subst x86,pentium,$(ARCH))
+BIT_PACK_LIB_PATH  := ar
+BIT_PACK_LINK_PATH := link
+BIT_PACK_VXWORKS_PATH := $(WIND_BASE)
+
+export WIND_BASE := $(WIND_BASE)
+export WIND_HOME := $(WIND_BASE)/..
+export WIND_PLATFORM := $(WIND_PLATFORM)
 
 CFLAGS             += -fno-builtin -fno-defer-pop -fvolatile -w
 DFLAGS             += -D_REENTRANT -DVXWORKS -DRW_MULTI_THREAD -D_GNU_TOOL -DBIT_FEATURE_PCRE=1 -DCPU=PENTIUM $(patsubst %,-D%,$(filter BIT_%,$(MAKEFLAGS))) 
@@ -115,7 +120,7 @@ clobber: clean
 #   version
 #
 version: $(DEPS_1)
-	@echo NN 1.0.0-0
+	@echo 1.0.0-0
 
 #
 #   config.h
@@ -123,7 +128,7 @@ version: $(DEPS_1)
 $(CONFIG)/inc/config.h: $(DEPS_2)
 	@echo '      [Copy] $(CONFIG)/inc/config.h'
 	mkdir -p "$(CONFIG)/inc"
-	cp "src/config.h" "$(CONFIG)/inc/config.h"
+	cp src/config.h $(CONFIG)/inc/config.h
 
 #
 #   pcre.h
@@ -131,7 +136,7 @@ $(CONFIG)/inc/config.h: $(DEPS_2)
 $(CONFIG)/inc/pcre.h: $(DEPS_3)
 	@echo '      [Copy] $(CONFIG)/inc/pcre.h'
 	mkdir -p "$(CONFIG)/inc"
-	cp "src/pcre.h" "$(CONFIG)/inc/pcre.h"
+	cp src/pcre.h $(CONFIG)/inc/pcre.h
 
 #
 #   pcre_internal.h
@@ -139,7 +144,7 @@ $(CONFIG)/inc/pcre.h: $(DEPS_3)
 $(CONFIG)/inc/pcre_internal.h: $(DEPS_4)
 	@echo '      [Copy] $(CONFIG)/inc/pcre_internal.h'
 	mkdir -p "$(CONFIG)/inc"
-	cp "src/pcre_internal.h" "$(CONFIG)/inc/pcre_internal.h"
+	cp src/pcre_internal.h $(CONFIG)/inc/pcre_internal.h
 
 #
 #   bit.h
@@ -155,7 +160,7 @@ DEPS_6 += $(CONFIG)/inc/bit.h
 $(CONFIG)/inc/ucp.h: $(DEPS_6)
 	@echo '      [Copy] $(CONFIG)/inc/ucp.h'
 	mkdir -p "$(CONFIG)/inc"
-	cp "src/ucp.h" "$(CONFIG)/inc/ucp.h"
+	cp src/ucp.h $(CONFIG)/inc/ucp.h
 
 #
 #   ucpinternal.h
@@ -163,7 +168,7 @@ $(CONFIG)/inc/ucp.h: $(DEPS_6)
 $(CONFIG)/inc/ucpinternal.h: $(DEPS_7)
 	@echo '      [Copy] $(CONFIG)/inc/ucpinternal.h'
 	mkdir -p "$(CONFIG)/inc"
-	cp "src/ucpinternal.h" "$(CONFIG)/inc/ucpinternal.h"
+	cp src/ucpinternal.h $(CONFIG)/inc/ucpinternal.h
 
 #
 #   ucptable.h
@@ -171,7 +176,7 @@ $(CONFIG)/inc/ucpinternal.h: $(DEPS_7)
 $(CONFIG)/inc/ucptable.h: $(DEPS_8)
 	@echo '      [Copy] $(CONFIG)/inc/ucptable.h'
 	mkdir -p "$(CONFIG)/inc"
-	cp "src/ucptable.h" "$(CONFIG)/inc/ucptable.h"
+	cp src/ucptable.h $(CONFIG)/inc/ucptable.h
 
 #
 #   pcre_chartables.o
@@ -340,8 +345,6 @@ stop: $(DEPS_21)
 #
 #   installBinary
 #
-DEPS_22 += stop
-
 installBinary: $(DEPS_22)
 
 #

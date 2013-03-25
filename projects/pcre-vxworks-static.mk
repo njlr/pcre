@@ -1,14 +1,14 @@
 #
-#   pcre-linux-default.mk -- Makefile to build PCRE Library for linux
+#   pcre-vxworks-static.mk -- Makefile to build PCRE Library for vxworks
 #
 
 PRODUCT            := pcre
 VERSION            := 1.0.0
 BUILD_NUMBER       := 0
-PROFILE            := default
+PROFILE            := static
 ARCH               := $(shell uname -m | sed 's/i.86/x86/;s/x86_64/x64/;s/arm.*/arm/;s/mips.*/mips/')
-OS                 := linux
-CC                 := gcc
+OS                 := vxworks
+CC                 := cc$(subst x86,pentium,$(ARCH))
 LD                 := link
 CONFIG             := $(OS)-$(ARCH)-$(PROFILE)
 LBIN               := $(CONFIG)/bin
@@ -18,16 +18,21 @@ ifeq ($(BIT_PACK_LIB),1)
     BIT_PACK_COMPILER := 1
 endif
 
-BIT_PACK_COMPILER_PATH := gcc
+BIT_PACK_COMPILER_PATH := cc$(subst x86,pentium,$(ARCH))
 BIT_PACK_LIB_PATH  := ar
 BIT_PACK_LINK_PATH := link
+BIT_PACK_VXWORKS_PATH := $(WIND_BASE)
 
-CFLAGS             += -fPIC   -w
-DFLAGS             += -D_REENTRANT -DBIT_FEATURE_PCRE=1 -DPIC  $(patsubst %,-D%,$(filter BIT_%,$(MAKEFLAGS))) 
-IFLAGS             += -I$(CONFIG)/inc
-LDFLAGS            += '-Wl,--enable-new-dtags' '-Wl,-rpath,$$ORIGIN/' '-rdynamic'
+export WIND_BASE := $(WIND_BASE)
+export WIND_HOME := $(WIND_BASE)/..
+export WIND_PLATFORM := $(WIND_PLATFORM)
+
+CFLAGS             += -fno-builtin -fno-defer-pop -fvolatile -w
+DFLAGS             += -D_REENTRANT -DVXWORKS -DRW_MULTI_THREAD -D_GNU_TOOL -DBIT_FEATURE_PCRE=1 -DCPU=PENTIUM $(patsubst %,-D%,$(filter BIT_%,$(MAKEFLAGS))) 
+IFLAGS             += -I$(CONFIG)/inc -I$(WIND_BASE)/target/h -I$(WIND_BASE)/target/h/wrn/coreip
+LDFLAGS            += '-Wl,-r'
 LIBPATHS           += -L$(CONFIG)/bin
-LIBS               += -lpthread -lm -lrt -ldl
+LIBS               += 
 
 DEBUG              := debug
 CFLAGS-debug       := -g
@@ -40,26 +45,26 @@ CFLAGS             += $(CFLAGS-$(DEBUG))
 DFLAGS             += $(DFLAGS-$(DEBUG))
 LDFLAGS            += $(LDFLAGS-$(DEBUG))
 
-BIT_ROOT_PREFIX    := 
-BIT_BASE_PREFIX    := $(BIT_ROOT_PREFIX)/usr/local
-BIT_DATA_PREFIX    := $(BIT_ROOT_PREFIX)/
-BIT_STATE_PREFIX   := $(BIT_ROOT_PREFIX)/var
-BIT_APP_PREFIX     := $(BIT_BASE_PREFIX)/lib/$(PRODUCT)
-BIT_VAPP_PREFIX    := $(BIT_APP_PREFIX)/$(VERSION)
-BIT_BIN_PREFIX     := $(BIT_ROOT_PREFIX)/usr/local/bin
-BIT_INC_PREFIX     := $(BIT_ROOT_PREFIX)/usr/local/include
-BIT_LIB_PREFIX     := $(BIT_ROOT_PREFIX)/usr/local/lib
-BIT_MAN_PREFIX     := $(BIT_ROOT_PREFIX)/usr/local/share/man
-BIT_SBIN_PREFIX    := $(BIT_ROOT_PREFIX)/usr/local/sbin
-BIT_ETC_PREFIX     := $(BIT_ROOT_PREFIX)/etc/$(PRODUCT)
-BIT_WEB_PREFIX     := $(BIT_ROOT_PREFIX)/var/www/$(PRODUCT)-default
-BIT_LOG_PREFIX     := $(BIT_ROOT_PREFIX)/var/log/$(PRODUCT)
-BIT_SPOOL_PREFIX   := $(BIT_ROOT_PREFIX)/var/spool/$(PRODUCT)
-BIT_CACHE_PREFIX   := $(BIT_ROOT_PREFIX)/var/spool/$(PRODUCT)/cache
-BIT_SRC_PREFIX     := $(BIT_ROOT_PREFIX)$(PRODUCT)-$(VERSION)
+BIT_ROOT_PREFIX    := deploy
+BIT_BASE_PREFIX    := $(BIT_ROOT_PREFIX)
+BIT_DATA_PREFIX    := $(BIT_VAPP_PREFIX)
+BIT_STATE_PREFIX   := $(BIT_VAPP_PREFIX)
+BIT_BIN_PREFIX     := $(BIT_VAPP_PREFIX)
+BIT_INC_PREFIX     := $(BIT_VAPP_PREFIX)/inc
+BIT_LIB_PREFIX     := $(BIT_VAPP_PREFIX)
+BIT_MAN_PREFIX     := $(BIT_VAPP_PREFIX)
+BIT_SBIN_PREFIX    := $(BIT_VAPP_PREFIX)
+BIT_ETC_PREFIX     := $(BIT_VAPP_PREFIX)
+BIT_WEB_PREFIX     := $(BIT_VAPP_PREFIX)/web
+BIT_LOG_PREFIX     := $(BIT_VAPP_PREFIX)
+BIT_SPOOL_PREFIX   := $(BIT_VAPP_PREFIX)
+BIT_CACHE_PREFIX   := $(BIT_VAPP_PREFIX)
+BIT_APP_PREFIX     := $(BIT_BASE_PREFIX)
+BIT_VAPP_PREFIX    := $(BIT_APP_PREFIX)
+BIT_SRC_PREFIX     := $(BIT_ROOT_PREFIX)/usr/src/$(PRODUCT)-$(VERSION)
 
 
-TARGETS            += $(CONFIG)/bin/libpcre.so
+TARGETS            += $(CONFIG)/bin/libpcre.a
 
 unexport CDPATH
 
@@ -78,13 +83,13 @@ prep:
 	@[ ! -x $(CONFIG)/bin ] && mkdir -p $(CONFIG)/bin; true
 	@[ ! -x $(CONFIG)/inc ] && mkdir -p $(CONFIG)/inc; true
 	@[ ! -x $(CONFIG)/obj ] && mkdir -p $(CONFIG)/obj; true
-	@[ ! -f $(CONFIG)/inc/bit.h ] && cp projects/pcre-linux-default-bit.h $(CONFIG)/inc/bit.h ; true
+	@[ ! -f $(CONFIG)/inc/bit.h ] && cp projects/pcre-vxworks-static-bit.h $(CONFIG)/inc/bit.h ; true
 	@[ ! -f $(CONFIG)/inc/bitos.h ] && cp src/bitos.h $(CONFIG)/inc/bitos.h ; true
 	@if ! diff $(CONFIG)/inc/bitos.h src/bitos.h >/dev/null ; then\
 		cp src/bitos.h $(CONFIG)/inc/bitos.h  ; \
 	fi; true
-	@if ! diff $(CONFIG)/inc/bit.h projects/pcre-linux-default-bit.h >/dev/null ; then\
-		cp projects/pcre-linux-default-bit.h $(CONFIG)/inc/bit.h  ; \
+	@if ! diff $(CONFIG)/inc/bit.h projects/pcre-vxworks-static-bit.h >/dev/null ; then\
+		cp projects/pcre-vxworks-static-bit.h $(CONFIG)/inc/bit.h  ; \
 	fi; true
 	@if [ -f "$(CONFIG)/.makeflags" ] ; then \
 		if [ "$(MAKEFLAGS)" != " ` cat $(CONFIG)/.makeflags`" ] ; then \
@@ -93,7 +98,7 @@ prep:
 	fi
 	@echo $(MAKEFLAGS) >$(CONFIG)/.makeflags
 clean:
-	rm -fr "$(CONFIG)/bin/libpcre.so"
+	rm -fr "$(CONFIG)/bin/libpcre.a"
 	rm -fr "$(CONFIG)/obj/pcre_chartables.o"
 	rm -fr "$(CONFIG)/obj/pcre_compile.o"
 	rm -fr "$(CONFIG)/obj/pcre_exec.o"
@@ -328,9 +333,9 @@ DEPS_20 += $(CONFIG)/obj/pcre_ucp_searchfuncs.o
 DEPS_20 += $(CONFIG)/obj/pcre_valid_utf8.o
 DEPS_20 += $(CONFIG)/obj/pcre_xclass.o
 
-$(CONFIG)/bin/libpcre.so: $(DEPS_20)
+$(CONFIG)/bin/libpcre.a: $(DEPS_20)
 	@echo '      [Link] libpcre'
-	$(CC) -shared -o $(CONFIG)/bin/libpcre.so $(LDFLAGS) $(LIBPATHS) $(CONFIG)/obj/pcre_chartables.o $(CONFIG)/obj/pcre_compile.o $(CONFIG)/obj/pcre_exec.o $(CONFIG)/obj/pcre_globals.o $(CONFIG)/obj/pcre_newline.o $(CONFIG)/obj/pcre_ord2utf8.o $(CONFIG)/obj/pcre_tables.o $(CONFIG)/obj/pcre_try_flipped.o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CONFIG)/obj/pcre_valid_utf8.o $(CONFIG)/obj/pcre_xclass.o $(LIBS) 
+	ar -cr $(CONFIG)/bin/libpcre.a $(CONFIG)/obj/pcre_chartables.o $(CONFIG)/obj/pcre_compile.o $(CONFIG)/obj/pcre_exec.o $(CONFIG)/obj/pcre_globals.o $(CONFIG)/obj/pcre_newline.o $(CONFIG)/obj/pcre_ord2utf8.o $(CONFIG)/obj/pcre_tables.o $(CONFIG)/obj/pcre_try_flipped.o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CONFIG)/obj/pcre_valid_utf8.o $(CONFIG)/obj/pcre_xclass.o
 
 #
 #   stop

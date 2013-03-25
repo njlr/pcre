@@ -1,13 +1,13 @@
 #
-#   pcre-linux-default.mk -- Makefile to build PCRE Library for linux
+#   pcre-freebsd-static.mk -- Makefile to build PCRE Library for freebsd
 #
 
 PRODUCT            := pcre
 VERSION            := 1.0.0
 BUILD_NUMBER       := 0
-PROFILE            := default
+PROFILE            := static
 ARCH               := $(shell uname -m | sed 's/i.86/x86/;s/x86_64/x64/;s/arm.*/arm/;s/mips.*/mips/')
-OS                 := linux
+OS                 := freebsd
 CC                 := gcc
 LD                 := link
 CONFIG             := $(OS)-$(ARCH)-$(PROFILE)
@@ -22,12 +22,12 @@ BIT_PACK_COMPILER_PATH := gcc
 BIT_PACK_LIB_PATH  := ar
 BIT_PACK_LINK_PATH := link
 
-CFLAGS             += -fPIC   -w
+CFLAGS             += -fPIC  -w
 DFLAGS             += -D_REENTRANT -DBIT_FEATURE_PCRE=1 -DPIC  $(patsubst %,-D%,$(filter BIT_%,$(MAKEFLAGS))) 
 IFLAGS             += -I$(CONFIG)/inc
-LDFLAGS            += '-Wl,--enable-new-dtags' '-Wl,-rpath,$$ORIGIN/' '-rdynamic'
+LDFLAGS            += '-g'
 LIBPATHS           += -L$(CONFIG)/bin
-LIBS               += -lpthread -lm -lrt -ldl
+LIBS               += -lpthread -lm -ldl
 
 DEBUG              := debug
 CFLAGS-debug       := -g
@@ -59,7 +59,7 @@ BIT_CACHE_PREFIX   := $(BIT_ROOT_PREFIX)/var/spool/$(PRODUCT)/cache
 BIT_SRC_PREFIX     := $(BIT_ROOT_PREFIX)$(PRODUCT)-$(VERSION)
 
 
-TARGETS            += $(CONFIG)/bin/libpcre.so
+TARGETS            += $(CONFIG)/bin/libpcre.a
 
 unexport CDPATH
 
@@ -78,13 +78,13 @@ prep:
 	@[ ! -x $(CONFIG)/bin ] && mkdir -p $(CONFIG)/bin; true
 	@[ ! -x $(CONFIG)/inc ] && mkdir -p $(CONFIG)/inc; true
 	@[ ! -x $(CONFIG)/obj ] && mkdir -p $(CONFIG)/obj; true
-	@[ ! -f $(CONFIG)/inc/bit.h ] && cp projects/pcre-linux-default-bit.h $(CONFIG)/inc/bit.h ; true
+	@[ ! -f $(CONFIG)/inc/bit.h ] && cp projects/pcre-freebsd-static-bit.h $(CONFIG)/inc/bit.h ; true
 	@[ ! -f $(CONFIG)/inc/bitos.h ] && cp src/bitos.h $(CONFIG)/inc/bitos.h ; true
 	@if ! diff $(CONFIG)/inc/bitos.h src/bitos.h >/dev/null ; then\
 		cp src/bitos.h $(CONFIG)/inc/bitos.h  ; \
 	fi; true
-	@if ! diff $(CONFIG)/inc/bit.h projects/pcre-linux-default-bit.h >/dev/null ; then\
-		cp projects/pcre-linux-default-bit.h $(CONFIG)/inc/bit.h  ; \
+	@if ! diff $(CONFIG)/inc/bit.h projects/pcre-freebsd-static-bit.h >/dev/null ; then\
+		cp projects/pcre-freebsd-static-bit.h $(CONFIG)/inc/bit.h  ; \
 	fi; true
 	@if [ -f "$(CONFIG)/.makeflags" ] ; then \
 		if [ "$(MAKEFLAGS)" != " ` cat $(CONFIG)/.makeflags`" ] ; then \
@@ -93,7 +93,7 @@ prep:
 	fi
 	@echo $(MAKEFLAGS) >$(CONFIG)/.makeflags
 clean:
-	rm -fr "$(CONFIG)/bin/libpcre.so"
+	rm -fr "$(CONFIG)/bin/libpcre.a"
 	rm -fr "$(CONFIG)/obj/pcre_chartables.o"
 	rm -fr "$(CONFIG)/obj/pcre_compile.o"
 	rm -fr "$(CONFIG)/obj/pcre_exec.o"
@@ -185,7 +185,7 @@ DEPS_9 += $(CONFIG)/inc/ucp.h
 $(CONFIG)/obj/pcre_chartables.o: \
     src/pcre_chartables.c $(DEPS_9)
 	@echo '   [Compile] src/pcre_chartables.c'
-	$(CC) -c -o $(CONFIG)/obj/pcre_chartables.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_chartables.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_chartables.o -fPIC $(LDFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_chartables.c
 
 #
 #   pcre_compile.o
@@ -197,7 +197,7 @@ DEPS_10 += $(CONFIG)/inc/pcre_internal.h
 $(CONFIG)/obj/pcre_compile.o: \
     src/pcre_compile.c $(DEPS_10)
 	@echo '   [Compile] src/pcre_compile.c'
-	$(CC) -c -o $(CONFIG)/obj/pcre_compile.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_compile.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_compile.o -fPIC $(LDFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_compile.c
 
 #
 #   pcre_exec.o
@@ -209,7 +209,7 @@ DEPS_11 += $(CONFIG)/inc/pcre_internal.h
 $(CONFIG)/obj/pcre_exec.o: \
     src/pcre_exec.c $(DEPS_11)
 	@echo '   [Compile] src/pcre_exec.c'
-	$(CC) -c -o $(CONFIG)/obj/pcre_exec.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_exec.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_exec.o -fPIC $(LDFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_exec.c
 
 #
 #   pcre_globals.o
@@ -221,7 +221,7 @@ DEPS_12 += $(CONFIG)/inc/pcre_internal.h
 $(CONFIG)/obj/pcre_globals.o: \
     src/pcre_globals.c $(DEPS_12)
 	@echo '   [Compile] src/pcre_globals.c'
-	$(CC) -c -o $(CONFIG)/obj/pcre_globals.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_globals.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_globals.o -fPIC $(LDFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_globals.c
 
 #
 #   pcre_newline.o
@@ -233,7 +233,7 @@ DEPS_13 += $(CONFIG)/inc/pcre_internal.h
 $(CONFIG)/obj/pcre_newline.o: \
     src/pcre_newline.c $(DEPS_13)
 	@echo '   [Compile] src/pcre_newline.c'
-	$(CC) -c -o $(CONFIG)/obj/pcre_newline.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_newline.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_newline.o -fPIC $(LDFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_newline.c
 
 #
 #   pcre_ord2utf8.o
@@ -245,7 +245,7 @@ DEPS_14 += $(CONFIG)/inc/pcre_internal.h
 $(CONFIG)/obj/pcre_ord2utf8.o: \
     src/pcre_ord2utf8.c $(DEPS_14)
 	@echo '   [Compile] src/pcre_ord2utf8.c'
-	$(CC) -c -o $(CONFIG)/obj/pcre_ord2utf8.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_ord2utf8.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_ord2utf8.o -fPIC $(LDFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_ord2utf8.c
 
 #
 #   pcre_tables.o
@@ -257,7 +257,7 @@ DEPS_15 += $(CONFIG)/inc/pcre_internal.h
 $(CONFIG)/obj/pcre_tables.o: \
     src/pcre_tables.c $(DEPS_15)
 	@echo '   [Compile] src/pcre_tables.c'
-	$(CC) -c -o $(CONFIG)/obj/pcre_tables.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_tables.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_tables.o -fPIC $(LDFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_tables.c
 
 #
 #   pcre_try_flipped.o
@@ -269,7 +269,7 @@ DEPS_16 += $(CONFIG)/inc/pcre_internal.h
 $(CONFIG)/obj/pcre_try_flipped.o: \
     src/pcre_try_flipped.c $(DEPS_16)
 	@echo '   [Compile] src/pcre_try_flipped.c'
-	$(CC) -c -o $(CONFIG)/obj/pcre_try_flipped.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_try_flipped.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_try_flipped.o -fPIC $(LDFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_try_flipped.c
 
 #
 #   pcre_ucp_searchfuncs.o
@@ -281,7 +281,7 @@ DEPS_17 += $(CONFIG)/inc/pcre_internal.h
 $(CONFIG)/obj/pcre_ucp_searchfuncs.o: \
     src/pcre_ucp_searchfuncs.c $(DEPS_17)
 	@echo '   [Compile] src/pcre_ucp_searchfuncs.c'
-	$(CC) -c -o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_ucp_searchfuncs.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_ucp_searchfuncs.o -fPIC $(LDFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_ucp_searchfuncs.c
 
 #
 #   pcre_valid_utf8.o
@@ -293,7 +293,7 @@ DEPS_18 += $(CONFIG)/inc/pcre_internal.h
 $(CONFIG)/obj/pcre_valid_utf8.o: \
     src/pcre_valid_utf8.c $(DEPS_18)
 	@echo '   [Compile] src/pcre_valid_utf8.c'
-	$(CC) -c -o $(CONFIG)/obj/pcre_valid_utf8.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_valid_utf8.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_valid_utf8.o -fPIC $(LDFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_valid_utf8.c
 
 #
 #   pcre_xclass.o
@@ -305,7 +305,7 @@ DEPS_19 += $(CONFIG)/inc/pcre_internal.h
 $(CONFIG)/obj/pcre_xclass.o: \
     src/pcre_xclass.c $(DEPS_19)
 	@echo '   [Compile] src/pcre_xclass.c'
-	$(CC) -c -o $(CONFIG)/obj/pcre_xclass.o $(CFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_xclass.c
+	$(CC) -c -o $(CONFIG)/obj/pcre_xclass.o -fPIC $(LDFLAGS) $(DFLAGS) $(IFLAGS) src/pcre_xclass.c
 
 #
 #   libpcre
@@ -328,9 +328,9 @@ DEPS_20 += $(CONFIG)/obj/pcre_ucp_searchfuncs.o
 DEPS_20 += $(CONFIG)/obj/pcre_valid_utf8.o
 DEPS_20 += $(CONFIG)/obj/pcre_xclass.o
 
-$(CONFIG)/bin/libpcre.so: $(DEPS_20)
+$(CONFIG)/bin/libpcre.a: $(DEPS_20)
 	@echo '      [Link] libpcre'
-	$(CC) -shared -o $(CONFIG)/bin/libpcre.so $(LDFLAGS) $(LIBPATHS) $(CONFIG)/obj/pcre_chartables.o $(CONFIG)/obj/pcre_compile.o $(CONFIG)/obj/pcre_exec.o $(CONFIG)/obj/pcre_globals.o $(CONFIG)/obj/pcre_newline.o $(CONFIG)/obj/pcre_ord2utf8.o $(CONFIG)/obj/pcre_tables.o $(CONFIG)/obj/pcre_try_flipped.o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CONFIG)/obj/pcre_valid_utf8.o $(CONFIG)/obj/pcre_xclass.o $(LIBS) 
+	ar -cr $(CONFIG)/bin/libpcre.a $(CONFIG)/obj/pcre_chartables.o $(CONFIG)/obj/pcre_compile.o $(CONFIG)/obj/pcre_exec.o $(CONFIG)/obj/pcre_globals.o $(CONFIG)/obj/pcre_newline.o $(CONFIG)/obj/pcre_ord2utf8.o $(CONFIG)/obj/pcre_tables.o $(CONFIG)/obj/pcre_try_flipped.o $(CONFIG)/obj/pcre_ucp_searchfuncs.o $(CONFIG)/obj/pcre_valid_utf8.o $(CONFIG)/obj/pcre_xclass.o
 
 #
 #   stop

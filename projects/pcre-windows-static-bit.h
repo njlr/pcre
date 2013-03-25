@@ -1,5 +1,5 @@
 /*
-    bit.h -- Build It Configuration Header for windows-x86-default
+    bit.h -- Build It Configuration Header for windows-x86-static
 
     This header is created by Bit during configuration. To change settings, re-run
     configure or define variables in your Makefile to override these default values.
@@ -48,6 +48,9 @@
 #endif
 #ifndef BIT_REQUIRES
     #define BIT_REQUIRES "winsdk,compiler,lib,link,rc"
+#endif
+#ifndef BIT_STATIC
+    #define BIT_STATIC 1
 #endif
 #ifndef BIT_SYNC
     #define BIT_SYNC ""
@@ -134,13 +137,13 @@
 
 /* Profile */
 #ifndef BIT_CONFIG_CMD
-    #define BIT_CONFIG_CMD "bit -d -q -platform windows-x86-default -configure . -gen vs"
+    #define BIT_CONFIG_CMD "bit -d -q -platform windows-x86-static -static -configure . -gen vs"
 #endif
 #ifndef BIT_PCRE_PRODUCT
     #define BIT_PCRE_PRODUCT 1
 #endif
 #ifndef BIT_PROFILE
-    #define BIT_PROFILE "default"
+    #define BIT_PROFILE "static"
 #endif
 
 /* Miscellaneous */

@@ -1,5 +1,5 @@
 /*
-    bit.h -- Build It Configuration Header for windows-x86-default
+    bit.h -- Build It Configuration Header for vxworks-x86-static
 
     This header is created by Bit during configuration. To change settings, re-run
     configure or define variables in your Makefile to override these default values.
@@ -25,6 +25,9 @@
 #ifndef BIT_DISCOVER
     #define BIT_DISCOVER ""
 #endif
+#ifndef BIT_HAS_DOUBLE_BRACES
+    #define BIT_HAS_DOUBLE_BRACES 1
+#endif
 #ifndef BIT_HAS_DYN_LOAD
     #define BIT_HAS_DYN_LOAD 1
 #endif
@@ -37,6 +40,21 @@
 #ifndef BIT_HAS_MMU
     #define BIT_HAS_MMU 1
 #endif
+#ifndef BIT_HAS_MTUNE
+    #define BIT_HAS_MTUNE 1
+#endif
+#ifndef BIT_HAS_PAM
+    #define BIT_HAS_PAM 0
+#endif
+#ifndef BIT_HAS_STACK_PROTECTOR
+    #define BIT_HAS_STACK_PROTECTOR 1
+#endif
+#ifndef BIT_HAS_SYNC
+    #define BIT_HAS_SYNC 0
+#endif
+#ifndef BIT_HAS_SYNC_CAS
+    #define BIT_HAS_SYNC_CAS 0
+#endif
 #ifndef BIT_HAS_UNNAMED_UNIONS
     #define BIT_HAS_UNNAMED_UNIONS 1
 #endif
@@ -47,7 +65,10 @@
     #define BIT_PRODUCT "pcre"
 #endif
 #ifndef BIT_REQUIRES
-    #define BIT_REQUIRES "winsdk,compiler,lib,link,rc"
+    #define BIT_REQUIRES "vxworks,compiler,lib,link"
+#endif
+#ifndef BIT_STATIC
+    #define BIT_STATIC 1
 #endif
 #ifndef BIT_SYNC
     #define BIT_SYNC ""
@@ -58,89 +79,92 @@
 #ifndef BIT_VERSION
     #define BIT_VERSION "1.0.0"
 #endif
+#ifndef BIT_WARN64TO32
+    #define BIT_WARN64TO32 0
+#endif
+#ifndef BIT_WARN_UNUSED
+    #define BIT_WARN_UNUSED 0
+#endif
 
 /* Prefixes */
 #ifndef BIT_ROOT_PREFIX
-    #define BIT_ROOT_PREFIX "C:"
-#endif
-#ifndef BIT_PROGRAMFILES_PREFIX
-    #define BIT_PROGRAMFILES_PREFIX "C:/Program Files"
-#endif
-#ifndef BIT_PROGRAMFILES32_PREFIX
-    #define BIT_PROGRAMFILES32_PREFIX "C:/Program Files"
+    #define BIT_ROOT_PREFIX "deploy"
 #endif
 #ifndef BIT_BASE_PREFIX
-    #define BIT_BASE_PREFIX "C:/Program Files"
-#endif
-#ifndef BIT_APP_PREFIX
-    #define BIT_APP_PREFIX "C:/Program Files/PCRE Library"
-#endif
-#ifndef BIT_VAPP_PREFIX
-    #define BIT_VAPP_PREFIX "C:/Program Files/PCRE Library"
+    #define BIT_BASE_PREFIX "deploy"
 #endif
 #ifndef BIT_DATA_PREFIX
-    #define BIT_DATA_PREFIX "C:/Program Files/PCRE Library"
+    #define BIT_DATA_PREFIX "deploy"
 #endif
 #ifndef BIT_STATE_PREFIX
-    #define BIT_STATE_PREFIX "C:/Program Files/PCRE Library"
+    #define BIT_STATE_PREFIX "deploy"
 #endif
 #ifndef BIT_BIN_PREFIX
-    #define BIT_BIN_PREFIX "C:/Program Files/PCRE Library/bin"
+    #define BIT_BIN_PREFIX "deploy"
 #endif
 #ifndef BIT_INC_PREFIX
-    #define BIT_INC_PREFIX "C:/Program Files/PCRE Library/inc"
+    #define BIT_INC_PREFIX "deploy/inc"
 #endif
 #ifndef BIT_LIB_PREFIX
-    #define BIT_LIB_PREFIX "C:/Program Files/PCRE Library/lib"
+    #define BIT_LIB_PREFIX "deploy"
 #endif
 #ifndef BIT_MAN_PREFIX
-    #define BIT_MAN_PREFIX "C:/Program Files/PCRE Library/man"
+    #define BIT_MAN_PREFIX "deploy"
+#endif
+#ifndef BIT_SBIN_PREFIX
+    #define BIT_SBIN_PREFIX "deploy"
 #endif
 #ifndef BIT_ETC_PREFIX
-    #define BIT_ETC_PREFIX "C:/Program Files/PCRE Library"
+    #define BIT_ETC_PREFIX "deploy"
 #endif
 #ifndef BIT_WEB_PREFIX
-    #define BIT_WEB_PREFIX "C:/Program Files/PCRE Library/web"
+    #define BIT_WEB_PREFIX "deploy/web"
 #endif
 #ifndef BIT_LOG_PREFIX
-    #define BIT_LOG_PREFIX "C:/Program Files/PCRE Library/log"
+    #define BIT_LOG_PREFIX "deploy"
 #endif
 #ifndef BIT_SPOOL_PREFIX
-    #define BIT_SPOOL_PREFIX "C:/Program Files/PCRE Library/tmp"
+    #define BIT_SPOOL_PREFIX "deploy"
 #endif
 #ifndef BIT_CACHE_PREFIX
-    #define BIT_CACHE_PREFIX "C:/Program Files/PCRE Library/cache"
+    #define BIT_CACHE_PREFIX "deploy"
+#endif
+#ifndef BIT_APP_PREFIX
+    #define BIT_APP_PREFIX "deploy"
+#endif
+#ifndef BIT_VAPP_PREFIX
+    #define BIT_VAPP_PREFIX "deploy"
 #endif
 #ifndef BIT_SRC_PREFIX
-    #define BIT_SRC_PREFIX "C:/Program Files/PCRE Library/src"
+    #define BIT_SRC_PREFIX "/usr/src/pcre-1.0.0"
 #endif
 
 /* Suffixes */
 #ifndef BIT_EXE
-    #define BIT_EXE ".exe"
+    #define BIT_EXE ".out"
 #endif
 #ifndef BIT_SHLIB
-    #define BIT_SHLIB ".lib"
+    #define BIT_SHLIB ".out"
 #endif
 #ifndef BIT_SHOBJ
-    #define BIT_SHOBJ ".dll"
+    #define BIT_SHOBJ ".out"
 #endif
 #ifndef BIT_LIB
-    #define BIT_LIB ".lib"
+    #define BIT_LIB ".a"
 #endif
 #ifndef BIT_OBJ
-    #define BIT_OBJ ".obj"
+    #define BIT_OBJ ".o"
 #endif
 
 /* Profile */
 #ifndef BIT_CONFIG_CMD
-    #define BIT_CONFIG_CMD "bit -d -q -platform windows-x86-default -configure . -gen vs"
+    #define BIT_CONFIG_CMD "bit -d -q -platform vxworks-x86-static -static -configure . -gen make"
 #endif
 #ifndef BIT_PCRE_PRODUCT
     #define BIT_PCRE_PRODUCT 1
 #endif
 #ifndef BIT_PROFILE
-    #define BIT_PROFILE "default"
+    #define BIT_PROFILE "static"
 #endif
 
 /* Miscellaneous */
@@ -167,12 +191,9 @@
 #ifndef BIT_PACK_LINK
     #define BIT_PACK_LINK 1
 #endif
-#ifndef BIT_PACK_RC
-    #define BIT_PACK_RC 1
-#endif
 #ifndef BIT_PACK_VXWORKS
-    #define BIT_PACK_VXWORKS 0
+    #define BIT_PACK_VXWORKS 1
 #endif
 #ifndef BIT_PACK_WINSDK
-    #define BIT_PACK_WINSDK 1
+    #define BIT_PACK_WINSDK 0
 #endif
