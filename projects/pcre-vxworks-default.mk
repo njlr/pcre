@@ -18,10 +18,10 @@ ifeq ($(BIT_PACK_LIB),1)
     BIT_PACK_COMPILER := 1
 endif
 
-BIT_PACK_COMPILER_PATH := cc$(subst x86,pentium,$(ARCH))
-BIT_PACK_LIB_PATH  := ar
-BIT_PACK_LINK_PATH := link
-BIT_PACK_VXWORKS_PATH := $(WIND_BASE)
+BIT_PACK_COMPILER_PATH    := cc$(subst x86,pentium,$(ARCH))
+BIT_PACK_LIB_PATH         := ar
+BIT_PACK_LINK_PATH        := link
+BIT_PACK_VXWORKS_PATH     := $(WIND_BASE)
 
 export WIND_BASE := $(WIND_BASE)
 export WIND_HOME := $(WIND_BASE)/..

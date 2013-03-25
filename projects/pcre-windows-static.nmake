@@ -30,11 +30,11 @@ BIT_PACK_WINSDK = 1
 !ENDIF
 
 
-BIT_PACK_COMPILER_PATH := cl
-BIT_PACK_LIB_PATH  := lib.exe
-BIT_PACK_LINK_PATH := link
-BIT_PACK_RC_PATH   := rc
-BIT_PACK_WINSDK_PATH := winsdk
+BIT_PACK_COMPILER_PATH    = cl
+BIT_PACK_LIB_PATH         = lib.exe
+BIT_PACK_LINK_PATH        = link
+BIT_PACK_RC_PATH          = rc
+BIT_PACK_WINSDK_PATH      = winsdk
 
 CC                 = cl
 LD                 = link
