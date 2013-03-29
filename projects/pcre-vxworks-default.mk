@@ -101,7 +101,7 @@ prep:
 	fi
 	@echo $(MAKEFLAGS) >$(CONFIG)/.makeflags
 clean:
-	rm -fr "$(CONFIG)/bin/libpcre.out"
+	rm -f "$(CONFIG)/bin/libpcre.out"
 	rm -fr "$(CONFIG)/obj/pcre_chartables.o"
 	rm -fr "$(CONFIG)/obj/pcre_compile.o"
 	rm -fr "$(CONFIG)/obj/pcre_exec.o"
