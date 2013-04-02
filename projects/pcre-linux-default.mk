@@ -92,6 +92,7 @@ prep:
 		fi ; \
 	fi
 	@echo $(MAKEFLAGS) >$(CONFIG)/.makeflags
+
 clean:
 	rm -f "$(CONFIG)/bin/libpcre.so"
 	rm -f "$(CONFIG)/obj/pcre_chartables.o"
