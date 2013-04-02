@@ -313,6 +313,7 @@ $(CONFIG)/obj/pcre_xclass.o: \
 DEPS_20 += $(CONFIG)/inc/config.h
 DEPS_20 += $(CONFIG)/inc/pcre.h
 DEPS_20 += $(CONFIG)/inc/pcre_internal.h
+DEPS_20 += $(CONFIG)/inc/bit.h
 DEPS_20 += $(CONFIG)/inc/ucp.h
 DEPS_20 += $(CONFIG)/inc/ucpinternal.h
 DEPS_20 += $(CONFIG)/inc/ucptable.h
