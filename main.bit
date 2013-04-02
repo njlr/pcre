@@ -7,12 +7,13 @@ Bit.load({
         "${BITS}/embedthis.bit",
     ],
     settings: {
-        /* Default settings overridden by build.bit */
-		product: 'pcre',
-		title: 'PCRE Library',
+        product: 'pcre',
+        title: 'PCRE Library',
         company: 'Embedthis',
-		version: '1.0.0',
-		buildNumber: 'B0',
+        version: '1.0.0',
+        buildNumber: '0',
+        bit: '0.8.5',
+        prefixes: 'embedthis-prefixes',
         sync: [],
     },
 
@@ -21,7 +22,7 @@ Bit.load({
     },
 
     defaults: {
-        '+defines': [ '-DBIT_FEATURE_PCRE=1' ]
+        '+defines': [ 'BIT_FEATURE_PCRE=1' ]
     },
 
     targets: {
@@ -30,24 +31,35 @@ Bit.load({
             headers: [ 'src/*.h' ],
             sources: [ 'src/*.c' ],
         },
+        projects: {},
+    },
 
-        package: {
-            depends: ['build'],
-            action: "
-                let d = bit.dir.pkg.join('${settings.product}-${settings.version}')
-                safeRemove(bit.dir.pkg)
-                install('package/pcre.bit', d.join('src/deps/pcre/pcre.bit'), {hidden: true})
-                install('src/pcre.h', d.join('src/deps/pcre/pcre.h'))
-                install(['src/config.h', 'src/pcre_internal.h', 'src/ucp.h', 'src/ucpinternal.h', 
-                        'src/ucptable.h', 'src/*.c'], 
-                    d.join('src/deps/pcre/pcre.c'), {
-                    cat: true,
-                    filter: /^#inc.*pcre.*$|#inc.*config.h.*$|#inc.*ucp.*.h.*$/mg,
-                    header: '#include \"bit.h\"\n#include \"pcre.h\"',
-                    title: bit.settings.title + ' Library Source',
-                })
-                package(bit.dir.pkg, ['combo', 'flat'])
-            ",
+    manifest: {
+        packages: {
+            combo: {
+                inherit:    'embedthis-manifest',
+                prefixes:   [ 'src'],
+                sets:       [ 'source' ],
+            },
         },
-	},
+        files: [
+            {   from:   'package/pcre.bit',
+                to:     '${src}/src/deps/pcre/pcre.bit',
+                set:    'source',
+            },{
+                from:   ['src/pcre.h'],
+                to:     '${src}/src/deps/pcre/',
+                set:    'source',
+            },{
+                from:   ['src/config.h', 'src/pcre_internal.h', 'src/ucp.h', 'src/ucpinternal.h', 
+                            'src/ucptable.h', 'src/*.c'], 
+                to:     '${src}/src/deps/pcre/pcre.c',
+                cat:    true,
+                filter: /^#inc.*pcre.*$|#inc.*config.h.*$|#inc.*ucp.*.h.*$/mg,
+                header: '#include \"bit.h\"\n#include \"pcre.h\"',
+                title:  '${settings.title} Library Source',
+                set:    'source',
+            },
+        ],
+    },
 })
