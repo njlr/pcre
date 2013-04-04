@@ -44,7 +44,7 @@ DFLAGS             = -DBIT_DEBUG -D_REENTRANT -D_MT
 IFLAGS             = -I$(CONFIG)\inc
 LDFLAGS            = -nologo -nodefaultlib -incremental:no -debug -machine:$(ARCH)
 LIBPATHS           = -libpath:$(CONFIG)\bin
-LIBS               = dl ws2_32.lib advapi32.lib user32.lib kernel32.lib oldnames.lib msvcrt.lib shell32.lib
+LIBS               = ws2_32.lib advapi32.lib user32.lib kernel32.lib oldnames.lib msvcrt.lib shell32.lib
 
 BIT_ROOT_PREFIX    = C:
 BIT_BASE_PREFIX    = $(BIT_ROOT_PREFIX)\Program Files
@@ -327,7 +327,7 @@ DEPS_20 = $(DEPS_20) $(CONFIG)\obj\pcre_xclass.obj
 
 $(CONFIG)\bin\libpcre.dll: $(DEPS_20)
 	@echo '      [Link] $(CONFIG)/bin/libpcre.dll'
-	"$(LD)" -dll -out:$(CONFIG)\bin\libpcre.dll -entry: $(LDFLAGS) $(LIBPATHS) $(CONFIG)\obj\pcre_chartables.obj $(CONFIG)\obj\pcre_compile.obj $(CONFIG)\obj\pcre_exec.obj $(CONFIG)\obj\pcre_globals.obj $(CONFIG)\obj\pcre_newline.obj $(CONFIG)\obj\pcre_ord2utf8.obj $(CONFIG)\obj\pcre_tables.obj $(CONFIG)\obj\pcre_try_flipped.obj $(CONFIG)\obj\pcre_ucp_searchfuncs.obj $(CONFIG)\obj\pcre_valid_utf8.obj $(CONFIG)\obj\pcre_xclass.obj $(LIBS) 
+	"$(LD)" -dll -out:$(CONFIG)\bin\libpcre.dll -entry:$(ENTRY) $(LDFLAGS) $(LIBPATHS) $(CONFIG)\obj\pcre_chartables.obj $(CONFIG)\obj\pcre_compile.obj $(CONFIG)\obj\pcre_exec.obj $(CONFIG)\obj\pcre_globals.obj $(CONFIG)\obj\pcre_newline.obj $(CONFIG)\obj\pcre_ord2utf8.obj $(CONFIG)\obj\pcre_tables.obj $(CONFIG)\obj\pcre_try_flipped.obj $(CONFIG)\obj\pcre_ucp_searchfuncs.obj $(CONFIG)\obj\pcre_valid_utf8.obj $(CONFIG)\obj\pcre_xclass.obj $(LIBS) 
 
 #
 #   stop
