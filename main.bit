@@ -10,7 +10,7 @@ Bit.load({
         product: 'pcre',
         title: 'PCRE Library',
         company: 'Embedthis',
-        version: '1.0.0',
+        version: '1.0.1',
         buildNumber: '0',
         bit: '0.8.5',
         prefixes: 'embedthis-prefixes',
