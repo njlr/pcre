@@ -21,10 +21,6 @@ Bit.load({
         assert: 'Enable program assertions',
     },
 
-    defaults: {
-        '+defines': [ 'BIT_FEATURE_PCRE=1' ]
-    },
-
     targets: {
         libpcre: {
             type: 'lib',
