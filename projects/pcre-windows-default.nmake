@@ -327,7 +327,7 @@ DEPS_20 = $(DEPS_20) $(CONFIG)\obj\pcre_xclass.obj
 
 $(CONFIG)\bin\libpcre.dll: $(DEPS_20)
 	@echo '      [Link] $(CONFIG)/bin/libpcre.dll'
-	"$(LD)" -dll -mob -out:$(CONFIG)\bin\libpcre.dll -entry:$(ENTRY) $(LDFLAGS) $(LIBPATHS) "$(CONFIG)\obj\pcre_chartables.obj" "$(CONFIG)\obj\pcre_compile.obj" "$(CONFIG)\obj\pcre_exec.obj" "$(CONFIG)\obj\pcre_globals.obj" "$(CONFIG)\obj\pcre_newline.obj" "$(CONFIG)\obj\pcre_ord2utf8.obj" "$(CONFIG)\obj\pcre_tables.obj" "$(CONFIG)\obj\pcre_try_flipped.obj" "$(CONFIG)\obj\pcre_ucp_searchfuncs.obj" "$(CONFIG)\obj\pcre_valid_utf8.obj" "$(CONFIG)\obj\pcre_xclass.obj" $(LIBS) 
+	"$(LD)" -dll -out:$(CONFIG)\bin\libpcre.dll -entry:$(ENTRY) $(LDFLAGS) $(LIBPATHS) "$(CONFIG)\obj\pcre_chartables.obj" "$(CONFIG)\obj\pcre_compile.obj" "$(CONFIG)\obj\pcre_exec.obj" "$(CONFIG)\obj\pcre_globals.obj" "$(CONFIG)\obj\pcre_newline.obj" "$(CONFIG)\obj\pcre_ord2utf8.obj" "$(CONFIG)\obj\pcre_tables.obj" "$(CONFIG)\obj\pcre_try_flipped.obj" "$(CONFIG)\obj\pcre_ucp_searchfuncs.obj" "$(CONFIG)\obj\pcre_valid_utf8.obj" "$(CONFIG)\obj\pcre_xclass.obj" $(LIBS) 
 
 #
 #   stop
