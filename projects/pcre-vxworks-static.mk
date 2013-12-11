@@ -120,7 +120,7 @@ clobber: clean
 #   version
 #
 version: $(DEPS_1)
-	@echo 1.0.1-0
+	echo 1.0.1-0
 
 #
 #   config.h
