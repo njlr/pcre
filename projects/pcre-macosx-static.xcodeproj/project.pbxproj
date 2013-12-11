@@ -7,23 +7,36 @@
     objects = {
 
 /* Begin PBXAggregateTarget section */
-		6F91AAB16F91BE6100000006 /* All */ = {
+		6F91AAB16F91BE6100000006 /* bower.json */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6F91AAB16F91BE6100000005 /* Build configuration list for PBXAggregateTarget "All" */;
+			buildConfigurationList = 6F91AAB16F91BE6100000005 /* Build configuration list for PBXAggregateTarget "bower.json" */;
+			buildPhases = (
+				6F91AAB16F91BE6100000007,
+			);
+			dependencies = (
+				6F91AAB16F91BE6100000008 /* PBXTargetDependency Prep */,
+			);
+			name = bower.json;
+			productName = bower.json;
+		};
+		6F91AAB16F91BE610000000A /* All */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6F91AAB16F91BE6100000009 /* Build configuration list for PBXAggregateTarget "All" */;
 			buildPhases = (
 				
 			);
 			dependencies = (
-				6F91AAB16F91BE6100000007 /* PBXTargetDependency libpcre */,
+				6F91AAB16F91BE610000000B /* PBXTargetDependency libpcre */,
+				6F91AAB16F91BE610000000C /* PBXTargetDependency bower.json */,
 			);
 			name = All;
 			productName = All;
 		};
-		6F91AAB16F91BE6100000009 /* Prep */ = {
+		6F91AAB16F91BE610000000E /* Prep */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6F91AAB16F91BE6100000008 /* Build configuration list for PBXAggregateTarget "Prep" */;
+			buildConfigurationList = 6F91AAB16F91BE610000000D /* Build configuration list for PBXAggregateTarget "Prep" */;
 			buildPhases = (
-				6F91AAB16F91BE610000000A,
+				6F91AAB16F91BE610000000F,
 			);
 			dependencies = (
 			);
@@ -33,65 +46,79 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		6F91AAB16F91BE610000000B /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE610000000C /* pcre_chartables.c */; };
-		6F91AAB16F91BE610000000D /* pcre_compile.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE610000000E /* pcre_compile.c */; };
-		6F91AAB16F91BE610000000F /* pcre_exec.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000010 /* pcre_exec.c */; };
-		6F91AAB16F91BE6100000011 /* pcre_globals.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000012 /* pcre_globals.c */; };
-		6F91AAB16F91BE6100000013 /* pcre_newline.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000014 /* pcre_newline.c */; };
-		6F91AAB16F91BE6100000015 /* pcre_ord2utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000016 /* pcre_ord2utf8.c */; };
-		6F91AAB16F91BE6100000017 /* pcre_tables.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000018 /* pcre_tables.c */; };
-		6F91AAB16F91BE6100000019 /* pcre_try_flipped.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE610000001A /* pcre_try_flipped.c */; };
-		6F91AAB16F91BE610000001B /* pcre_ucp_searchfuncs.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE610000001C /* pcre_ucp_searchfuncs.c */; };
-		6F91AAB16F91BE610000001D /* pcre_valid_utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE610000001E /* pcre_valid_utf8.c */; };
-		6F91AAB16F91BE610000001F /* pcre_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000020 /* pcre_xclass.c */; };
+		6F91AAB16F91BE6100000010 /* pcre_chartables.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000011 /* pcre_chartables.c */; };
+		6F91AAB16F91BE6100000012 /* pcre_compile.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000013 /* pcre_compile.c */; };
+		6F91AAB16F91BE6100000014 /* pcre_exec.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000015 /* pcre_exec.c */; };
+		6F91AAB16F91BE6100000016 /* pcre_globals.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000017 /* pcre_globals.c */; };
+		6F91AAB16F91BE6100000018 /* pcre_newline.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000019 /* pcre_newline.c */; };
+		6F91AAB16F91BE610000001A /* pcre_ord2utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE610000001B /* pcre_ord2utf8.c */; };
+		6F91AAB16F91BE610000001C /* pcre_tables.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE610000001D /* pcre_tables.c */; };
+		6F91AAB16F91BE610000001E /* pcre_try_flipped.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE610000001F /* pcre_try_flipped.c */; };
+		6F91AAB16F91BE6100000020 /* pcre_ucp_searchfuncs.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000021 /* pcre_ucp_searchfuncs.c */; };
+		6F91AAB16F91BE6100000022 /* pcre_valid_utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000023 /* pcre_valid_utf8.c */; };
+		6F91AAB16F91BE6100000024 /* pcre_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = 6F91AAB16F91BE6100000025 /* pcre_xclass.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6F91AAB16F91BE6100000021 /* PBXContainerItemProxy Prep from libpcre */ = {
+		6F91AAB16F91BE6100000026 /* PBXContainerItemProxy Prep from libpcre */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F91AAB16F91BE6100000001 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 6F91AAB16F91BE6100000009;
+			remoteGlobalIDString = 6F91AAB16F91BE610000000E;
 			remoteInfo = Prep;
 		};
-		6F91AAB16F91BE6100000022 /* PBXContainerItemProxy Prep from All */ = {
+		6F91AAB16F91BE6100000027 /* PBXContainerItemProxy Prep from bower.json */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F91AAB16F91BE6100000001 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 6F91AAB16F91BE6100000009;
+			remoteGlobalIDString = 6F91AAB16F91BE610000000E;
 			remoteInfo = Prep;
 		};
-		6F91AAB16F91BE6100000023 /* PBXContainerItemProxy libpcre from All */ = {
+		6F91AAB16F91BE6100000028 /* PBXContainerItemProxy Prep from All */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F91AAB16F91BE6100000001 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 6F91AAB16F91BE6100000024;
+			remoteGlobalIDString = 6F91AAB16F91BE610000000E;
+			remoteInfo = Prep;
+		};
+		6F91AAB16F91BE6100000029 /* PBXContainerItemProxy libpcre from All */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F91AAB16F91BE6100000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F91AAB16F91BE610000002A;
 			remoteInfo = libpcre;
+		};
+		6F91AAB16F91BE610000002B /* PBXContainerItemProxy bower.json from All */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F91AAB16F91BE6100000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F91AAB16F91BE6100000006;
+			remoteInfo = bower.json;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6F91AAB16F91BE610000000C /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_chartables.c; path = src/pcre_chartables.c; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000025 /* bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bit.h; path = macosx-x64-static/inc/bit.h; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000026 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = macosx-x64-static/inc/config.h; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000027 /* pcre_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre_internal.h; path = macosx-x64-static/inc/pcre_internal.h; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000028 /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre.h; path = macosx-x64-static/inc/pcre.h; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000029 /* ucp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ucp.h; path = macosx-x64-static/inc/ucp.h; sourceTree = "<group>"; };
-		6F91AAB16F91BE610000000E /* pcre_compile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_compile.c; path = src/pcre_compile.c; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000010 /* pcre_exec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_exec.c; path = src/pcre_exec.c; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000012 /* pcre_globals.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_globals.c; path = src/pcre_globals.c; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000014 /* pcre_newline.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_newline.c; path = src/pcre_newline.c; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000016 /* pcre_ord2utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_ord2utf8.c; path = src/pcre_ord2utf8.c; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000018 /* pcre_tables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_tables.c; path = src/pcre_tables.c; sourceTree = "<group>"; };
-		6F91AAB16F91BE610000001A /* pcre_try_flipped.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_try_flipped.c; path = src/pcre_try_flipped.c; sourceTree = "<group>"; };
-		6F91AAB16F91BE610000001C /* pcre_ucp_searchfuncs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_ucp_searchfuncs.c; path = src/pcre_ucp_searchfuncs.c; sourceTree = "<group>"; };
-		6F91AAB16F91BE610000001E /* pcre_valid_utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_valid_utf8.c; path = src/pcre_valid_utf8.c; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000020 /* pcre_xclass.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_xclass.c; path = src/pcre_xclass.c; sourceTree = "<group>"; };
-		6F91AAB16F91BE610000002A /* libpcre */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libpcre.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F91AAB16F91BE6100000011 /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_chartables.c; path = src/pcre_chartables.c; sourceTree = "<group>"; };
+		6F91AAB16F91BE610000002C /* bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bit.h; path = macosx-x64-static/inc/bit.h; sourceTree = "<group>"; };
+		6F91AAB16F91BE610000002D /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = macosx-x64-static/inc/config.h; sourceTree = "<group>"; };
+		6F91AAB16F91BE610000002E /* pcre_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre_internal.h; path = macosx-x64-static/inc/pcre_internal.h; sourceTree = "<group>"; };
+		6F91AAB16F91BE610000002F /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre.h; path = macosx-x64-static/inc/pcre.h; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000030 /* ucp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ucp.h; path = macosx-x64-static/inc/ucp.h; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000013 /* pcre_compile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_compile.c; path = src/pcre_compile.c; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000015 /* pcre_exec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_exec.c; path = src/pcre_exec.c; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000017 /* pcre_globals.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_globals.c; path = src/pcre_globals.c; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000019 /* pcre_newline.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_newline.c; path = src/pcre_newline.c; sourceTree = "<group>"; };
+		6F91AAB16F91BE610000001B /* pcre_ord2utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_ord2utf8.c; path = src/pcre_ord2utf8.c; sourceTree = "<group>"; };
+		6F91AAB16F91BE610000001D /* pcre_tables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_tables.c; path = src/pcre_tables.c; sourceTree = "<group>"; };
+		6F91AAB16F91BE610000001F /* pcre_try_flipped.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_try_flipped.c; path = src/pcre_try_flipped.c; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000021 /* pcre_ucp_searchfuncs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_ucp_searchfuncs.c; path = src/pcre_ucp_searchfuncs.c; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000023 /* pcre_valid_utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_valid_utf8.c; path = src/pcre_valid_utf8.c; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000025 /* pcre_xclass.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_xclass.c; path = src/pcre_xclass.c; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000031 /* libpcre */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libpcre.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6F91AAB16F91BE610000002B /* Frameworks and Libraries for libpcre */ = {
+		6F91AAB16F91BE6100000032 /* Frameworks and Libraries for libpcre */ = {
             isa = PBXFrameworksBuildPhase;
             buildActionMask = 2147483647;
             files = (
@@ -102,42 +129,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6F91AAB16F91BE610000002C /* Top Group */ = {
+		6F91AAB16F91BE6100000033 /* Top Group */ = {
             isa = PBXGroup;
             children = (
-				6F91AAB16F91BE610000002D /* libpcre */,
-				6F91AAB16F91BE610000002E /* Products */,
+				6F91AAB16F91BE6100000034 /* libpcre */,
+				6F91AAB16F91BE6100000035 /* Products */,
 			);
             sourceTree = "<group>";
         };
-		6F91AAB16F91BE610000002D /* libpcre */ = {
+		6F91AAB16F91BE6100000034 /* libpcre */ = {
             isa = PBXGroup;
             children = (
-				6F91AAB16F91BE6100000025 /* bit.h */,
-				6F91AAB16F91BE6100000026 /* config.h */,
-				6F91AAB16F91BE6100000027 /* pcre_internal.h */,
-				6F91AAB16F91BE6100000028 /* pcre.h */,
-				6F91AAB16F91BE6100000029 /* ucp.h */,
-				6F91AAB16F91BE610000000C /* pcre_chartables.c */,
-				6F91AAB16F91BE610000000E /* pcre_compile.c */,
-				6F91AAB16F91BE6100000010 /* pcre_exec.c */,
-				6F91AAB16F91BE6100000012 /* pcre_globals.c */,
-				6F91AAB16F91BE6100000014 /* pcre_newline.c */,
-				6F91AAB16F91BE6100000016 /* pcre_ord2utf8.c */,
-				6F91AAB16F91BE6100000018 /* pcre_tables.c */,
-				6F91AAB16F91BE610000001A /* pcre_try_flipped.c */,
-				6F91AAB16F91BE610000001C /* pcre_ucp_searchfuncs.c */,
-				6F91AAB16F91BE610000001E /* pcre_valid_utf8.c */,
-				6F91AAB16F91BE6100000020 /* pcre_xclass.c */,
+				6F91AAB16F91BE610000002C /* bit.h */,
+				6F91AAB16F91BE610000002D /* config.h */,
+				6F91AAB16F91BE610000002E /* pcre_internal.h */,
+				6F91AAB16F91BE610000002F /* pcre.h */,
+				6F91AAB16F91BE6100000030 /* ucp.h */,
+				6F91AAB16F91BE6100000011 /* pcre_chartables.c */,
+				6F91AAB16F91BE6100000013 /* pcre_compile.c */,
+				6F91AAB16F91BE6100000015 /* pcre_exec.c */,
+				6F91AAB16F91BE6100000017 /* pcre_globals.c */,
+				6F91AAB16F91BE6100000019 /* pcre_newline.c */,
+				6F91AAB16F91BE610000001B /* pcre_ord2utf8.c */,
+				6F91AAB16F91BE610000001D /* pcre_tables.c */,
+				6F91AAB16F91BE610000001F /* pcre_try_flipped.c */,
+				6F91AAB16F91BE6100000021 /* pcre_ucp_searchfuncs.c */,
+				6F91AAB16F91BE6100000023 /* pcre_valid_utf8.c */,
+				6F91AAB16F91BE6100000025 /* pcre_xclass.c */,
 			);
             name = "libpcre";
             path = ..;
             sourceTree = SOURCE_ROOT;
         };
-		6F91AAB16F91BE610000002E /* Products */ = {
+		6F91AAB16F91BE6100000035 /* Products */ = {
             isa = PBXGroup;
             children = (
-				6F91AAB16F91BE610000002A /* libpcre */,
+				6F91AAB16F91BE6100000031 /* libpcre */,
 			);
             name = "Products";
             path = ..;
@@ -146,27 +173,46 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6F91AAB16F91BE6100000024 /* libpcre */ = {
+		6F91AAB16F91BE610000002A /* libpcre */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6F91AAB16F91BE6100000030 /* Build configuration list for PBXNativeTarget "libpcre" */;
+			buildConfigurationList = 6F91AAB16F91BE6100000037 /* Build configuration list for PBXNativeTarget "libpcre" */;
 			buildPhases = (
-				6F91AAB16F91BE610000002F /* Sources */,
-				6F91AAB16F91BE610000002B /* Frameworks */,
+				6F91AAB16F91BE6100000036 /* Sources */,
+				6F91AAB16F91BE6100000032 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				6F91AAB16F91BE6100000031 /* Prep */,				
+				6F91AAB16F91BE6100000038 /* Prep */,				
 			);
 			name = libpcre;
 			productName = pcre;
-			productReference = 6F91AAB16F91BE610000002A /* libpcre */;
+			productReference = 6F91AAB16F91BE6100000031 /* libpcre */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6F91AAB16F91BE610000000A /* ShellScript for Prep */ = {
+		6F91AAB16F91BE6100000007 /* ShellScript for bower.json */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+../package.json
+			);
+			outputPaths = (
+../bower.json
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "PATH=$PATH:/usr/local/bin
+cd ..
+rm -rf bower.json
+cp -r package.json bower.json
+";
+		};
+		6F91AAB16F91BE610000000F /* ShellScript for Prep */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -221,54 +267,65 @@ fi";
 			knownRegions = (
 				en,
 			);
-			mainGroup = 6F91AAB16F91BE610000002C;
-			productRefGroup = 6F91AAB16F91BE610000002E /* Products */;
+			mainGroup = 6F91AAB16F91BE6100000033;
+			productRefGroup = 6F91AAB16F91BE6100000035 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6F91AAB16F91BE6100000006 /* All */,
-				6F91AAB16F91BE6100000009 /* Prep */,
-				6F91AAB16F91BE6100000024 /* libpcre */,
+				6F91AAB16F91BE610000000A /* All */,
+				6F91AAB16F91BE610000000E /* Prep */,
+				6F91AAB16F91BE610000002A /* libpcre */,
+				6F91AAB16F91BE6100000006 /* bower.json */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		6F91AAB16F91BE610000002F /* libpcre Sources */ = {
+		6F91AAB16F91BE6100000036 /* libpcre Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F91AAB16F91BE610000000B /* pcre_chartables.c in Sources */,
-				6F91AAB16F91BE610000000D /* pcre_compile.c in Sources */,
-				6F91AAB16F91BE610000000F /* pcre_exec.c in Sources */,
-				6F91AAB16F91BE6100000011 /* pcre_globals.c in Sources */,
-				6F91AAB16F91BE6100000013 /* pcre_newline.c in Sources */,
-				6F91AAB16F91BE6100000015 /* pcre_ord2utf8.c in Sources */,
-				6F91AAB16F91BE6100000017 /* pcre_tables.c in Sources */,
-				6F91AAB16F91BE6100000019 /* pcre_try_flipped.c in Sources */,
-				6F91AAB16F91BE610000001B /* pcre_ucp_searchfuncs.c in Sources */,
-				6F91AAB16F91BE610000001D /* pcre_valid_utf8.c in Sources */,
-				6F91AAB16F91BE610000001F /* pcre_xclass.c in Sources */,
+				6F91AAB16F91BE6100000010 /* pcre_chartables.c in Sources */,
+				6F91AAB16F91BE6100000012 /* pcre_compile.c in Sources */,
+				6F91AAB16F91BE6100000014 /* pcre_exec.c in Sources */,
+				6F91AAB16F91BE6100000016 /* pcre_globals.c in Sources */,
+				6F91AAB16F91BE6100000018 /* pcre_newline.c in Sources */,
+				6F91AAB16F91BE610000001A /* pcre_ord2utf8.c in Sources */,
+				6F91AAB16F91BE610000001C /* pcre_tables.c in Sources */,
+				6F91AAB16F91BE610000001E /* pcre_try_flipped.c in Sources */,
+				6F91AAB16F91BE6100000020 /* pcre_ucp_searchfuncs.c in Sources */,
+				6F91AAB16F91BE6100000022 /* pcre_valid_utf8.c in Sources */,
+				6F91AAB16F91BE6100000024 /* pcre_xclass.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6F91AAB16F91BE6100000031 /* PBXTargetDependency libpcre depends on Prep */ = {
+		6F91AAB16F91BE6100000038 /* PBXTargetDependency libpcre depends on Prep */ = {
 			isa = PBXTargetDependency;
-			target = 6F91AAB16F91BE6100000009 /* Prep */;
-			targetProxy = 6F91AAB16F91BE6100000021 /* PBXContainerItemProxy */;
+			target = 6F91AAB16F91BE610000000E /* Prep */;
+			targetProxy = 6F91AAB16F91BE6100000026 /* PBXContainerItemProxy */;
 		};
-		6F91AAB16F91BE6100000032 /* PBXTargetDependency All depends on Prep */ = {
+		6F91AAB16F91BE6100000008 /* PBXTargetDependency bower.json depends on Prep */ = {
 			isa = PBXTargetDependency;
-			target = 6F91AAB16F91BE6100000009 /* Prep */;
-			targetProxy = 6F91AAB16F91BE6100000022 /* PBXContainerItemProxy */;
+			target = 6F91AAB16F91BE610000000E /* Prep */;
+			targetProxy = 6F91AAB16F91BE6100000027 /* PBXContainerItemProxy */;
 		};
-		6F91AAB16F91BE6100000007 /* PBXTargetDependency All depends on libpcre */ = {
+		6F91AAB16F91BE6100000039 /* PBXTargetDependency All depends on Prep */ = {
 			isa = PBXTargetDependency;
-			target = 6F91AAB16F91BE6100000024 /* libpcre */;
-			targetProxy = 6F91AAB16F91BE6100000023 /* PBXContainerItemProxy */;
+			target = 6F91AAB16F91BE610000000E /* Prep */;
+			targetProxy = 6F91AAB16F91BE6100000028 /* PBXContainerItemProxy */;
+		};
+		6F91AAB16F91BE610000000B /* PBXTargetDependency All depends on libpcre */ = {
+			isa = PBXTargetDependency;
+			target = 6F91AAB16F91BE610000002A /* libpcre */;
+			targetProxy = 6F91AAB16F91BE6100000029 /* PBXContainerItemProxy */;
+		};
+		6F91AAB16F91BE610000000C /* PBXTargetDependency All depends on bower.json */ = {
+			isa = PBXTargetDependency;
+			target = 6F91AAB16F91BE6100000006 /* bower.json */;
+			targetProxy = 6F91AAB16F91BE610000002B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -409,7 +466,7 @@ fi";
 			};
 			name = Release;
 		};
-		6F91AAB16F91BE6100000033 /* Debug */ = {
+		6F91AAB16F91BE610000003A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = libpcre;
@@ -426,7 +483,7 @@ fi";
 			};
 			name = Debug;
 		};
-		6F91AAB16F91BE6100000034 /* Release */ = {
+		6F91AAB16F91BE610000003B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = libpcre;
@@ -439,7 +496,35 @@ fi";
 			};
 			name = Release;
 		};
-		6F91AAB16F91BE6100000035 /* Debug */ = {
+		6F91AAB16F91BE610000003C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = bower.json;
+
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"BIT_DEBUG",
+					"$(inherited)"
+				);
+				OTHER_LDFLAGS = ();
+
+				MACH_O_TYPE = mh_execute;
+
+			};
+			name = Debug;
+		};
+		6F91AAB16F91BE610000003D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = bower.json;
+
+				OTHER_LDFLAGS = ();
+
+				MACH_O_TYPE = mh_execute;
+
+			};
+			name = Release;
+		};
+		6F91AAB16F91BE610000003E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = All;
@@ -451,7 +536,7 @@ fi";
 			};
 			name = Debug;
 		};
-		6F91AAB16F91BE6100000036 /* Release */ = {
+		6F91AAB16F91BE610000003F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = All;
@@ -460,7 +545,7 @@ fi";
 			};
 			name = Release;
 		};
-		6F91AAB16F91BE6100000037 /* Debug */ = {
+		6F91AAB16F91BE6100000040 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = Prep;
@@ -472,7 +557,7 @@ fi";
 			};
 			name = Debug;
 		};
-		6F91AAB16F91BE6100000038 /* Release */ = {
+		6F91AAB16F91BE6100000041 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = Prep;
@@ -493,29 +578,38 @@ fi";
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6F91AAB16F91BE6100000030 /* Build configuration list for PBXNativeTarget "libpcre" */ = {
+		6F91AAB16F91BE6100000037 /* Build configuration list for PBXNativeTarget "libpcre" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6F91AAB16F91BE6100000033 /* Debug */,
-				6F91AAB16F91BE6100000034 /* Release */,
+				6F91AAB16F91BE610000003A /* Debug */,
+				6F91AAB16F91BE610000003B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6F91AAB16F91BE6100000005 /* Build configuration list for PBXNativeTarget "All" */ = {
+		6F91AAB16F91BE6100000005 /* Build configuration list for PBXNativeTarget "bower.json" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6F91AAB16F91BE6100000035 /* Debug */,
-				6F91AAB16F91BE6100000036 /* Release */,
+				6F91AAB16F91BE610000003C /* Debug */,
+				6F91AAB16F91BE610000003D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6F91AAB16F91BE6100000008 /* Build configuration list for PBXNativeTarget "Prep" */ = {
+		6F91AAB16F91BE6100000009 /* Build configuration list for PBXNativeTarget "All" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6F91AAB16F91BE6100000037 /* Debug */,
-				6F91AAB16F91BE6100000038 /* Release */,
+				6F91AAB16F91BE610000003E /* Debug */,
+				6F91AAB16F91BE610000003F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F91AAB16F91BE610000000D /* Build configuration list for PBXNativeTarget "Prep" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F91AAB16F91BE6100000040 /* Debug */,
+				6F91AAB16F91BE6100000041 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

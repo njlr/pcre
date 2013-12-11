@@ -61,6 +61,7 @@ BIT_SRC_PREFIX     := $(BIT_ROOT_PREFIX)$(PRODUCT)-$(VERSION)
 
 
 TARGETS            += $(CONFIG)/bin/libpcre.so
+TARGETS            += bower.json
 
 unexport CDPATH
 
@@ -92,6 +93,7 @@ prep:
 
 clean:
 	rm -f "$(CONFIG)/bin/libpcre.so"
+	rm -f "bower.json"
 	rm -f "$(CONFIG)/obj/pcre_chartables.o"
 	rm -f "$(CONFIG)/obj/pcre_compile.o"
 	rm -f "$(CONFIG)/obj/pcre_exec.o"
@@ -332,34 +334,44 @@ $(CONFIG)/bin/libpcre.so: $(DEPS_20)
 	$(CC) -shared -o $(CONFIG)/bin/libpcre.so $(LIBPATHS) "$(CONFIG)/obj/pcre_chartables.o" "$(CONFIG)/obj/pcre_compile.o" "$(CONFIG)/obj/pcre_exec.o" "$(CONFIG)/obj/pcre_globals.o" "$(CONFIG)/obj/pcre_newline.o" "$(CONFIG)/obj/pcre_ord2utf8.o" "$(CONFIG)/obj/pcre_tables.o" "$(CONFIG)/obj/pcre_try_flipped.o" "$(CONFIG)/obj/pcre_ucp_searchfuncs.o" "$(CONFIG)/obj/pcre_valid_utf8.o" "$(CONFIG)/obj/pcre_xclass.o" $(LIBS) 
 
 #
+#   bower.json
+#
+DEPS_21 += package.json
+
+bower.json: $(DEPS_21)
+	@echo '      [Copy] bower.json'
+	mkdir -p "."
+	cp package.json bower.json
+
+#
 #   stop
 #
-stop: $(DEPS_21)
+stop: $(DEPS_22)
 
 #
 #   installBinary
 #
-installBinary: $(DEPS_22)
+installBinary: $(DEPS_23)
 
 #
 #   start
 #
-start: $(DEPS_23)
+start: $(DEPS_24)
 
 #
 #   install
 #
-DEPS_24 += stop
-DEPS_24 += installBinary
-DEPS_24 += start
+DEPS_25 += stop
+DEPS_25 += installBinary
+DEPS_25 += start
 
-install: $(DEPS_24)
+install: $(DEPS_25)
 	
 
 #
 #   uninstall
 #
-DEPS_25 += stop
+DEPS_26 += stop
 
-uninstall: $(DEPS_25)
+uninstall: $(DEPS_26)
 

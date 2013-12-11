@@ -65,6 +65,7 @@ BIT_SRC_PREFIX     = $(BIT_VAPP_PREFIX)\src
 
 
 TARGETS            = $(TARGETS) $(CONFIG)\bin\libpcre.lib
+TARGETS            = $(TARGETS) bower.json
 
 !IFNDEF SHOW
 .SILENT:
@@ -90,6 +91,7 @@ prep:
 
 clean:
 	if exist "$(CONFIG)\bin\libpcre.lib" del /Q "$(CONFIG)\bin\libpcre.lib"
+	if exist "bower.json" del /Q "bower.json"
 	if exist "$(CONFIG)\obj\pcre_chartables.obj" del /Q "$(CONFIG)\obj\pcre_chartables.obj"
 	if exist "$(CONFIG)\obj\pcre_compile.obj" del /Q "$(CONFIG)\obj\pcre_compile.obj"
 	if exist "$(CONFIG)\obj\pcre_exec.obj" del /Q "$(CONFIG)\obj\pcre_exec.obj"
@@ -327,38 +329,48 @@ $(CONFIG)\bin\libpcre.lib: $(DEPS_20)
 	"lib.exe" -nologo -out:$(CONFIG)\bin\libpcre.lib "$(CONFIG)\obj\pcre_chartables.obj" "$(CONFIG)\obj\pcre_compile.obj" "$(CONFIG)\obj\pcre_exec.obj" "$(CONFIG)\obj\pcre_globals.obj" "$(CONFIG)\obj\pcre_newline.obj" "$(CONFIG)\obj\pcre_ord2utf8.obj" "$(CONFIG)\obj\pcre_tables.obj" "$(CONFIG)\obj\pcre_try_flipped.obj" "$(CONFIG)\obj\pcre_ucp_searchfuncs.obj" "$(CONFIG)\obj\pcre_valid_utf8.obj" "$(CONFIG)\obj\pcre_xclass.obj"
 
 #
+#   bower.json
+#
+DEPS_21 = $(DEPS_21) package.json
+
+bower.json: $(DEPS_21)
+	@echo '      [Copy] bower.json'
+	if not exist "." md "."
+	copy /Y package.json bower.json
+
+#
 #   stop
 #
-stop: $(DEPS_21)
+stop: $(DEPS_22)
 #  Omit build script stop
 
 #
 #   installBinary
 #
-installBinary: $(DEPS_22)
+installBinary: $(DEPS_23)
 #  Omit build script installBinary
 
 #
 #   start
 #
-start: $(DEPS_23)
+start: $(DEPS_24)
 #  Omit build script start
 
 #
 #   install
 #
-DEPS_24 = $(DEPS_24) stop
-DEPS_24 = $(DEPS_24) installBinary
-DEPS_24 = $(DEPS_24) start
+DEPS_25 = $(DEPS_25) stop
+DEPS_25 = $(DEPS_25) installBinary
+DEPS_25 = $(DEPS_25) start
 
-install: $(DEPS_24)
+install: $(DEPS_25)
 
 
 #
 #   uninstall
 #
-DEPS_25 = $(DEPS_25) stop
+DEPS_26 = $(DEPS_26) stop
 
-uninstall: $(DEPS_25)
+uninstall: $(DEPS_26)
 #  Omit build script uninstall
 
