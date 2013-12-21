@@ -10,7 +10,7 @@ Bit.load({
         product: 'pcre',
         title: 'PCRE Library',
         company: 'Embedthis',
-        version: '1.0.1',
+        version: '1.0.2',
         buildNumber: '0',
         bit: '0.9.0',
         prefixes: 'embedthis-prefixes',
@@ -27,39 +27,33 @@ Bit.load({
             headers: [ 'src/*.h' ],
             sources: [ 'src/*.c' ],
         },
-        'bower.json': {
-            type: 'file',
-            path: 'bower.json',
-            files: [ 'package.json' ],
-        },
         projects: {},
     },
 
     manifest: {
         packages: {
-            combo: {
+            pak: {
                 inherit:    'embedthis-manifest',
                 prefixes:   [ 'src'],
-                sets:       [ 'source' ],
+                sets:       [ 'pak' ],
             },
         },
         files: [
             {   from:   'package/pcre.bit',
-                to:     '${src}/src/deps/pcre/pcre.bit',
-                set:    'source',
+                to:     '${src}/pcre.bit',
+                set:    'pak',
             },{
                 from:   ['src/pcre.h'],
-                to:     '${src}/src/deps/pcre/',
-                set:    'source',
+                to:     '${src}/',
+                set:    'pak',
             },{
-                from:   ['src/config.h', 'src/pcre_internal.h', 'src/ucp.h', 'src/ucpinternal.h', 
-                            'src/ucptable.h', 'src/*.c'], 
-                to:     '${src}/src/deps/pcre/pcre.c',
+                from:   ['src/config.h', 'src/pcre_internal.h', 'src/ucp.h', 'src/ucpinternal.h', 'src/ucptable.h', 'src/*.c'], 
+                to:     '${src}/pcre.c',
                 cat:    true,
                 filter: /^#inc.*pcre.*$|#inc.*config.h.*$|#inc.*ucp.*.h.*$/mg,
                 header: '#include \"bit.h\"\n#include \"pcre.h\"',
                 title:  '${settings.title} Library Source',
-                set:    'source',
+                set:    'pak',
             },
         ],
     },
