@@ -22,7 +22,7 @@ BIT_PACK_COMPILER_PATH    := clang
 BIT_PACK_LIB_PATH         := ar
 BIT_PACK_LINK_PATH        := link
 
-CFLAGS             += -w
+CFLAGS             += -Wunreachable-code -w
 DFLAGS             +=  $(patsubst %,-D%,$(filter BIT_%,$(MAKEFLAGS))) 
 IFLAGS             += "-I$(CONFIG)/inc"
 LDFLAGS            += '-Wl,-rpath,@executable_path/' '-Wl,-rpath,@loader_path/'
