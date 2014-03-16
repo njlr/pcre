@@ -45,7 +45,7 @@ functions whose names all begin with "_pcre_". */
 #ifndef PCRE_INTERNAL_H
 #define PCRE_INTERNAL_H
 
-#include "bit.h"
+#include "me.h"
 #include "config.h"
 
 /* EMBEDTHIS */
@@ -53,7 +53,7 @@ functions whose names all begin with "_pcre_". */
     #define _VSB_CONFIG_FILE "vsbConfig.h"
 #endif
 
-#if BIT_PACK_PCRE
+#if ME_EXT_PCRE
 /* Define DEBUG to get debugging output on stdout. */
 
 #if VXWORKS
@@ -236,8 +236,8 @@ to save lots of typing. I tried "uchar", but it causes problems on Digital
 Unix, where it is defined in sys/types, so use "uschar" instead. */
 
 /* EMBEDTHIS - added conditional */
-#ifdef BIT_CHAR
-typedef unsigned BIT_CHAR uschar;
+#ifdef ME_CHAR
+typedef unsigned ME_CHAR uschar;
 #else
 typedef unsigned char uschar;
 #endif
@@ -299,9 +299,9 @@ used for the external interface and appears in pcre.h, which is why its name
 must begin with PCRE_. */
 
 /* EMBEDTHIS - added conditional */
-#ifdef BIT_CHAR
-#define PCRE_SPTR const BIT_CHAR *
-#define USPTR const unsigned BIT_CHAR *
+#ifdef ME_CHAR
+#define PCRE_SPTR const ME_CHAR *
+#define USPTR const unsigned ME_CHAR *
 
 #else
 #ifdef CUSTOM_SUBJECT_PTR
@@ -1230,4 +1230,4 @@ extern BOOL         _pcre_xclass(int, const uschar *);
 #endif
 
 /* End of pcre_internal.h */
-#endif /* BIT_PACK_PCRE */
+#endif /* ME_EXT_PCRE */

@@ -1,20 +1,14 @@
 /*
-    main.bit -- Main Bit File for the Embedthis PCRE Library
+    main.me -- MakeMe File for the PCRE Library
  */
 
-Bit.load({
+Me.load({
     blend: [
-        "${BITS}/embedthis.bit",
+        "src/paks/*/*.me",
     ],
     settings: {
-        product: 'pcre',
-        title: 'PCRE Library',
-        company: 'Embedthis',
-        version: '1.0.2',
-        buildNumber: '0',
-        bit: '0.9.3',
-        prefixes: 'embedthis-prefixes',
-        sync: [],
+        makeme: '0.8.0',
+        prefixes: 'package-prefixes',
     },
 
     usage: {
@@ -27,20 +21,19 @@ Bit.load({
             headers: [ 'src/*.h' ],
             sources: [ 'src/*.c' ],
         },
-        projects: {},
     },
 
     manifest: {
         packages: {
             pak: {
-                inherit:    'embedthis-manifest',
+                inherit:    'package-manifest',
                 prefixes:   [ 'src'],
                 sets:       [ 'pak' ],
             },
         },
         files: [
-            {   from:   'package/pcre.bit',
-                to:     '${src}/pcre.bit',
+            {   from:   'package/pcre.me',
+                to:     '${src}/pcre.me',
                 set:    'pak',
             },{
                 from:   ['src/pcre.h'],
@@ -51,7 +44,7 @@ Bit.load({
                 to:     '${src}/pcre.c',
                 cat:    true,
                 filter: /^#inc.*pcre.*$|#inc.*config.h.*$|#inc.*ucp.*.h.*$/mg,
-                header: '#include \"bit.h\"\n#include \"pcre.h\"',
+                header: '#include \"me.h\"\n#include \"pcre.h\"',
                 title:  '${settings.title} Library Source',
                 set:    'pak',
             },

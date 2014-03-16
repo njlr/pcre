@@ -43,10 +43,10 @@ class (one that contains characters whose values are > 255). It is used by both
 pcre_exec() and pcre_def_exec(). */
 
 
-#include "bit.h"
+#include "me.h"
 #include "config.h"
 
-#if BIT_PACK_PCRE
+#if ME_EXT_PCRE
 #include "pcre_internal.h"
 
 
@@ -146,4 +146,4 @@ return negated;   /* char did not match */
 }
 
 /* End of pcre_xclass.c */
-#endif /* BIT_PACK_PCRE */
+#endif /* ME_EXT_PCRE */

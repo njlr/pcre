@@ -46,10 +46,10 @@ indirection. These values can be changed by the caller, but are shared between
 all threads. However, when compiling for Virtual Pascal, things are done
 differently, and global variables are not used (see pcre.in). */
 
-#include "bit.h"
+#include "me.h"
 #include "config.h"
 
-#if BIT_PACK_PCRE
+#if ME_EXT_PCRE
 #include "pcre_internal.h"
 
 #ifndef VPCOMPAT
@@ -61,4 +61,4 @@ PCRE_EXP_DATA_DEFN int   (*pcre_callout)(pcre_callout_block *) = NULL;
 #endif
 
 /* End of pcre_globals.c */
-#endif /* BIT_PACK_PCRE */
+#endif /* ME_EXT_PCRE */

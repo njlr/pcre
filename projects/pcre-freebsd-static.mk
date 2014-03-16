@@ -2,64 +2,65 @@
 #   pcre-freebsd-static.mk -- Makefile to build PCRE Library for freebsd
 #
 
-PRODUCT            := pcre
-VERSION            := 1.0.2
-PROFILE            := static
-ARCH               := $(shell uname -m | sed 's/i.86/x86/;s/x86_64/x64/;s/arm.*/arm/;s/mips.*/mips/')
-CC_ARCH            := $(shell echo $(ARCH) | sed 's/x86/i686/;s/x64/x86_64/')
-OS                 := freebsd
-CC                 := gcc
-LD                 := link
-CONFIG             := $(OS)-$(ARCH)-$(PROFILE)
-LBIN               := $(CONFIG)/bin
+NAME                  := pcre
+VERSION               := 1.0.3
+PROFILE               ?= static
+ARCH                  ?= $(shell uname -m | sed 's/i.86/x86/;s/x86_64/x64/;s/arm.*/arm/;s/mips.*/mips/')
+CC_ARCH               ?= $(shell echo $(ARCH) | sed 's/x86/i686/;s/x64/x86_64/')
+OS                    ?= freebsd
+CC                    ?= gcc
+LD                    ?= link
+CONFIG                ?= $(OS)-$(ARCH)-$(PROFILE)
+LBIN                  ?= $(CONFIG)/bin
+PATH                  := $(LBIN):$(PATH)
 
 
-ifeq ($(BIT_PACK_LIB),1)
-    BIT_PACK_COMPILER := 1
-endif
+ME_EXT_COMPILER_PATH  ?= gcc
+ME_EXT_LIB_PATH       ?= ar
+ME_EXT_LINK_PATH      ?= link
+ME_EXT_VXWORKS_PATH   ?= $(WIND_BASE)
+ME_EXT_WINSDK_PATH    ?= winsdk
 
-BIT_PACK_COMPILER_PATH    := gcc
-BIT_PACK_LIB_PATH         := ar
-BIT_PACK_LINK_PATH        := link
+export WIND_HOME      ?= $(WIND_BASE)/..
 
-CFLAGS             += -fPIC -w
-DFLAGS             += -D_REENTRANT -DPIC $(patsubst %,-D%,$(filter BIT_%,$(MAKEFLAGS))) 
-IFLAGS             += "-I$(CONFIG)/inc"
-LDFLAGS            += 
-LIBPATHS           += -L$(CONFIG)/bin
-LIBS               += -ldl -lpthread -lm
+CFLAGS                += -fPIC -w
+DFLAGS                += -D_REENTRANT -DPIC $(patsubst %,-D%,$(filter ME_%,$(MAKEFLAGS))) 
+IFLAGS                += "-I$(CONFIG)/inc"
+LDFLAGS               += 
+LIBPATHS              += -L$(CONFIG)/bin
+LIBS                  += -ldl -lpthread -lm
 
-DEBUG              := debug
-CFLAGS-debug       := -g
-DFLAGS-debug       := -DBIT_DEBUG
-LDFLAGS-debug      := -g
-DFLAGS-release     := 
-CFLAGS-release     := -O2
-LDFLAGS-release    := 
-CFLAGS             += $(CFLAGS-$(DEBUG))
-DFLAGS             += $(DFLAGS-$(DEBUG))
-LDFLAGS            += $(LDFLAGS-$(DEBUG))
+DEBUG                 ?= debug
+CFLAGS-debug          ?= -g
+DFLAGS-debug          ?= -DME_DEBUG
+LDFLAGS-debug         ?= -g
+DFLAGS-release        ?= 
+CFLAGS-release        ?= -O2
+LDFLAGS-release       ?= 
+CFLAGS                += $(CFLAGS-$(DEBUG))
+DFLAGS                += $(DFLAGS-$(DEBUG))
+LDFLAGS               += $(LDFLAGS-$(DEBUG))
 
-BIT_ROOT_PREFIX    := 
-BIT_BASE_PREFIX    := $(BIT_ROOT_PREFIX)/usr/local
-BIT_DATA_PREFIX    := $(BIT_ROOT_PREFIX)/
-BIT_STATE_PREFIX   := $(BIT_ROOT_PREFIX)/var
-BIT_APP_PREFIX     := $(BIT_BASE_PREFIX)/lib/$(PRODUCT)
-BIT_VAPP_PREFIX    := $(BIT_APP_PREFIX)/$(VERSION)
-BIT_BIN_PREFIX     := $(BIT_ROOT_PREFIX)/usr/local/bin
-BIT_INC_PREFIX     := $(BIT_ROOT_PREFIX)/usr/local/include
-BIT_LIB_PREFIX     := $(BIT_ROOT_PREFIX)/usr/local/lib
-BIT_MAN_PREFIX     := $(BIT_ROOT_PREFIX)/usr/local/share/man
-BIT_SBIN_PREFIX    := $(BIT_ROOT_PREFIX)/usr/local/sbin
-BIT_ETC_PREFIX     := $(BIT_ROOT_PREFIX)/etc/$(PRODUCT)
-BIT_WEB_PREFIX     := $(BIT_ROOT_PREFIX)/var/www/$(PRODUCT)-default
-BIT_LOG_PREFIX     := $(BIT_ROOT_PREFIX)/var/log/$(PRODUCT)
-BIT_SPOOL_PREFIX   := $(BIT_ROOT_PREFIX)/var/spool/$(PRODUCT)
-BIT_CACHE_PREFIX   := $(BIT_ROOT_PREFIX)/var/spool/$(PRODUCT)/cache
-BIT_SRC_PREFIX     := $(BIT_ROOT_PREFIX)$(PRODUCT)-$(VERSION)
+ME_ROOT_PREFIX        ?= 
+ME_BASE_PREFIX        ?= $(ME_ROOT_PREFIX)/usr/local
+ME_DATA_PREFIX        ?= $(ME_ROOT_PREFIX)/
+ME_STATE_PREFIX       ?= $(ME_ROOT_PREFIX)/var
+ME_APP_PREFIX         ?= $(ME_BASE_PREFIX)/lib/$(NAME)
+ME_VAPP_PREFIX        ?= $(ME_APP_PREFIX)/$(VERSION)
+ME_BIN_PREFIX         ?= $(ME_ROOT_PREFIX)/usr/local/bin
+ME_INC_PREFIX         ?= $(ME_ROOT_PREFIX)/usr/local/include
+ME_LIB_PREFIX         ?= $(ME_ROOT_PREFIX)/usr/local/lib
+ME_MAN_PREFIX         ?= $(ME_ROOT_PREFIX)/usr/local/share/man
+ME_SBIN_PREFIX        ?= $(ME_ROOT_PREFIX)/usr/local/sbin
+ME_ETC_PREFIX         ?= $(ME_ROOT_PREFIX)/etc/$(NAME)
+ME_WEB_PREFIX         ?= $(ME_ROOT_PREFIX)/var/www/$(NAME)-default
+ME_LOG_PREFIX         ?= $(ME_ROOT_PREFIX)/var/log/$(NAME)
+ME_SPOOL_PREFIX       ?= $(ME_ROOT_PREFIX)/var/spool/$(NAME)
+ME_CACHE_PREFIX       ?= $(ME_ROOT_PREFIX)/var/spool/$(NAME)/cache
+ME_SRC_PREFIX         ?= $(ME_ROOT_PREFIX)$(NAME)-$(VERSION)
 
 
-TARGETS            += $(CONFIG)/bin/libpcre.a
+TARGETS               += $(CONFIG)/bin/libpcre.a
 
 unexport CDPATH
 
@@ -74,13 +75,13 @@ all build compile: prep $(TARGETS)
 prep:
 	@echo "      [Info] Use "make SHOW=1" to trace executed commands."
 	@if [ "$(CONFIG)" = "" ] ; then echo WARNING: CONFIG not set ; exit 255 ; fi
-	@if [ "$(BIT_APP_PREFIX)" = "" ] ; then echo WARNING: BIT_APP_PREFIX not set ; exit 255 ; fi
+	@if [ "$(ME_APP_PREFIX)" = "" ] ; then echo WARNING: ME_APP_PREFIX not set ; exit 255 ; fi
 	@[ ! -x $(CONFIG)/bin ] && mkdir -p $(CONFIG)/bin; true
 	@[ ! -x $(CONFIG)/inc ] && mkdir -p $(CONFIG)/inc; true
 	@[ ! -x $(CONFIG)/obj ] && mkdir -p $(CONFIG)/obj; true
-	@[ ! -f $(CONFIG)/inc/bit.h ] && cp projects/pcre-freebsd-static-bit.h $(CONFIG)/inc/bit.h ; true
-	@if ! diff $(CONFIG)/inc/bit.h projects/pcre-freebsd-static-bit.h >/dev/null ; then\
-		cp projects/pcre-freebsd-static-bit.h $(CONFIG)/inc/bit.h  ; \
+	@[ ! -f $(CONFIG)/inc/me.h ] && cp projects/pcre-freebsd-static-me.h $(CONFIG)/inc/me.h ; true
+	@if ! diff $(CONFIG)/inc/me.h projects/pcre-freebsd-static-me.h >/dev/null ; then\
+		cp projects/pcre-freebsd-static-me.h $(CONFIG)/inc/me.h  ; \
 	fi; true
 	@if [ -f "$(CONFIG)/.makeflags" ] ; then \
 		if [ "$(MAKEFLAGS)" != " ` cat $(CONFIG)/.makeflags`" ] ; then \
@@ -112,7 +113,7 @@ clobber: clean
 #   version
 #
 version: $(DEPS_1)
-	echo 1.0.2
+	echo 1.0.3
 
 #
 #   config.h
@@ -139,15 +140,15 @@ $(CONFIG)/inc/pcre_internal.h: $(DEPS_4)
 	cp src/pcre_internal.h $(CONFIG)/inc/pcre_internal.h
 
 #
-#   bit.h
+#   me.h
 #
-$(CONFIG)/inc/bit.h: $(DEPS_5)
-	@echo '      [Copy] $(CONFIG)/inc/bit.h'
+$(CONFIG)/inc/me.h: $(DEPS_5)
+	@echo '      [Copy] $(CONFIG)/inc/me.h'
 
 #
 #   ucp.h
 #
-DEPS_6 += $(CONFIG)/inc/bit.h
+DEPS_6 += $(CONFIG)/inc/me.h
 
 $(CONFIG)/inc/ucp.h: $(DEPS_6)
 	@echo '      [Copy] $(CONFIG)/inc/ucp.h'
@@ -173,7 +174,7 @@ $(CONFIG)/inc/ucptable.h: $(DEPS_8)
 #
 #   pcre_chartables.o
 #
-DEPS_9 += $(CONFIG)/inc/bit.h
+DEPS_9 += $(CONFIG)/inc/me.h
 DEPS_9 += $(CONFIG)/inc/config.h
 DEPS_9 += $(CONFIG)/inc/pcre_internal.h
 DEPS_9 += $(CONFIG)/inc/pcre.h
@@ -187,7 +188,7 @@ $(CONFIG)/obj/pcre_chartables.o: \
 #
 #   pcre_compile.o
 #
-DEPS_10 += $(CONFIG)/inc/bit.h
+DEPS_10 += $(CONFIG)/inc/me.h
 DEPS_10 += $(CONFIG)/inc/config.h
 DEPS_10 += $(CONFIG)/inc/pcre_internal.h
 
@@ -199,7 +200,7 @@ $(CONFIG)/obj/pcre_compile.o: \
 #
 #   pcre_exec.o
 #
-DEPS_11 += $(CONFIG)/inc/bit.h
+DEPS_11 += $(CONFIG)/inc/me.h
 DEPS_11 += $(CONFIG)/inc/config.h
 DEPS_11 += $(CONFIG)/inc/pcre_internal.h
 
@@ -211,7 +212,7 @@ $(CONFIG)/obj/pcre_exec.o: \
 #
 #   pcre_globals.o
 #
-DEPS_12 += $(CONFIG)/inc/bit.h
+DEPS_12 += $(CONFIG)/inc/me.h
 DEPS_12 += $(CONFIG)/inc/config.h
 DEPS_12 += $(CONFIG)/inc/pcre_internal.h
 
@@ -223,7 +224,7 @@ $(CONFIG)/obj/pcre_globals.o: \
 #
 #   pcre_newline.o
 #
-DEPS_13 += $(CONFIG)/inc/bit.h
+DEPS_13 += $(CONFIG)/inc/me.h
 DEPS_13 += $(CONFIG)/inc/config.h
 DEPS_13 += $(CONFIG)/inc/pcre_internal.h
 
@@ -235,7 +236,7 @@ $(CONFIG)/obj/pcre_newline.o: \
 #
 #   pcre_ord2utf8.o
 #
-DEPS_14 += $(CONFIG)/inc/bit.h
+DEPS_14 += $(CONFIG)/inc/me.h
 DEPS_14 += $(CONFIG)/inc/config.h
 DEPS_14 += $(CONFIG)/inc/pcre_internal.h
 
@@ -247,7 +248,7 @@ $(CONFIG)/obj/pcre_ord2utf8.o: \
 #
 #   pcre_tables.o
 #
-DEPS_15 += $(CONFIG)/inc/bit.h
+DEPS_15 += $(CONFIG)/inc/me.h
 DEPS_15 += $(CONFIG)/inc/config.h
 DEPS_15 += $(CONFIG)/inc/pcre_internal.h
 
@@ -259,7 +260,7 @@ $(CONFIG)/obj/pcre_tables.o: \
 #
 #   pcre_try_flipped.o
 #
-DEPS_16 += $(CONFIG)/inc/bit.h
+DEPS_16 += $(CONFIG)/inc/me.h
 DEPS_16 += $(CONFIG)/inc/config.h
 DEPS_16 += $(CONFIG)/inc/pcre_internal.h
 
@@ -271,7 +272,7 @@ $(CONFIG)/obj/pcre_try_flipped.o: \
 #
 #   pcre_ucp_searchfuncs.o
 #
-DEPS_17 += $(CONFIG)/inc/bit.h
+DEPS_17 += $(CONFIG)/inc/me.h
 DEPS_17 += $(CONFIG)/inc/config.h
 DEPS_17 += $(CONFIG)/inc/pcre_internal.h
 
@@ -283,7 +284,7 @@ $(CONFIG)/obj/pcre_ucp_searchfuncs.o: \
 #
 #   pcre_valid_utf8.o
 #
-DEPS_18 += $(CONFIG)/inc/bit.h
+DEPS_18 += $(CONFIG)/inc/me.h
 DEPS_18 += $(CONFIG)/inc/config.h
 DEPS_18 += $(CONFIG)/inc/pcre_internal.h
 
@@ -295,7 +296,7 @@ $(CONFIG)/obj/pcre_valid_utf8.o: \
 #
 #   pcre_xclass.o
 #
-DEPS_19 += $(CONFIG)/inc/bit.h
+DEPS_19 += $(CONFIG)/inc/me.h
 DEPS_19 += $(CONFIG)/inc/config.h
 DEPS_19 += $(CONFIG)/inc/pcre_internal.h
 
@@ -310,7 +311,7 @@ $(CONFIG)/obj/pcre_xclass.o: \
 DEPS_20 += $(CONFIG)/inc/config.h
 DEPS_20 += $(CONFIG)/inc/pcre.h
 DEPS_20 += $(CONFIG)/inc/pcre_internal.h
-DEPS_20 += $(CONFIG)/inc/bit.h
+DEPS_20 += $(CONFIG)/inc/me.h
 DEPS_20 += $(CONFIG)/inc/ucp.h
 DEPS_20 += $(CONFIG)/inc/ucpinternal.h
 DEPS_20 += $(CONFIG)/inc/ucptable.h

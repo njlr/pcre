@@ -44,10 +44,10 @@ uses macros to change their names from _pcre_xxx to xxxx, thereby avoiding name
 clashes with the library. */
 
 
-#include "bit.h"
+#include "me.h"
 #include "config.h"
 
-#if BIT_PACK_PCRE
+#if ME_EXT_PCRE
 #include "pcre_internal.h"
 
 
@@ -316,4 +316,4 @@ const int _pcre_utt_size = sizeof(_pcre_utt)/sizeof(ucp_type_table);
 #endif  /* SUPPORT_UTF8 */
 
 /* End of pcre_tables.c */
-#endif /* BIT_PACK_PCRE */
+#endif /* ME_EXT_PCRE */

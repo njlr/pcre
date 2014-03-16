@@ -72,7 +72,7 @@
 
 /* Begin PBXFileReference section */
 		6001271960013B730000000C /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_chartables.c; path = src/pcre_chartables.c; sourceTree = "<group>"; };
-		6001271960013B7300000025 /* bit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bit.h; path = macosx-x64-default/inc/bit.h; sourceTree = "<group>"; };
+		6001271960013B7300000025 /* me.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = me.h; path = macosx-x64-default/inc/me.h; sourceTree = "<group>"; };
 		6001271960013B7300000026 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = macosx-x64-default/inc/config.h; sourceTree = "<group>"; };
 		6001271960013B7300000027 /* pcre_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre_internal.h; path = macosx-x64-default/inc/pcre_internal.h; sourceTree = "<group>"; };
 		6001271960013B7300000028 /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre.h; path = macosx-x64-default/inc/pcre.h; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 		6001271960013B730000002D /* libpcre */ = {
             isa = PBXGroup;
             children = (
-				6001271960013B7300000025 /* bit.h */,
+				6001271960013B7300000025 /* me.h */,
 				6001271960013B7300000026 /* config.h */,
 				6001271960013B7300000027 /* pcre_internal.h */,
 				6001271960013B7300000028 /* pcre.h */,
@@ -181,10 +181,10 @@
 			shellPath = /bin/bash;
 			shellScript = "PATH=$PATH:/usr/local/bin
 [ ! -x ${INC_DIR} ] && mkdir -p ${INC_DIR} ${OBJ_DIR} ${LIB_DIR} ${BIN_DIR}
-[ ! -f ${INC_DIR}/bit.h ] && cp pcre-macosx-default-bit.h ${INC_DIR}/bit.h
-[ ! -f ${INC_DIR}/bitos.h ] && cp ${SRC_DIR}/src/bitos.h ${INC_DIR}/bitos.h
-if ! diff ${INC_DIR}/bit.h pcre-macosx-default-bit.h >/dev/null ; then
-cp pcre-macosx-default-bit.h ${INC_DIR}/bit.h
+[ ! -f ${INC_DIR}/me.h ] && cp pcre-macosx-default-me.h ${INC_DIR}/me.h
+[ ! -f ${INC_DIR}/osdep.h ] && cp ${SRC_DIR}/src/paks/osdep/osdep.h ${INC_DIR}/osdep.h
+if ! diff ${INC_DIR}/me.h pcre-macosx-default-me.h >/dev/null ; then
+cp pcre-macosx-default-me.h ${INC_DIR}/me.h
 fi
 if [ ../src/config.h -nt ${OUT_DIR}/inc/config.h ] ; then
 cp ../src/config.h ${OUT_DIR}/inc/config.h
@@ -279,8 +279,8 @@ fi";
 
                 /* Common Settings */
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-                CURRENT_PROJECT_VERSION = 1.0.2;
+				ARCHS = "$(ARCHS_STANDARD_64_ME)";
+                CURRENT_PROJECT_VERSION = 1.0.3;
                 DYLIB_COMPATIBILITY_VERSION = "$(CURRENT_PROJECT_VERSION)";
                 DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -303,13 +303,13 @@ fi";
                 DSTROOT = "/tmp/pcre.dst";
                 OBJROOT = "$(OBJ_DIR)";
                 SYMROOT = "$(BIN_DIR)";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_64_TO_32_ME_CONVERSION = YES;
+				GCC_WARN_64_TO_32_ME_CONVERSION = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_LABEL = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_64_TO_32_ME_CONVERSION = YES;
+				GCC_WARN_64_TO_32_ME_CONVERSION = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_LABEL = NO;
@@ -323,7 +323,7 @@ fi";
 					"$(inherited)"
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"BIT_DEBUG",
+					"ME_DEBUG",
 					"$(inherited)"
 				);
 				LIBRARY_SEARCH_PATHS = (
@@ -348,8 +348,8 @@ fi";
 
                 /* Common Settings */
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-                CURRENT_PROJECT_VERSION = 1.0.2;
+				ARCHS = "$(ARCHS_STANDARD_64_ME)";
+                CURRENT_PROJECT_VERSION = 1.0.3;
                 DYLIB_COMPATIBILITY_VERSION = "$(CURRENT_PROJECT_VERSION)";
                 DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -372,13 +372,13 @@ fi";
                 DSTROOT = "/tmp/pcre.dst";
                 OBJROOT = "$(OBJ_DIR)";
                 SYMROOT = "$(BIN_DIR)";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_64_TO_32_ME_CONVERSION = YES;
+				GCC_WARN_64_TO_32_ME_CONVERSION = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_LABEL = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_64_TO_32_ME_CONVERSION = YES;
+				GCC_WARN_64_TO_32_ME_CONVERSION = YES;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_LABEL = NO;
@@ -415,7 +415,7 @@ fi";
 				PRODUCT_NAME = libpcre;
 
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"BIT_DEBUG",
+					"ME_DEBUG",
 					"$(inherited)"
 				);
 			};
@@ -436,7 +436,7 @@ fi";
 				PRODUCT_NAME = All;
 
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"BIT_DEBUG",
+					"ME_DEBUG",
 					"$(inherited)"
 				);
 			};
@@ -457,7 +457,7 @@ fi";
 				PRODUCT_NAME = Prep;
 
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"BIT_DEBUG",
+					"ME_DEBUG",
 					"$(inherited)"
 				);
 			};

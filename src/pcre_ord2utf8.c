@@ -41,10 +41,10 @@ POSSIBILITY OF SUCH DAMAGE.
 /* This file contains a private PCRE function that converts an ordinal
 character value into a UTF8 string. */
 
-#include "bit.h"
+#include "me.h"
 #include "config.h"
 
-#if BIT_PACK_PCRE
+#if ME_EXT_PCRE
 #include "pcre_internal.h"
 
 
@@ -83,4 +83,4 @@ return 0;   /* Keep compiler happy; this function won't ever be */
 }
 
 /* End of pcre_ord2utf8.c */
-#endif /* BIT_PACK_PCRE */
+#endif /* ME_EXT_PCRE */

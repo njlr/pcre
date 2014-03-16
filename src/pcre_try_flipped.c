@@ -43,10 +43,10 @@ see if it was compiled with the opposite endianness. If so, it uses an
 auxiliary local function to flip the appropriate bytes. */
 
 
-#include "bit.h"
+#include "me.h"
 #include "config.h"
 
-#if BIT_PACK_PCRE
+#if ME_EXT_PCRE
 #include "pcre_internal.h"
 
 
@@ -135,4 +135,4 @@ return internal_re;
 }
 
 /* End of pcre_tryflipped.c */
-#endif /* BIT_PACK_PCRE */
+#endif /* ME_EXT_PCRE */

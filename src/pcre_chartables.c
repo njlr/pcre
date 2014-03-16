@@ -20,10 +20,10 @@ and dead code stripping is activated. This leads to link errors. Pulling in the
 header ensures that the array gets flagged as "someone outside this compilation
 unit might reference this" and so it will always be supplied to the linker. */
 
-#include "bit.h"
+#include "me.h"
 #include "config.h"
 
-#if BIT_PACK_PCRE
+#if ME_EXT_PCRE
 
 #include "pcre_internal.h"
 
@@ -197,4 +197,4 @@ graph, print, punct, and cntrl. Other classes are built from combinations. */
   0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};/* 248-255 */
 
 /* End of pcre_chartables.c */
-#endif /* BIT_PACK_PCRE */
+#endif /* ME_EXT_PCRE */

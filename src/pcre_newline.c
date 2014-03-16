@@ -47,10 +47,10 @@ and NLTYPE_ANY. The full list of Unicode newline characters is taken from
 http://unicode.org/unicode/reports/tr18/. */
 
 
-#include "bit.h"
+#include "me.h"
 #include "config.h"
 
-#if BIT_PACK_PCRE
+#if ME_EXT_PCRE
 #include "pcre_internal.h"
 
 
@@ -162,4 +162,4 @@ else switch(c)
 }
 
 /* End of pcre_newline.c */
-#endif /* BIT_PACK_PCRE */
+#endif /* ME_EXT_PCRE */

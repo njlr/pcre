@@ -2,9 +2,9 @@
 *          Unicode Property Table handler        *
 *************************************************/
 
-#include "bit.h"
+#include "me.h"
 
-#if BIT_PACK_PCRE
+#if ME_EXT_PCRE
 
 #ifndef _UCP_H
 #define _UCP_H
@@ -135,4 +135,4 @@ enum {
 #endif
 
 /* End of ucp.h */
-#endif /* BIT_PACK_PCRE */
+#endif /* ME_EXT_PCRE */

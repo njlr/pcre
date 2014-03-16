@@ -41,10 +41,10 @@ POSSIBILITY OF SUCH DAMAGE.
 /* This module contains code for searching the table of Unicode character
 properties. */
 
-#include "bit.h"
+#include "me.h"
 #include "config.h"
 
-#if BIT_PACK_PCRE
+#if ME_EXT_PCRE
 #include "pcre_internal.h"
 
 #include "ucp.h"               /* Category definitions */
@@ -177,4 +177,4 @@ return (offset == 0)? NOTACHAR : c + offset;
 
 
 /* End of pcre_ucp_searchfuncs.c */
-#endif /* BIT_PACK_PCRE */
+#endif /* ME_EXT_PCRE */

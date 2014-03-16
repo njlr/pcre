@@ -42,10 +42,10 @@ POSSIBILITY OF SUCH DAMAGE.
 pattern matching using an NFA algorithm, trying to mimic Perl as closely as
 possible. There are also some static supporting functions. */
 
-#include "bit.h"
+#include "me.h"
 #include "config.h"
 
-#if BIT_PACK_PCRE
+#if ME_EXT_PCRE
 
 #undef NLBLOCK
 #define NLBLOCK md             /* Block containing newline information */
@@ -4982,4 +4982,4 @@ else
 }
 
 /* End of pcre_exec.c */
-#endif /* BIT_PACK_PCRE */
+#endif /* ME_EXT_PCRE */
