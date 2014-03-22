@@ -4,7 +4,7 @@
 
 #include "me.h"
 
-#if ME_EXT_PCRE
+#if ME_COM_PCRE
 
 #ifndef _UCP_H
 #define _UCP_H
@@ -135,4 +135,4 @@ enum {
 #endif
 
 /* End of ucp.h */
-#endif /* ME_EXT_PCRE */
+#endif /* ME_COM_PCRE */

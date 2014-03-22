@@ -50,7 +50,7 @@ http://unicode.org/unicode/reports/tr18/. */
 #include "me.h"
 #include "config.h"
 
-#if ME_EXT_PCRE
+#if ME_COM_PCRE
 #include "pcre_internal.h"
 
 
@@ -162,4 +162,4 @@ else switch(c)
 }
 
 /* End of pcre_newline.c */
-#endif /* ME_EXT_PCRE */
+#endif /* ME_COM_PCRE */

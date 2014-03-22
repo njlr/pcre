@@ -45,7 +45,7 @@ strings. */
 #include "me.h"
 #include "config.h"
 
-#if ME_EXT_PCRE
+#if ME_COM_PCRE
 #include "pcre_internal.h"
 
 
@@ -160,4 +160,4 @@ return -1;
 }
 
 /* End of pcre_valid_utf8.c */
-#endif /* ME_EXT_PCRE */
+#endif /* ME_COM_PCRE */

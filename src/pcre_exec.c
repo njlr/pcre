@@ -45,7 +45,7 @@ possible. There are also some static supporting functions. */
 #include "me.h"
 #include "config.h"
 
-#if ME_EXT_PCRE
+#if ME_COM_PCRE
 
 #undef NLBLOCK
 #define NLBLOCK md             /* Block containing newline information */
@@ -4982,4 +4982,4 @@ else
 }
 
 /* End of pcre_exec.c */
-#endif /* ME_EXT_PCRE */
+#endif /* ME_COM_PCRE */

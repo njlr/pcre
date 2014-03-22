@@ -46,7 +46,7 @@ auxiliary local function to flip the appropriate bytes. */
 #include "me.h"
 #include "config.h"
 
-#if ME_EXT_PCRE
+#if ME_COM_PCRE
 #include "pcre_internal.h"
 
 
@@ -135,4 +135,4 @@ return internal_re;
 }
 
 /* End of pcre_tryflipped.c */
-#endif /* ME_EXT_PCRE */
+#endif /* ME_COM_PCRE */

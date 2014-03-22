@@ -45,7 +45,7 @@ supporting internal functions that are not used by other modules. */
 #include "me.h"
 #include "config.h"
 
-#if ME_EXT_PCRE
+#if ME_COM_PCRE
 
 /* EMBEDTHIS */
 #undef NLBLOCK
@@ -6436,4 +6436,4 @@ return (pcre *)re;
 }
 
 /* End of pcre_compile.c */
-#endif /* ME_EXT_PCRE */
+#endif /* ME_COM_PCRE */

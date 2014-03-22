@@ -46,7 +46,7 @@ pcre_exec() and pcre_def_exec(). */
 #include "me.h"
 #include "config.h"
 
-#if ME_EXT_PCRE
+#if ME_COM_PCRE
 #include "pcre_internal.h"
 
 
@@ -146,4 +146,4 @@ return negated;   /* char did not match */
 }
 
 /* End of pcre_xclass.c */
-#endif /* ME_EXT_PCRE */
+#endif /* ME_COM_PCRE */

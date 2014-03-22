@@ -49,7 +49,7 @@ differently, and global variables are not used (see pcre.in). */
 #include "me.h"
 #include "config.h"
 
-#if ME_EXT_PCRE
+#if ME_COM_PCRE
 #include "pcre_internal.h"
 
 #ifndef VPCOMPAT
@@ -61,4 +61,4 @@ PCRE_EXP_DATA_DEFN int   (*pcre_callout)(pcre_callout_block *) = NULL;
 #endif
 
 /* End of pcre_globals.c */
-#endif /* ME_EXT_PCRE */
+#endif /* ME_COM_PCRE */

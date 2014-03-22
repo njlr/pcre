@@ -44,7 +44,7 @@ character value into a UTF8 string. */
 #include "me.h"
 #include "config.h"
 
-#if ME_EXT_PCRE
+#if ME_COM_PCRE
 #include "pcre_internal.h"
 
 
@@ -83,4 +83,4 @@ return 0;   /* Keep compiler happy; this function won't ever be */
 }
 
 /* End of pcre_ord2utf8.c */
-#endif /* ME_EXT_PCRE */
+#endif /* ME_COM_PCRE */

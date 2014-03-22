@@ -44,7 +44,7 @@ properties. */
 #include "me.h"
 #include "config.h"
 
-#if ME_EXT_PCRE
+#if ME_COM_PCRE
 #include "pcre_internal.h"
 
 #include "ucp.h"               /* Category definitions */
@@ -177,4 +177,4 @@ return (offset == 0)? NOTACHAR : c + offset;
 
 
 /* End of pcre_ucp_searchfuncs.c */
-#endif /* ME_EXT_PCRE */
+#endif /* ME_COM_PCRE */

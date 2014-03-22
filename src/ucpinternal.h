@@ -7,7 +7,7 @@
 
 #include "me.h"
 
-#if ME_EXT_PCRE
+#if ME_COM_PCRE
 
 /* Internal header file defining the layout of the bits in each pair of 32-bit
 words that form a data item in the table. */
@@ -91,7 +91,7 @@ When searching the data, proceed as follows:
     (2).
 */
 
-#endif /* ME_EXT_PCRE */
+#endif /* ME_COM_PCRE */
 #endif /* _UCPINTERNAL_H */
 
 /* End of ucpinternal.h */
