@@ -72,11 +72,11 @@
 
 /* Begin PBXFileReference section */
 		6F91AAB16F91BE610000000C /* pcre_chartables.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_chartables.c; path = src/pcre_chartables.c; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000025 /* me.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = me.h; path = macosx-x64-static/inc/me.h; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000026 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = macosx-x64-static/inc/config.h; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000027 /* pcre_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre_internal.h; path = macosx-x64-static/inc/pcre_internal.h; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000028 /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre.h; path = macosx-x64-static/inc/pcre.h; sourceTree = "<group>"; };
-		6F91AAB16F91BE6100000029 /* ucp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ucp.h; path = macosx-x64-static/inc/ucp.h; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000025 /* me.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = me.h; path = build/macosx-x64-static/inc/me.h; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000026 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = build/macosx-x64-static/inc/config.h; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000027 /* pcre_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre_internal.h; path = build/macosx-x64-static/inc/pcre_internal.h; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000028 /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pcre.h; path = build/macosx-x64-static/inc/pcre.h; sourceTree = "<group>"; };
+		6F91AAB16F91BE6100000029 /* ucp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ucp.h; path = build/macosx-x64-static/inc/ucp.h; sourceTree = "<group>"; };
 		6F91AAB16F91BE610000000E /* pcre_compile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_compile.c; path = src/pcre_compile.c; sourceTree = "<group>"; };
 		6F91AAB16F91BE6100000010 /* pcre_exec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_exec.c; path = src/pcre_exec.c; sourceTree = "<group>"; };
 		6F91AAB16F91BE6100000012 /* pcre_globals.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pcre_globals.c; path = src/pcre_globals.c; sourceTree = "<group>"; };
@@ -181,10 +181,32 @@
 			shellPath = /bin/bash;
 			shellScript = "PATH=$PATH:/usr/local/bin
 [ ! -x ${INC_DIR} ] && mkdir -p ${INC_DIR} ${OBJ_DIR} ${LIB_DIR} ${BIN_DIR}
-[ ! -f ${INC_DIR}/me.h ] && cp pcre-macosx-static-me.h ${INC_DIR}/me.h
-[ ! -f ${INC_DIR}/osdep.h ] && cp ${SRC_DIR}/src/paks/osdep/osdep.h ${INC_DIR}/osdep.h
-if ! diff ${INC_DIR}/me.h pcre-macosx-static-me.h >/dev/null ; then
+[ ! -f ${INC_DIR}/me.h -a -f cp pcre-macosx-static-me.h ] && cp pcre-macosx-static-me.h ${INC_DIR}/me.h
+if [ -f pcre-macosx-static-me.h ] ; then
+if ! diff ${INC_DIR}/me.h pcre-macosx-static-me.h >/dev/null 2>&1 ; then
 cp pcre-macosx-static-me.h ${INC_DIR}/me.h
+fi
+fi
+if [ ../src/config.h -nt ${OUT_DIR}/inc/config.h ] ; then
+cp ../src/config.h ${OUT_DIR}/inc/config.h
+fi
+if [ ${OUT_DIR}/inc/me.h -nt ${OUT_DIR}/inc/me.h ] ; then
+cp ${OUT_DIR}/inc/me.h ${OUT_DIR}/inc/me.h
+fi
+if [ ../src/pcre.h -nt ${OUT_DIR}/inc/pcre.h ] ; then
+cp ../src/pcre.h ${OUT_DIR}/inc/pcre.h
+fi
+if [ ../src/pcre_internal.h -nt ${OUT_DIR}/inc/pcre_internal.h ] ; then
+cp ../src/pcre_internal.h ${OUT_DIR}/inc/pcre_internal.h
+fi
+if [ ../src/ucp.h -nt ${OUT_DIR}/inc/ucp.h ] ; then
+cp ../src/ucp.h ${OUT_DIR}/inc/ucp.h
+fi
+if [ ../src/ucpinternal.h -nt ${OUT_DIR}/inc/ucpinternal.h ] ; then
+cp ../src/ucpinternal.h ${OUT_DIR}/inc/ucpinternal.h
+fi
+if [ ../src/ucptable.h -nt ${OUT_DIR}/inc/ucptable.h ] ; then
+cp ../src/ucptable.h ${OUT_DIR}/inc/ucptable.h
 fi
 if [ ../src/config.h -nt ${OUT_DIR}/inc/config.h ] ; then
 cp ../src/config.h ${OUT_DIR}/inc/config.h
@@ -280,7 +302,7 @@ fi";
                 /* Common Settings */
 				ALWAYS_SEARCH_USER_PATHS = NO;
                 ONLY_ACTIVE_ARCH = YES;
-                CURRENT_PROJECT_VERSION = 1.0.3;
+                CURRENT_PROJECT_VERSION = 1.0;
                 DYLIB_COMPATIBILITY_VERSION = "$(CURRENT_PROJECT_VERSION)";
                 DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -290,14 +312,14 @@ fi";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 
-                OUT_DIR = "../macosx-x64-static";
-                BIN_DIR = "../macosx-x64-static/bin";
-                LIB_DIR = "../macosx-x64-static/bin";
-                INC_DIR = "../macosx-x64-static/inc";
-                OBJ_DIR = "../macosx-x64-static/obj";
+                OUT_DIR = "../build/macosx-x64-static";
+                BIN_DIR = "../build/macosx-x64-static/bin";
+                LIB_DIR = "../build/macosx-x64-static/bin";
+                INC_DIR = "../build/macosx-x64-static/inc";
+                OBJ_DIR = "../build/macosx-x64-static/obj";
                 SRC_DIR = "..";
 
-                CONFIGURATION_TEMP_DIR = "$(OBJ_DIR)/tmp/$(CONFIGURATION)";
+                CONFIGURATION_TEMP_DIR = "$(OBJ_DIR)/pcre-xcode/$(CONFIGURATION)";
                 CONFIGURATION_BUILD_DIR = "$(BIN_DIR)";
                 INSTALL_PATH = "/usr/lib/pcre";
                 DSTROOT = "/tmp/pcre.dst";
@@ -319,7 +341,7 @@ fi";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
-					"../macosx-x64-static/inc",
+					"/Users/mob/git/pcre/build/macosx-x64-static/inc",
 					"$(inherited)"
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -327,7 +349,7 @@ fi";
 					"$(inherited)"
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"../macosx-x64-static/bin",
+					"/Users/mob/git/pcre/build/macosx-x64-static/bin",
 					"$(inherited)"
 				);
 				OTHER_LDFLAGS = (
@@ -349,7 +371,7 @@ fi";
                 /* Common Settings */
 				ALWAYS_SEARCH_USER_PATHS = NO;
                 ONLY_ACTIVE_ARCH = YES;
-                CURRENT_PROJECT_VERSION = 1.0.3;
+                CURRENT_PROJECT_VERSION = 1.0;
                 DYLIB_COMPATIBILITY_VERSION = "$(CURRENT_PROJECT_VERSION)";
                 DYLIB_CURRENT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -359,14 +381,14 @@ fi";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 
-                OUT_DIR = "../macosx-x64-static";
-                BIN_DIR = "../macosx-x64-static/bin";
-                LIB_DIR = "../macosx-x64-static/bin";
-                INC_DIR = "../macosx-x64-static/inc";
-                OBJ_DIR = "../macosx-x64-static/obj";
+                OUT_DIR = "../build/macosx-x64-static";
+                BIN_DIR = "../build/macosx-x64-static/bin";
+                LIB_DIR = "../build/macosx-x64-static/bin";
+                INC_DIR = "../build/macosx-x64-static/inc";
+                OBJ_DIR = "../build/macosx-x64-static/obj";
                 SRC_DIR = "..";
 
-                CONFIGURATION_TEMP_DIR = "$(OBJ_DIR)/tmp/$(CONFIGURATION)";
+                CONFIGURATION_TEMP_DIR = "$(OBJ_DIR)/pcre-xcode/$(CONFIGURATION)";
                 CONFIGURATION_BUILD_DIR = "$(BIN_DIR)";
                 INSTALL_PATH = "/usr/lib/pcre";
                 DSTROOT = "/tmp/pcre.dst";
@@ -389,12 +411,12 @@ fi";
 				GCC_OPTIMIZATION_LEVEL = s;
                 GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				HEADER_SEARCH_PATHS = (
-					"../macosx-x64-static/inc",
+					"/Users/mob/git/pcre/build/macosx-x64-static/inc",
 					"$(inherited)"
 				);
 
 				LIBRARY_SEARCH_PATHS = (
-					"../macosx-x64-static/bin",
+					"/Users/mob/git/pcre/build/macosx-x64-static/bin",
 					"$(inherited)"
 				);
 				OTHER_LDFLAGS = (
