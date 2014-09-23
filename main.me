@@ -43,7 +43,7 @@ Me.load({
                 from:   ['src/config.h', 'src/pcre_internal.h', 'src/ucp.h', 'src/ucpinternal.h', 'src/ucptable.h', 'src/*.c'], 
                 to:     '${src}/pcre.c',
                 cat:    true,
-                filter: /^#inc.*pcre.*$|#inc.*config.h.*$|#inc.*ucp.*.h.*$/mg,
+                remove: /^#inc.*pcre.*$|#inc.*config.h.*$|#inc.*ucp.*.h.*$/mg,
                 header: '#include \"me.h\"\n#include \"pcre.h\"',
                 title:  '${settings.title} Library Source',
                 set:    'pak',
