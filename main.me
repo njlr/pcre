@@ -31,23 +31,31 @@ Me.load({
                 sets:       [ 'pak' ],
             },
         },
-        files: [
-            {   from:   'package/pcre.me',
-                to:     '${src}/pcre.me',
-                set:    'pak',
-            },{
-                from:   ['src/pcre.h'],
-                to:     '${src}/',
-                set:    'pak',
-            },{
-                from:   ['src/config.h', 'src/pcre_internal.h', 'src/ucp.h', 'src/ucpinternal.h', 'src/ucptable.h', 'src/*.c'], 
-                to:     '${src}/pcre.c',
-                cat:    true,
-                remove: /^#inc.*pcre.*$|#inc.*config.h.*$|#inc.*ucp.*.h.*$/mg,
-                header: '#include \"me.h\"\n#include \"pcre.h\"',
-                title:  '${settings.title} Library Source',
-                set:    'pak',
-            },
-        ],
+        sets: {
+            pak: [
+                {   from:       'package/pcre.me',
+                    to:         '${src}/pcre.me',
+
+                }, {
+                    from:       ['src/pcre.h'],
+                    to:         '${src}/pcre.h',
+
+                }, {
+                    from: [
+                                'src/config.h', 
+                                'src/pcre_internal.h', 
+                                'src/ucp.h', 
+                                'src/ucpinternal.h', 
+                                'src/ucptable.h', 
+                                'src/*.c'
+                    ], 
+                    to:         '${src}/pcre.c',
+                    append:     true,
+                    filter:     /^#inc.*pcre.*$|#inc.*config.h.*$|#inc.*ucp.*.h.*$/mg,
+                    header:     '/*\n * ${settings.title} Library Source\n */\n\n#include \"me.h\"\n#include \"pcre.h\"',
+                    divider:    true,
+                },
+            ],
+        },
     },
 })
