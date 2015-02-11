@@ -3,11 +3,11 @@
  */
 
 Me.load({
-    plugins: [ 'configuration', 'package' ],
+    plugins: [ 'configuration', 'installs' ],
 
     settings: {
         me: '=>0.8.4',
-        prefixes: 'package-prefixes',
+        prefixes: 'install-prefixes',
     },
 
     usage: {
@@ -32,12 +32,12 @@ Me.load({
         },
         sets: {
             pak: [
-                {   from:       'package/pcre.me',
-                    to:         '${src}/pcre.me',
+                {   from:       'installs/pcre.me',
+                    to:         '${src}/dist/pcre.me',
 
                 }, {
                     from:       ['src/pcre.h'],
-                    to:         '${src}/pcre.h',
+                    to:         '${src}/dist/pcre.h',
 
                 }, {
                     from: [
@@ -48,7 +48,7 @@ Me.load({
                                 'src/ucptable.h', 
                                 'src/*.c'
                     ], 
-                    to:         '${src}/pcre.c',
+                    to:         '${src}/dist/pcre.c',
                     append:     true,
                     filter:     /^#inc.*pcre.*$|#inc.*config.h.*$|#inc.*ucp.*.h.*$/mg,
                     header:     '/*\n * ${settings.title} Library Source\n */\n\n#include \"me.h\"\n#include \"pcre.h\"',
