@@ -33,8 +33,7 @@ out
 .*.guid
 start.bit
 *-xcode
-start.me
+/start.me
 macosx-x64*
-start.me
 macosx-*.me
 /build/
