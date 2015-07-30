@@ -23,7 +23,7 @@
     "files": [
         "dist/**"
     ],
-    "pak": {
-        "version": ">=0.10.0"
+    "devDependencies": {
+        "pak": ">=0.11.3"
     }
 }
