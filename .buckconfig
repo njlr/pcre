@@ -1,0 +1,5 @@
+[project]
+  ignore = .git
+
+[build]
+  engine = deep
